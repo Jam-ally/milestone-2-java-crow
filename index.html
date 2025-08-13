@@ -17,26 +17,36 @@
 
     <!-- JavaScript script sheet -->
     <link type="text/js" rel="js" href="scripts/game.js" >
-    <title>Document</title>
+    <title>Food Bird</title>
     
 </head>
 <body>
 
     <!-- Navigation  -->
-    <nav class="site-navigation-bar">Nav Bar</nav>
 
-    <!-- Main -->
-    <main class="page-main-body">
+    <nav class="site-navigation-bar">
+        Game Nav Bar
+    </nav>
+  
 
-      <!-- Title Tile -->
       <header>
         <section class="page-header">
           <div class="title-tile">
               <h1>Food Bird</h1>
           </div>
         </section>
+                        <!-- Game Menu -->
+        <div class="game-menu">
+          <button onclick="startGame()" type="submit" id="start-button" name="Start-button" value="Start Game">Start Game</button>
+        </div>
 
       </header>
+
+    <!-- Main -->
+    <main class="page-main-body">
+
+      <!-- Title Tile -->
+
 
     <!-- Game Tile -->
     <Section class="game-tile">
@@ -44,55 +54,65 @@
       <!-- Game Window -->
       <div id="game-window">
 
+        
+        <div id="canvas" class="game-canvas">
+          <!-- <body onload="startGame()"> -->
+        </div>
+        <br>    
+
 
         <!-- Background -->
         <div class="forest-trees">
-
         </div>
-        <div class="game-x-axis">
 
+        <div id="game-score">
+          0
         </div>
-        <div class="game-y-axis">
 
-        </div>
+        <!-- Game Axes -->
+        <div class="game-x-axis"></div>
+        <br>
+        <div class="game-y-axis"></div>
+        <br>
+
+        <!-- Game Canvas -->
+
+
+
+
         <!-- Obstacles -->
-        <section class="obstacles">
+        <section id="obstacles" class="hidden">
 
             <div class="sky-obstacles" id="lamppost"></div>
-
             <div class="ground-obstacles" id="billard"></div>
-
             <div class="ground-obstacles" id="bike"></div>
 
-            
-        </section>
-
-        <!-- Bird -->
-        <div class="stone-piercer"> 
-           
-          <div class="bird-main-body">
+          <!-- Crow Bird -->
+          <div id="stone-piercer"> 
+           <div id="bird-main-body">
              Food up
+            </div>
           </div>
+          <div id="bird-space"></div>
 
-        </div>
-
-
-
-                <!-- Game Menu -->
-        <div class="game-menu">
-          <button type="submit" id="start-button" name="Start-button" value="Start Game">Start Game</button>
-        </div>
-
-
-
-        
+        </section>    
+      
       </div>
-
+      <br>
+      <div>
+      <button id="reset">Reset</button>
+      </div>
     </Section>
     </main>
 
+        <!-- Footer -->
+         <div class="site-footer">
+    <footer >&copy Copyright Jam_Ally Productions. 2025</footer>
+          </div>
+  </body>
 
-    <!-- Footer -->
-    <footer class="site-footer">footer </footer>
+
+      <!-- JS -->
+<script src="scripts/game.js"></script>
         
 </html>       

@@ -1,27 +1,39 @@
-// function startGame () {
-    //begin screen movement 
-    //generate obstacles
-    // monitor for movement 
-    //monitor for interactions with obstacles
-    //count score 
+/**
+ * @jest-environment jsdom
+ */
 
-// }
+// event listener - for when the user presses the button /interacts 
+document.addEventListener("DOMContentLoader", startGame); 
 
-// function playerMovement (player) {
+//window outside the document 
 
-//  player active and visible 
-// player movement - along the y -axis 
-                // - along the x axis 
-//     
-// }
-
-let player = document.getElementsByClassName("stone-piercer");
+let game = {
+    startGame: [],
+    gameCanvas: [],
+}
 
 
+var canvasWidth = 755;
+var canvasHeight = 300;
+var  gameWindow = document.getElementById("game-window");
 
-// $(".developer-mode").click(function(), {
-//     $(".obstacles").addClassName("hidden");    
-// })
+function startGame() {
+    console.log("Game is running");
+    gameCanvas.start();
+}
+
+
+var gameCanvas = {
+    canvas: document.createElement("canvas"),
+    start: function() {
+        this.canvas.width = canvasWidth;
+        this.canvas.height = canvasHeight;
+        this.context =this.canvas.getContext("2d");
+        // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        gameWindow.insertAdjacentElement("afterbegin", this.canvas);
+    }
+}
+
 
 
 
