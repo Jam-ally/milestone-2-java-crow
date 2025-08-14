@@ -21,8 +21,8 @@ function startGame() {
     console.log("Game is running");
     gameCanvas.start();
     // creat our player using function
-    player = new renderPlayer(30, 30, 10);
-    obstacle = new renderObstacle(30, 40, 400);
+    player = new renderPlayer(30, 30, 600);
+    obstacle = new renderObstacle(30, 40, 10);
 }
 
 
@@ -99,7 +99,7 @@ var interval = setInterval(updateCanvas, 20);
         
     }
 
-    var obstaclePositionY = ground;
+    var obstaclePositionY = 250;
 
     var environmentMoveSpeed = 0;
 
@@ -116,16 +116,34 @@ var interval = setInterval(updateCanvas, 20);
         this.y = obstaclePositionY;
 
     this.draw = function () {
-        ctx = gameCanvas.context;
         ctx.fillStyle = "grey";
-        ctx.clearRect(this.x, this.y, this.width, this.height);
+         ctx.fillRect(this.x, this.y, this.width, this.height);
+          
     }
 
     this.attackSpeed= function () {
         this.x += environmentMoveSpeed;
         environmentMoveSpeed += 0.05;
+        this.continueAttack();
     }
 
+    this.continueAttack = function() {
+        if (this.x > 650) {
+            width = randomNumber(10,50);
+            height = randomNumber(50,200);
+            environmentMoveSpeed = randomNumber(4,6);
+            this.y = canvasHeight - height;
+            this.x = 0;
+
+        }
+
+        
+    }
+
+    }
+
+    function randomNumber(min,max) {
+       return Math.random()*(max-min)+ min;
     }
 
 
@@ -178,7 +196,9 @@ function moveCrow(event) {
         player.draw();
         player.stopPlayer();
 
-        // obstacle.draw();
+        obstacle.draw();
+        obstacle.attackSpeed();
+        obstacle.continueAttack();
 
 
     }
