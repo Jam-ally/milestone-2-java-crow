@@ -48,6 +48,9 @@ var fallSpeed= 0;
 //intervall for fall (function, delay[in ms])
 var interval = setInterval(updateCanvas, 20);
 
+//This flaps per tick is movement in the y direction
+const CROW_FLAPS_PER_TICK = 12;
+
 
 //*Function to create the player
     function renderPlayer (width, height, x) {
@@ -65,7 +68,7 @@ var interval = setInterval(updateCanvas, 20);
         //create a makeFall function
         this.makeFall = function() {
             this.y += fallSpeed;
-            fallSpeed  += 0.05
+            fallSpeed  += 0.005
             //call the stopPlayer functon
             this.stopPlayer();    
         }
@@ -83,7 +86,9 @@ var interval = setInterval(updateCanvas, 20);
             console.log(event.code);
             console.log("button was pressed");
               if (event.code == "ArrowUp") {
-                this.y -= 12;
+                this.y -= CROW_FLAPS_PER_TICK;
+                 console.log(`Crow conceptually moved up ${CROW_MOVE_AMOUNT_PER_TICK} px. Now at ${crowPositionY}.`)
+
               }
         })
       
@@ -91,7 +96,9 @@ var interval = setInterval(updateCanvas, 20);
             console.log(event.code);
             console.log("button was pressed");
               if (event.code == "ArrowDown") {
-                this.y += 12;
+                this.y += CROW_FLAPS_PER_TICK;
+                 console.log(`Crow conceptually moved down ${CROW_MOVE_AMOUNT_PER_TICK} px. Now at ${crowPositionY}.`)
+
               }
         })        
 
@@ -125,14 +132,16 @@ var interval = setInterval(updateCanvas, 20);
         this.x += environmentMoveSpeed;
         environmentMoveSpeed += 0.05;
         this.continueAttack();
+        
+        return(obstacle.x);
     }
 
     this.continueAttack = function() {
-        if (this.x > 650) {
+        if (this.x > 600) {
             width = randomNumber(10,50);
             height = randomNumber(50,200);
-            environmentMoveSpeed = randomNumber(4,6);
-            this.y = canvasHeight - height;
+            environmentMoveSpeed = randomNumber(1,2);
+            this.y = canvasHeight - this.height;
             this.x = 0;
 
         }
@@ -145,9 +154,6 @@ var interval = setInterval(updateCanvas, 20);
     function randomNumber(min,max) {
        return Math.random()*(max-min)+ min;
     }
-
-
-
 
 //function to move the background    
     function moveBackground() {
@@ -170,25 +176,55 @@ function moveCrow(event) {
   }
 }
 
-// Number of pixels to move crow up or down when user presses an arrow key.
-// style for constants is ALL_CAPS snake case#
-//#####
-// const CROW_FLAPS_PER_TICK = 12
-  
-// function moveCrowUp() {
-//   this.y -= CROW_MOVE_AMOUNT_PER_TICK
-//   renderPlayer();
-//   console.log(`Crow conceptually moved up ${CROW_MOVE_AMOUNT_PER_TICK} px. Now at ${crowPositionY}.`)
-// }
 
-// function moveCrowDown() {
-//   this.y += CROW_MOVE_AMOUNT_PER_TICK
-//   renderPlayer();
-//   console.log(`Crow conceptually moved up ${CROW_MOVE_AMOUNT_PER_TICK} px. Now at ${crowPositionY}.`)
-// }
+//detect collision functions and effects
+
+//detect collision when the obstacle and the player interact
+//in the same virtual space
+
+function detectCollision() {
+    // console.log(obstacle.x);
+    // console.log(player.x);
+    var playerLeft = player.x + 0;
+    var playerRight = player.x + player.width;
+    
+    var obstacleRight = obstacle.x + obstacle.width;
+    var obstacleLeft = obstacle.x;
+
+    var obstableTop = obstacle.y;
+    var playerBottom = player.y + player.height;
+
+    if (obstacleRight > playerLeft &&
+        obstacleRight < playerRight &&
+        obstableTop < playerBottom        
+    ) {
+        console.log("collision detected - 1 life");
+        gameCanvas.stop();  //says its not a ffunction at some point. but it works
+        this.stop();
+    }
+
+}
+
+//Function to stop the stop. 
+//1. First use case: collion between object and player.
+
+function detectCollisions() {
+    console.log("player collision dettected - subtract 'Life'");
+    // var playerLeft = player.x;
+    // var playerRight = player.x + player.width;
+    const elem = document.createElement('div');
+    elem.classList.add('test-shape');
+    document.getElementById("footer-home-page").appendChild(elem);
+
+}
+
+detectCollisions();
+
 
 
     function updateCanvas() {
+        detectCollision();
+
         ctx = gameCanvas.context;
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 

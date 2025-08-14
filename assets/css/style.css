@@ -351,6 +351,13 @@ canvas {
     
 }
 
+.test-shape {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color:black;
+}
+
 /* Media Querries */
 
 @media screen and (min-width: 400px) {
