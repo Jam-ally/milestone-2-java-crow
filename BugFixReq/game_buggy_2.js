@@ -9,7 +9,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 //window outside the document 
 
-
+// let game = {
+//     startGame: [],
+//     gameCanvas: [],
+// }
 
 
 var canvasWidth = 650;
@@ -23,7 +26,7 @@ let playerLives = 0;
 function startGame() {
     console.log("Game is running");
     gameCanvas.start();
-    // create our player using function  
+    // creat our player using function  
     player = new renderPlayer(30, 30, 600);
     obstacle = new renderObstacle(30, 40, 10);
    
@@ -56,6 +59,7 @@ var gameCanvas = {
         this.canvas.width = canvasWidth;
         this.canvas.height = canvasHeight;
         this.context =this.canvas.getContext("2d");
+        // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         gameWindow.insertAdjacentElement("afterbegin", this.canvas);
     }
 }
@@ -162,7 +166,8 @@ const CROW_FLAPS_PER_TICK = 20;
 
     this.continueAttack = function() {
         if (this.x > canvasWidth) {
- 
+            // width = randomNumber(10,50);
+            // height = randomNumber(50,200);
             environmentMoveSpeed = randomNumber(1,2);
             this.y = canvasHeight - this.height;
             this.x = 0;
@@ -249,18 +254,83 @@ function detectCollision() {
     }
 
     console.log(playerLives);
-   
+
+    
+
+
+    // {
+    //     console.log("collision detected - 1 life");
+    //            //says its not a ffunction at some point. but it works
+             
+    //     updateCanvas.stop;
+    //     alert("Oh bags! [you hit an obstacle]");
+    //     playerLives -= 1;
+          
+    //         if(
+    //             confirm("Try Again?")){
+
+    //             console.log("Yes");
+    //             // clearInterval(interval);
+    //             // resetGamePositions();
+                
+
+    //         } else {
+    //             console.log("No");
+
+    //             endofGame();
+    //             const context = canvas.getContext('2d');
+    //             context.clearRect(0, 0, canvas.width, canvas.height);
+    //         }
+
+    //     let gameRunning = false; 
+    //     clearInterval(interval);
+    //     player = new renderPlayer(30, 30, 600);
+         
+        
+    // } else {
+    //     var gameRunning = true;
+    //     // console.log("no lives detected")
+    // }
 }
 
+
+
+// add function back in as Bug 
+// 2nd version - so we can look at the code - even if it is buggy.
 //##########################################
 
 function endofGame() {
     updateCanvas.stop;
     openGC()
 
+    //  const marker =document.createElement('div');
+    //  marker.classList.ad
+
+    //  endGameScreen.classList.add('end-game-screen');
+    //  document.getElementById("game-window").appendChild(endGameScreen);
     
 }
 //########################################
+
+//* function to reset the game mode
+
+
+// Player lives
+
+// function PlayerLives() {
+//     var startPlayerLives = 3;
+//     if (numPlayerLivesRemaining  < 1) {
+      
+//         }
+//      else {
+//     var numPlayerLivesRemaining = startPlayerLiveslayerLives;
+//     }
+// }
+
+
+//Function to stop the stop. 
+//1. First use case: collion between object and player.
+
 
     function updateCanvas() {
         
@@ -286,6 +356,28 @@ function endofGame() {
     }
 
 
+
+    
+
+//improvements -
+
+
+    //move the background
+
+
+
+    //crow player movements
+
+
+// User Interface interaction
+
+
+// function closeGameOver () {
+
+
+
+
+
 const butto = document.querySelector('.close-game-over-btn');
 
 const gameOverBox = document.querySelector('.game-over');
@@ -309,8 +401,15 @@ function closeGC() {
 }
 
 
+
 butto.addEventListener('click',closeGC);
 
 
+
+//    xGameOverBox.("onclick",() => {
+//     xGameOverBox.classList.add("hidden");
+//    })
+
+// }
 
 

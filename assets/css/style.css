@@ -13,6 +13,10 @@ nav{
     width: 100%;
 }
 
+.site-navigation-bar h1 {
+    margin-left: 5px;
+}
+
 main {
     margin-bottom: auto;
     height: 85%;
@@ -42,14 +46,13 @@ header {
 
 .page-main-body { 
     min-height: 50vh;
-    /* background-color: rgb(52, 85, 58); */
+        
     height: fit-content;
    
     min-width: 80vw;
     margin-bottom: 1%;
     background-color: aqua;
-    /* padding-top: 5vh; */
-    
+   
 }
 
 /* header styles */
@@ -65,16 +68,22 @@ header {
     .title-tile {
         height: 20px;
         width: 70vw;
-        border: 2px solid black;
+          
         display: flex;
         justify-content: center;
-        align-content: flex-start;
+        align-items: center;
+        font-size: 1.5rem;
+        
+        
        
+    }
+    h2 {    
+        font-size: 3.5rem;
     }
 
     h1{
-    /* text-size-adjust: 80%; */
-    font-size: 80%;
+    
+        font-size: 2rem;
 }
 
 
@@ -122,9 +131,7 @@ header {
 canvas {
     background-color: orange;
 
-       display: absolute;
-    /* top: 50%;
-    left: 50%; */
+    display: absolute;
     margin-left: 250px;
     border: 5px solid black;
 
@@ -138,10 +145,10 @@ canvas {
 .game-y-axis {
     position: absolute;
     width: 1px;
-    height: 80vh;
+    height: 100vh;
     background-color: red;
-    left: 50%;
-    z-index: 3;
+    left: 600px;
+    z-index: 0;
     
    
 }
@@ -193,7 +200,7 @@ canvas {
     position: absolute;
     left: 45vw;
     z-index: 2;
-    /* visibility: hidden; */
+  
 
 }
 
@@ -210,7 +217,7 @@ canvas {
     
     text-align: center;
     align-content: center;
-    /* visibility: hidden; */
+ 
 
 }
 
@@ -226,9 +233,6 @@ canvas {
     justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
-    /* background-color: red;     
-    flex-flow: column;
-     */
     gap: 1rem;
     z-index: 2;
     
@@ -245,12 +249,6 @@ canvas {
 
 /* Ground Obstacles */
 
-
-
-
-
-
-
 #billard {
         height: 70px;
         width: 30px;
@@ -265,7 +263,7 @@ canvas {
         height: 60px;
         width: 100px;
         background-color: limegreen;
-        /* visibility: hidden; */
+        
         margin-bottom: 2px;         
 
         z-index: 4;
@@ -280,7 +278,7 @@ canvas {
         width: 20px;
         background-color: silver;
         margin-top: 1px;
-        /* visibility: hidden; */
+    
         z-index: 4;
 }
 
@@ -296,9 +294,6 @@ canvas {
     justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
-    /* background-color: red;     
-    
-     */
     gap: 1rem;
 
 }
@@ -326,9 +321,6 @@ canvas {
     justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
-    /* background-color: red;     
-    
-     */
     gap: 1rem;
 }
 
@@ -379,7 +371,7 @@ h3 {
     width: 35rem;
     height: 35rem;
     position: absolute;
-    top:50%;
+    top:60%;
     left: 50%;
     transform: translate(-50%,-50%);
     text-align: center;
@@ -394,7 +386,7 @@ h3 {
     background-color:transparent;
     border: none;
     color: white;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     
 }
 
@@ -428,24 +420,12 @@ h3 {
     flex-direction: column;
     margin-bottom: auto;
     
-}/* 
+}
 
-    footer {
-        height: 60px;
-    }
-     */
     main {
 
      visibility: visible;
     
     }
-
-
     
-}
-
-@media screen and (min-width: 860px) {
-
-
-
 }
