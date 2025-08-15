@@ -3,7 +3,9 @@
  */
 
 // event listener - for when the user presses the button /interacts 
-document.addEventListener("DOMContentLoader", startGame); 
+window.addEventListener("DOMContentLoaded", (event) => {
+    console.log("DOM is fully loaded and parsed");
+});
 
 //window outside the document 
 
@@ -16,14 +18,25 @@ let game = {
 var canvasWidth = 650;
 var canvasHeight = 300;
 var  gameWindow = document.getElementById("game-window");
+var play;
+var gameRunning;
+var interval;
 
 function startGame() {
     console.log("Game is running");
     gameCanvas.start();
-    // creat our player using function
+    // creat our player using function  
     player = new renderPlayer(30, 30, 600);
     obstacle = new renderObstacle(30, 40, 10);
+   
+    var gameRunning = true;
+    var interval = setInterval(updateCanvas, 20);
+    console.log(gameRunning);
 }
+
+//intervall 
+
+
 
 
 var gameCanvas = {
@@ -38,18 +51,20 @@ var gameCanvas = {
 }
 
 //create player variable 
-var player;
+var player = 0;
+player.x = 0;
 //create initial Y-position of the player
 var playerPositionY = 150;
 
 
 //Add Gravity to the environment
 var fallSpeed= 0;
-//intervall for fall (function, delay[in ms])
-var interval = setInterval(updateCanvas, 20);
+
+
+
 
 //This flaps per tick is movement in the y direction
-const CROW_FLAPS_PER_TICK = 12;
+const CROW_FLAPS_PER_TICK = 20;
 
 
 //*Function to create the player
@@ -68,7 +83,7 @@ const CROW_FLAPS_PER_TICK = 12;
         //create a makeFall function
         this.makeFall = function() {
             this.y += fallSpeed;
-            fallSpeed  += 0.005
+            fallSpeed  += 0.005;
             //call the stopPlayer functon
             this.stopPlayer();    
         }
@@ -87,7 +102,7 @@ const CROW_FLAPS_PER_TICK = 12;
             console.log("button was pressed");
               if (event.code == "ArrowUp") {
                 this.y -= CROW_FLAPS_PER_TICK;
-                 console.log(`Crow conceptually moved up ${CROW_MOVE_AMOUNT_PER_TICK} px. Now at ${crowPositionY}.`)
+                 console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${playerPositionY}.`);
 
               }
         })
@@ -97,7 +112,7 @@ const CROW_FLAPS_PER_TICK = 12;
             console.log("button was pressed");
               if (event.code == "ArrowDown") {
                 this.y += CROW_FLAPS_PER_TICK;
-                 console.log(`Crow conceptually moved down ${CROW_MOVE_AMOUNT_PER_TICK} px. Now at ${crowPositionY}.`)
+                 console.log(`Crow conceptually moved dowFLAPS px. Now at ${playerPositionY}.`);
 
               }
         })        
@@ -107,14 +122,12 @@ const CROW_FLAPS_PER_TICK = 12;
     }
 
     var obstaclePositionY = 250;
-
-    var environmentMoveSpeed = 0;
-
-
-     
-
-
+    var environmentMoveSpeed = 0;  
     var obstacle;
+
+
+//*Function to render the obstacles contains the: image, speed,
+//and continue.
 
     function renderObstacle(width, height, x) {
         this.width = width;
@@ -143,23 +156,23 @@ const CROW_FLAPS_PER_TICK = 12;
             environmentMoveSpeed = randomNumber(1,2);
             this.y = canvasHeight - this.height;
             this.x = 0;
-
-        }
-
-        
+        } 
     }
 
-    }
+} //end  of renderObject function
 
+//*
+//* Random Number (min-max) function {min,max}
     function randomNumber(min,max) {
        return Math.random()*(max-min)+ min;
     }
 
-//function to move the background    
+//function to move the background ######
     function moveBackground() {
   console.log("Started moving background.")
 }
 
+//controls to move the crow player.
 function moveCrow(event) {
   
   if (event.code == "ArrowUp") {
@@ -182,10 +195,13 @@ function moveCrow(event) {
 //detect collision when the obstacle and the player interact
 //in the same virtual space
 
+
+
+
 function detectCollision() {
     // console.log(obstacle.x);
     // console.log(player.x);
-    var playerLeft = player.x + 0;
+    var playerLeft = player.x;
     var playerRight = player.x + player.width;
     
     var obstacleRight = obstacle.x + obstacle.width;
@@ -193,38 +209,76 @@ function detectCollision() {
 
     var obstableTop = obstacle.y;
     var playerBottom = player.y + player.height;
+    
 
     if (obstacleRight > playerLeft &&
-        obstacleRight < playerRight &&
+        obstacleLeft < playerRight &&
         obstableTop < playerBottom        
     ) {
         console.log("collision detected - 1 life");
-        gameCanvas.stop();  //says its not a ffunction at some point. but it works
-        this.stop();
-    }
+               //says its not a ffunction at some point. but it works
+             
+        updateCanvas.stop;
+        alert("Oh bags! [you hit an obstacle]");
+          
+            if(confirm("Try Again?")){
+                console.log("Yes");
+                clearInterval(interval);
+                resetGamePositions();
+                
 
+            } else {
+                console.log("No");
+                endofGame();
+            }
+
+        let gameRunning = false; 
+        clearInterval(interval);
+        player = new renderPlayer(30, 30, 600);
+         
+        
+    } else {
+        var gameRunning = true;
+    }
 }
+
+
+
+// add function back in as Bug 
+// 2nd version - so we can look at the code - even if it is buggy.
+//##########################################
+
+function endofGame() {
+    updateCanvas.stop;
+    openGC()
+
+    // const endGameScreen =document.createElement('div');
+    // endGameScreen.classList.add('end-game-screen');
+    // document.getElementById("game-window").appendChild(endGameScreen);
+    
+}
+//########################################
+
+
+// Player lives
+
+// function PlayerLives() {
+//     var startPlayerLives = 3;
+//     if (numPlayerLivesRemaining  < 1) {
+      
+//         }
+//      else {
+//     var numPlayerLivesRemaining = startPlayerLiveslayerLives;
+//     }
+// }
+
 
 //Function to stop the stop. 
 //1. First use case: collion between object and player.
 
-function detectCollisions() {
-    console.log("player collision dettected - subtract 'Life'");
-    // var playerLeft = player.x;
-    // var playerRight = player.x + player.width;
-    const elem = document.createElement('div');
-    elem.classList.add('test-shape');
-    document.getElementById("footer-home-page").appendChild(elem);
-
-}
-
-detectCollisions();
-
-
 
     function updateCanvas() {
-        detectCollision();
-
+        
         ctx = gameCanvas.context;
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -232,10 +286,15 @@ detectCollisions();
         player.draw();
         player.stopPlayer();
 
+
+        
+
         obstacle.draw();
         obstacle.attackSpeed();
         obstacle.continueAttack();
 
+          detectCollision();
+            
 
     }
 
@@ -243,7 +302,7 @@ detectCollisions();
 
     
 
-
+//improvements -
 
 
     //move the background
@@ -253,6 +312,47 @@ detectCollisions();
     //crow player movements
 
 
+// User Interface interaction
 
+
+// function closeGameOver () {
+
+
+
+
+
+const butto = document.querySelector('.close-game-over-btn');
+
+const gameOverBox = document.querySelector('.game-over');
+const overlay = document.querySelector('.overlay');
+const endGameScreen = document.querySelector('.end-game-screen');
+const pop = document.getElementById('reset');
+
+pop.addEventListener('click', openGC);
+
+function openGC() {
+    gameOverBox.classList.remove('hidden'); 
+    overlay.classList.remove('hidden');
+    endGameScreen.classList.remove('hidden');
+}
+
+function closeGC() {
+    
+    gameOverBox.classList.add('hidden'); 
+    overlay.classList.add('hidden');
+    
+}
+
+
+
+butto.addEventListener('click',closeGC);
+
+
+
+//    xGameOverBox.("onclick",() => {
+//     xGameOverBox.classList.add("hidden");
+//    })
+
+// }
 
 

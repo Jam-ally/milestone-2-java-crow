@@ -17,7 +17,7 @@
 
     <!-- JavaScript script sheet -->
     <link type="text/js" rel="js" href="scripts/game.js" >
-    <title>Food Bird</title>
+    <title>Food Bird| Game</title>
     
 </head>
 <body>
@@ -51,9 +51,19 @@
 
     <!-- Game Tile -->
     <Section class="game-tile">
-
+      
+      
       <!-- Game Window -->
-      <div id="game-window">
+      <div id="game-window"  >
+        <div class="end-game-screen">
+        
+          <div class="game-over hidden">
+            <button class="close-game-over-btn">&times</button>
+            <h3>Game Over</h3>
+            <p>Better Luck Next Time!</p>
+            
+          </div>
+          <div class="overlay hidden"></div>
 
         
         <!-- <div id="canvas" class="game-canvas"></div> -->
@@ -63,6 +73,9 @@
 
 
         <!-- Background -->
+         
+        <div id="background-imagery" class="hidden">
+         
         <div class="forest-trees">
         </div>
 
@@ -75,7 +88,7 @@
         <br>
         <div class="game-y-axis"></div>
         <br>
-
+        </div>
         <!-- Game Canvas -->
 
 
@@ -101,7 +114,8 @@
       </div>
       <br>
       <div>
-      <button id="reset">Reset</button>
+      <button onclick="openGC()" id="reset">Reset</button>
+      </div>
       </div>
     </Section>
     </main>
@@ -111,9 +125,7 @@
     <footer >&copy Copyright Jam_Ally Productions. 2025</footer>
           </div>
 
-            <form>
-          <input type="text" />
-          </form>
+
   </body>
 
 
