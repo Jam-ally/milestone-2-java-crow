@@ -37,7 +37,8 @@
         </section>
                         <!-- Game Menu -->
         <div class="game-menu">
-          <button onclick="startGame()" type="submit" id="start-button" name="Start-button" value="Start Game">Start Game</button>
+          <!-- <button onclick="startGame()" type="submit" id="start-button" name="Start-button" value="Start Game">Start Game</button> -->
+          <button id="game-start-button">Start Game</button>
         </div>
         
 
@@ -54,47 +55,36 @@
       
       
       <!-- Game Window -->
-      <div id="game-window"  >
-         <br>
-        <div class="game-y-axis"></div>
-        <br>
+      <div id="game-window" >
+      <br>
+            <div class="game-y-axis none"></div>
+      <br>
         <div class="end-game-screen hidden">
         
           <div class="game-over hidden">
             <button class="close-game-over-btn">&times</button>
             <h3>Game Over</h3>
-            <p>Better Luck Next Time!</p>
-            
+            <p>Better Luck Next Time!</p>      
           </div>
-          <div class="overlay hidden"></div>
 
-        
+          <div class="overlay hidden"></div>  
         <!-- <div id="canvas" class="game-canvas"></div> -->
           <!-- <body onload="startGame()"> -->
-        
+    
         <br>    
-
-
         <!-- Background -->
          
         <div id="background-imagery" class="hidden">
-         
-        <div class="forest-trees">
-        </div>
-
-        <div id="game-score">
-          0
-        </div>
-
-        <!-- Game Axes -->
-        <div class="game-x-axis"></div>
-        
+            <div class="forest-trees"></div>
+            <div id="game-score">
+              0
+            </div>
+            <!-- Game Axes -->
+            <div class="game-x-axis"></div>
         </div>
         <!-- Game Canvas -->
        
-
-
-
+        
         <!-- Obstacles -->
         <section id="obstacles" class="hidden">
 
@@ -103,9 +93,11 @@
             <div class="ground-obstacles" id="bike"></div>
 
           <!-- Crow Bird -->
+           
+
           <div id="stone-piercer"> 
            <div id="bird-main-body">
-             Food up
+             Food Bird
             </div>
           </div>
           <div id="bird-space"></div>
@@ -114,10 +106,16 @@
       
       </div>
       <br>
-      <div>
-      <button onclick="openGC()" id="reset">Reset</button>
+<!--  
+      <div id="game-function-buttons">
+      <button onclick="openGC()" id="reset">Reset</button> 
+      <button id="reset">Reset</button>
       </div>
+-->
       </div>
+      <!-- <div id="canvas1"></div> -->
+      <img id="player1" src="assets/images/crow-player.jpg">
+      
     </Section>
     </main>
 
@@ -131,6 +129,6 @@
 
 
       <!-- JS -->
-<script src="scripts/game.js"></script>
+<script type="" src="scripts/game1.js"></script>
         
 </html>       

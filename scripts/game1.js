@@ -7,6 +7,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM is fully loaded and parsed");
 });
 
+// import { player1 } from "./player";
+
 //window outside the document 
 
 
@@ -20,11 +22,19 @@ var gameRunning;
 var interval;
 let playerLives = 0;
 
+const startButton = document.querySelector('#game-start-button');
+
+startButton.addEventListener('click',() => {
+    startGame();
+    
+})
+
 function startGame() {
+
     console.log("Game is running");
     gameCanvas.start();
     // create our player using function  
-    player = new renderPlayer(30, 30, 600);
+    player = new renderPlayer();
     obstacle = new renderObstacle(30, 40, 10);
    
     var gameRunning = true;
@@ -33,6 +43,19 @@ function startGame() {
     givePlayerLives();
     
 }
+
+// Full Screen 
+
+const toggleFullScreen = document.querySelector('#game-start-button');
+const fullGameWindow = document.querySelector('.game-tile');
+
+    toggleFullScreen.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+        fullGameWindow.requestFullscreen();
+        } else if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    })
 
 //intervall 
 
@@ -50,7 +73,8 @@ function gameReset() {
 }
 
 
-var gameCanvas = {
+
+    var gameCanvas = {
     canvas: document.createElement("canvas"),
     start: function ctx() {
         this.canvas.width = canvasWidth;
@@ -58,38 +82,53 @@ var gameCanvas = {
         this.context =this.canvas.getContext("2d");
         gameWindow.insertAdjacentElement("afterbegin", this.canvas);
     }
-}
+    }
+
+
+
+
 
 //create player variable 
 var player = 0;
 player.x = 0;
 //create initial Y-position of the player
 var playerPositionY = 150;
-
-
 //Add Gravity to the environment
 var fallSpeed= 0;
 
-
-
-
 //This flaps per tick is movement in the y direction
-const CROW_FLAPS_PER_TICK = 20;
+let CROW_FLAPS_PER_TICK = 20;
 
 
 //*Function to create the player
-    function renderPlayer (width, height, x) {
-        this.width = width;
-        this.height = height;
-        this.x =x;
+    function renderPlayer () {
+
+        this.width = 30;
+        this.height = 30;
+        this.x = 600;
         this.y = playerPositionY;
+        this.image = document.getElementById('player1')
 
         //  Create a draw function
         this.draw = function() { 
             ctx = gameCanvas.context; 
             ctx.fillStyle = "rgb(#ffffff)";
             ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
+
+        this.windowWall = function() {
+            if(this.y > 260 ) {
+                this.y = 260;
+                console.log("sqwaak")
+            } 
+            if(this.y < -16 ) {
+                this.y = -16;
+                console.log("aaahhcacaca")
+            } 
+        }
+
+
         //create a makeFall function
         this.makeFall = function() {
             this.y += fallSpeed;
@@ -112,7 +151,7 @@ const CROW_FLAPS_PER_TICK = 20;
             console.log("button was pressed");
               if (event.code == "ArrowUp") {
                 this.y -= CROW_FLAPS_PER_TICK;
-                 console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${playerPositionY}.`);
+                 console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
 
               }
         })
@@ -122,7 +161,7 @@ const CROW_FLAPS_PER_TICK = 20;
             console.log("button was pressed");
               if (event.code == "ArrowDown") {
                 this.y += CROW_FLAPS_PER_TICK;
-                 console.log(`Crow conceptually moved dowFLAPS px. Now at ${playerPositionY}.`);
+                 console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
 
               }
         })        
@@ -132,7 +171,7 @@ const CROW_FLAPS_PER_TICK = 20;
     }
 
     var obstaclePositionY = 250;
-    var environmentMoveSpeed = 0;  
+    var environmentMoveSpeed = 0.1;  
     var obstacle;
 
 
@@ -154,7 +193,7 @@ const CROW_FLAPS_PER_TICK = 20;
 
     this.attackSpeed= function () {
         this.x += environmentMoveSpeed;
-        environmentMoveSpeed += 0.05;
+        environmentMoveSpeed -= 0.05;
         this.continueAttack();
         
         return(obstacle.x);
@@ -272,17 +311,15 @@ function endofGame() {
         player.makeFall();
         player.draw();
         player.stopPlayer();
-
-
+        player.windowWall();
         
+        // obstacle.draw();
+        // obstacle.attackSpeed();
+        // obstacle.continueAttack();
 
-        obstacle.draw();
-        obstacle.attackSpeed();
-        obstacle.continueAttack();
-
-          detectCollision();
+        //   detectCollision();
             
-
+        
     }
 
 

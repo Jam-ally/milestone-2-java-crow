@@ -412,4 +412,6 @@ butto.addEventListener('click',closeGC);
 
 // }
 
+const StartBut = document.querySelector('start-game-button')
+
 
