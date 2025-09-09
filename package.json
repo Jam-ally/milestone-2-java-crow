@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/Jam-ally/milestone-2-java-crow#readme",
   "devDependencies": {
-    "jest": "^30.0.5",
+    "jest": "^30.1.3",
     "jest-environment-jsdom": "^30.0.5"
+  },
+  "dependencies": {
+    "save": "^2.9.0"
   }
 }

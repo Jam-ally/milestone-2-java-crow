@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-const {game, startGame, showScore, renderCrow} = require("../game");
+const {game, startGame, showScore, renderCrow} = require("../game1");
 
 beforeAll(() => {
     let fs = require("fs");
@@ -28,7 +28,7 @@ describe("game object contains correct keys", () => {
         expect("moveCrow" in game).toBe(true);     
     });
     test("The game obstacles exist", () => {
-        expect("renderObstacles" in game).toBe(true);     
+        expect("renderObstacle" in game).toBe(true);     
     });
     test("The score key exists", () => {
         expect("score" in game).toBe(true);     

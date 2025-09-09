@@ -12,6 +12,19 @@ window.addEventListener("DOMContentLoaded", (event) => {
 //window outside the document 
 
 
+// game = [];
+
+// game = [
+//     player = player,
+//     startgame = startGame(),
+//     gameBackground = gameBackground(),
+//     renderCrow = renderCrow(),
+//     moveCrow = moveCrow(),
+//     renderObstacle = renderObstacle(),
+//     score = 0,
+
+// ];
+
 
 
 var canvasWidth = 650;
@@ -35,9 +48,10 @@ function startGame() {
     console.log("Game is running");
     gameCanvas.start();
     // create our player using function  
-    player = new renderPlayer();
+    player = new renderCrow();
     obstacle = new renderObstacle(30, 100, 10);
     background = new gameBackground();
+    // background = new backgroundLayer();
     var gameRunning = true;
     var interval = setInterval(updateCanvas, 20);
     console.log(gameRunning);
@@ -102,7 +116,7 @@ let CROW_FLAPS_PER_TICK = 20;
 
 
 //*Function to create the player
-    function renderPlayer () {
+    function renderCrow () {
 
         this.width = 70;
         this.height = 70;
@@ -176,65 +190,64 @@ let CROW_FLAPS_PER_TICK = 20;
 
     function backgroundLayer ( width, height, speedModifier, image) {
          console.log("display background layer 1")
+         //assumes that the width and height of all images match.
         // this.game = game;
         this.width = width;
         this.height = height;
-        this.speedModifier = speedModifier
+        this.speedModifier = speedModifier;
         this.image = image;
-        this.x = 0;
+        this.x = 600;
         this.y = 0;
+        this.speed = -1;
 
-        this.layerMovement = function() {
-            if(this.x < this.width) {
-                this.x = 0;
-            } else {
-                this.x += this.speed + this.speedModifier; 
-            }
+         this.layerMovement = function() {
+             if(this.x < -this.width+canvasWidth-10) {
+                 this.x = 600;
+             } else {
+                this.x += -5*speedModifier;
+             }
+         }
+
+        this.draw = function() {
+            ltx =gameCanvas.context;
+            // ltx.fillStyle = "green";
+            // ltx.fillRect(this.x, this.y, this.width, this.height);
+            ltx.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
-
-        this.draw = function(context) {
-            context.drawImage(this.image, this.x, this.y, this.width, this.height);
-        }
-
 
 
     }
+
+
+    
 
     
 
             function gameBackground() { 
             // this.game = game;
-        console.log("Started moving background.")
-        console.log("display background")
-            
-                
-            this.width = 700;
+            console.log("Started moving background.");
+            console.log("display background");
+            this.width = 889;
             this.height = 500;
-            this.x = 0;
-            this.y = 0;
+            this.layersImage = document.getElementById('layer1');
+            this.layer1 = new backgroundLayer(this.width, this.height, 1, this.layersImage);
+            this.backgroundLayers = [this.layer1];
 
-            this.image = document.getElementById('layer1')
-
-        //  Create a draw function
-        this.draw = function() { 
-            ctx = gameCanvas.context; 
-            ctx.fillStyle = "rgb(#ffffff)";
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-        }
-
-
-
-            // this.layer1image = document.getElementById('layer1');
-            // this.layer1 = new backgroundLayer(this.width, this.height, 1, this.layer1image);
-            // this.backgroundLayers = [];
+            // this.layersMovement= function() {
+            //     this.backgroundLayers.forEach(backgroundLayer => {
+            //         backgroundLayer.layerMovement();
+            //     })
+            // }
         
+            //  Create a draw function
+            this.draw = function() { 
+                this.draw.forEach(backgroundLayer => {
+                    backgroundLayer.draw();
+                })
+           
+        }
+ 
 
-        // this.update =  function() {
-        //     this.backgroundLayers.forEach(element => {
-        //       layer.update();  
-        //     });
-        // }
 
         // this.draw = function() {
         //     console.log("render background")
@@ -393,7 +406,9 @@ function endofGame() {
 
          renderObstacle();
 
-         background.draw();
+        //  background.draw();
+
+        //  background.layersMovement();
 
 
         player.makeFall();
