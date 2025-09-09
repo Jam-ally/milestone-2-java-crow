@@ -145,8 +145,19 @@ header {
     
     height: 50px;
     width: auto;
-    display: none;
+    display: none; 
+   
 
+}
+
+#layer1 {
+    z-index: 3;
+     display: none;
+    
+}
+
+#player1 {
+    z-index: 5;
 }
 
 canvas {

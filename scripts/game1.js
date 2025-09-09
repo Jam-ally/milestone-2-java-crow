@@ -15,7 +15,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 
 var canvasWidth = 650;
-var canvasHeight = 300;
+var canvasHeight = 500;
+var flightMinHeight = canvasHeight-10;
 var  gameWindow = document.getElementById("game-window");
 var play;
 var gameRunning;
@@ -35,8 +36,8 @@ function startGame() {
     gameCanvas.start();
     // create our player using function  
     player = new renderPlayer();
-    obstacle = new renderObstacle(30, 40, 10);
-   
+    obstacle = new renderObstacle(30, 100, 10);
+    background = new gameBackground();
     var gameRunning = true;
     var interval = setInterval(updateCanvas, 20);
     console.log(gameRunning);
@@ -92,7 +93,7 @@ function gameReset() {
 var player = 0;
 player.x = 0;
 //create initial Y-position of the player
-var playerPositionY = 150;
+var playerPositionY = canvasHeight/2;
 //Add Gravity to the environment
 var fallSpeed= 0;
 
@@ -103,9 +104,9 @@ let CROW_FLAPS_PER_TICK = 20;
 //*Function to create the player
     function renderPlayer () {
 
-        this.width = 30;
-        this.height = 30;
-        this.x = 600;
+        this.width = 70;
+        this.height = 70;
+        this.x = canvasWidth- this.width - 10;
         this.y = playerPositionY;
         this.image = document.getElementById('player1')
 
@@ -118,8 +119,8 @@ let CROW_FLAPS_PER_TICK = 20;
         }
 
         this.windowWall = function() {
-            if(this.y > 260 ) {
-                this.y = 260;
+            if(this.y >  flightMinHeight) {
+                this.y = flightMinHeight;
                 console.log("sqwaak")
             } 
             if(this.y < -16 ) {
@@ -170,19 +171,100 @@ let CROW_FLAPS_PER_TICK = 20;
         
     }
 
-    var obstaclePositionY = 250;
-    var environmentMoveSpeed = 0.1;  
-    var obstacle;
+
+// GAme Background
+
+    function backgroundLayer ( width, height, speedModifier, image) {
+         console.log("display background layer 1")
+        // this.game = game;
+        this.width = width;
+        this.height = height;
+        this.speedModifier = speedModifier
+        this.image = image;
+        this.x = 0;
+        this.y = 0;
+
+        this.layerMovement = function() {
+            if(this.x < this.width) {
+                this.x = 0;
+            } else {
+                this.x += this.speed + this.speedModifier; 
+            }
+        }
+
+        this.draw = function(context) {
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+
+
+
+    }
+
+    
+
+            function gameBackground() { 
+            // this.game = game;
+        console.log("Started moving background.")
+        console.log("display background")
+            
+                
+            this.width = 700;
+            this.height = 500;
+            this.x = 0;
+            this.y = 0;
+
+            this.image = document.getElementById('layer1')
+
+        //  Create a draw function
+        this.draw = function() { 
+            ctx = gameCanvas.context; 
+            ctx.fillStyle = "rgb(#ffffff)";
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+
+
+
+            // this.layer1image = document.getElementById('layer1');
+            // this.layer1 = new backgroundLayer(this.width, this.height, 1, this.layer1image);
+            // this.backgroundLayers = [];
+        
+
+        // this.update =  function() {
+        //     this.backgroundLayers.forEach(element => {
+        //       layer.update();  
+        //     });
+        // }
+
+        // this.draw = function() {
+        //     console.log("render background")
+        //     btx = gameCanvas.context;
+        //     btx.fillStyle = "grey";
+        //     btx.fillRect(this.x, this.y, this.width, this.height);
+        
+        // }
+
+        }
+
+
 
 
 //*Function to render the obstacles contains the: image, speed,
 //and continue.
 
+
+    var obstaclePositionY = 250;
+    var objectbaseMoveSpeed = 5;  
+    var obstacle;
+
+
     function renderObstacle(width, height, x) {
+
         this.width = width;
         this.height = height;
         this.x = x
-        this.y = obstaclePositionY;
+        this.y = canvasHeight - this.height;
+        objectMoveSpeed = objectbaseMoveSpeed
 
     this.draw = function () {
         otx = gameCanvas.context;
@@ -192,8 +274,10 @@ let CROW_FLAPS_PER_TICK = 20;
     }
 
     this.attackSpeed= function () {
-        this.x += environmentMoveSpeed;
-        environmentMoveSpeed -= 0.05;
+        this.x += objectMoveSpeed;
+        objectMoveSpeed -= 0.005;
+        objectMoveSpeed.min = 2
+        
         this.continueAttack();
         
         return(obstacle.x);
@@ -201,10 +285,11 @@ let CROW_FLAPS_PER_TICK = 20;
 
     this.continueAttack = function() {
         if (this.x > canvasWidth) {
- 
-            environmentMoveSpeed = randomNumber(1,2);
+            
+            objectMoveSpeed = randomNumber(1,2);
             this.y = canvasHeight - this.height;
             this.x = 0;
+            objectMoveSpeed = objectbaseMoveSpeed
         } 
     }
 
@@ -217,8 +302,8 @@ let CROW_FLAPS_PER_TICK = 20;
     }
 
 //function to move the background ######
-    function moveBackground() {
-  console.log("Started moving background.")
+    function gBackground() {
+  
 }
 
 //controls to move the crow player.
@@ -308,16 +393,25 @@ function endofGame() {
 
          renderObstacle();
 
+         background.draw();
+
+
         player.makeFall();
         player.draw();
         player.stopPlayer();
         player.windowWall();
         
-        // obstacle.draw();
-        // obstacle.attackSpeed();
-        // obstacle.continueAttack();
+        obstacle.draw();
+        obstacle.attackSpeed();
+        obstacle.continueAttack();
 
         //   detectCollision();
+
+           
+    // create our player using function  
+        
+    
+
             
         
     }
