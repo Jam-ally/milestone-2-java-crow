@@ -44,8 +44,49 @@ body{
     display: flex;
     align-content: center;
     justify-content: center;
+    align-items: center;
+    
     z-index: 6;
 }
+
+.box {
+    
+    position: absolute;
+    height: 300px;
+    width: 300px;
+    align-content: center;
+    justify-content: center;
+    border: groove 10px brown;
+    background-color: rgb(223, 169, 68);
+    align-items: center;
+    display: none;
+
+}
+
+.box p{
+    margin: 10%;
+    font-family: var(--primary-font);
+    font-size: larger;
+    
+}
+
+.button-panel {
+    width: 100%;
+    display: flex;
+    z-index: 1;
+    align-self:flex-end;
+    margin-bottom: 10%;
+    justify-content: space-evenly;
+    
+}
+
+#previous {
+    position: relative;
+    align-self: flex-start;
+
+}
+
+#gam
 
 nav{
     height: fit-content;
