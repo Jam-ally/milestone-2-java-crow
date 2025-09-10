@@ -21,6 +21,7 @@
     "jest-environment-jsdom": "^30.0.5"
   },
   "dependencies": {
+    "Jest": "npm:jest@^30.1.3",
     "save": "^2.9.0"
   }
 }

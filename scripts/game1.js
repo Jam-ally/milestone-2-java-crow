@@ -5,7 +5,7 @@
 // event listener - for when the user presses the button /interacts 
 window.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM is fully loaded and parsed");
-});
+
 
 // import { player1 } from "./player";
 
@@ -14,16 +14,16 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 // game = [];
 
-// game = [
-//     player = player,
-//     startgame = startGame(),
-//     gameBackground = gameBackground(),
-//     renderCrow = renderCrow(),
-//     moveCrow = moveCrow(),
-//     renderObstacle = renderObstacle(),
-//     score = 0,
+let game ={
+    // player = renderCrow(),
+    // startgame = startGame(),
+    // gameBackground = gameBackground(),
+    // renderCrow = renderCrow(),
+    // moveCrow = moveCrow(),
+    // renderObstacle = renderObstacle(),
+    score: 0,
 
-// ];
+};
 
 
 
@@ -49,9 +49,10 @@ function startGame() {
     gameCanvas.start();
     // create our player using function  
     player = new renderCrow();
-    obstacle = new renderObstacle(30, 100, 10);
+    obstacle = new renderObstacle(30, 100, 10, 5);
     // background = new gameBackground();
-    background = new backgroundLayer();
+
+    // background = new backgroundLayer();
     var gameRunning = true;
     var interval = setInterval(updateCanvas, 20);
     console.log(gameRunning);
@@ -188,45 +189,38 @@ let CROW_FLAPS_PER_TICK = 20;
 
 // GAme Background
 
-    function backgroundLayer ( width, height, speedModifier, image) {
-         console.log("display background layer 1")
-         //assumes that the width and height of all images match.
-        // this.game = game;
-        // this.width = width;
-        // this.height = height;
-        // this.speedModifier = speedModifier;
+    // function backgroundLayer ( width, height, speedModifier, image) {
+    //      console.log("display background layer 1")
+    //      //assumes that the width and height of all images match.
+    //     // this.game = game;
+    //     // this.width = width;
+    //     // this.height = height;
+    //     // this.speedModifier = speedModifier;
         
-        this.width = 889;
-        this.height = 500;
-        this.speedModifier = 1;
-        this.image = document.getElementById('layer1');
+    //     this.width = 889;
+    //     this.height = 500;
+    //     this.speedModifier = 1;
+    //     this.image = document.getElementById('layer1');
         
-        this.x = canvasWidth-this.width;
-        this.y = 0;
-        this.speed = -1;
+    //     this.x = canvasWidth-this.width;
+    //     this.y = 0;
+    //     this.speed = -1;
 
-         this.layerMovement = function() {
-             if(this.x > this.width-canvasWidth-10) {
-                 this.x = canvasWidth-this.width;
-             } else {
-                this.x += 5;
-             }
-         }
+    //      this.layerMovement = function() {
+    //          if(this.x > this.width-canvasWidth-10) {
+    //              this.x = canvasWidth-this.width;
+    //          } else {
+    //             this.x += 5;
+    //          }
+    //      }
 
-        this.draw = function() {
-            ltx =gameCanvas.context;
-            // ltx.fillStyle = "green";
-            // ltx.fillRect(this.x, this.y, this.width, this.height);
-            ltx.drawImage(this.image, this.x, this.y, this.width, this.height);
-        }
-
-
-    }
-
-
-    
-
-    
+    //     this.draw = function() {
+    //         ltx =gameCanvas.context;
+    //         // ltx.fillStyle = "green";
+    //         // ltx.fillRect(this.x, this.y, this.width, this.height);
+    //         ltx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    //     }
+    // }
 
         //     function gameBackground() { 
         //     // this.game = game;
@@ -249,11 +243,7 @@ let CROW_FLAPS_PER_TICK = 20;
         //         this.draw.forEach(backgroundLayer => {
         //             backgroundLayer.draw();
         //         })
-           
         // }
- 
-
-
         // // this.draw = function() {
         // //     console.log("render background")
         // //     btx = gameCanvas.context;
@@ -276,39 +266,39 @@ let CROW_FLAPS_PER_TICK = 20;
     var obstacle;
 
 
-    function renderObstacle(width, height, x) {
+    function renderObstacle(width, height, x, obstacleMoveSpeed) {
 
         this.width = width;
         this.height = height;
         this.x = x
         this.y = canvasHeight - this.height;
-        objectMoveSpeed = objectbaseMoveSpeed
+        objectMoveSpeed = obstacleMoveSpeed
 
-    this.draw = function () {
+    this.attackSpeed= function () {
+        this.x += obstacleMoveSpeed;
+        // obstacleMoveSpeed -= 0.005;
+        obstacleMoveSpeed.min = 2
+        
+        this.continueAttack();
+        
+        return(x);
+    }
+
+    this.continueAttack = function() {
+        if (this.x > canvasWidth-300) {
+            
+            obstacleMoveSpeed = randomNumber(2,5);
+            this.y = canvasHeight - this.height;
+            this.x = 0;
+            obstacleMoveSpeed = obstacleMoveSpeed
+        } 
+    }
+
+        this.draw = function () {
         otx = gameCanvas.context;
         otx.fillStyle = "grey";
          otx.fillRect(this.x, this.y, this.width, this.height);
           
-    }
-
-    this.attackSpeed= function () {
-        this.x += objectMoveSpeed;
-        objectMoveSpeed -= 0.005;
-        objectMoveSpeed.min = 2
-        
-        this.continueAttack();
-        
-        return(obstacle.x);
-    }
-
-    this.continueAttack = function() {
-        if (this.x > canvasWidth) {
-            
-            objectMoveSpeed = randomNumber(1,2);
-            this.y = canvasHeight - this.height;
-            this.x = 0;
-            objectMoveSpeed = objectbaseMoveSpeed
-        } 
     }
 
 } //end  of renderObject function
@@ -411,11 +401,11 @@ function endofGame() {
 
          renderObstacle();
 
-         background.draw();
+        //  background.draw();
 
+        
+        // background.layerMovement();
         //  background.layersMovement();
-        background.layerMovement();
-
 
         player.makeFall();
         player.draw();
@@ -465,4 +455,6 @@ butto.addEventListener('click',closeGC);
 
 
 
-module.exports ={ game};
+module.exports ={ game };
+
+});
