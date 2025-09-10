@@ -44,19 +44,20 @@ startButton.addEventListener('click',() => {
 })
 
 function startGame() {
-
+    let gameSpeed = 5;
     console.log("Game is running");
     gameCanvas.start();
     // create our player using function  
     player = new renderCrow();
     obstacle = new renderObstacle(30, 100, 10, 5);
-    // background = new gameBackground();
+    background = new gameBackground();
 
     // background = new backgroundLayer();
     var gameRunning = true;
     var interval = setInterval(updateCanvas, 20);
     console.log(gameRunning);
     givePlayerLives();
+    
     
 }
 
@@ -100,10 +101,6 @@ function gameReset() {
     }
     }
 
-
-
-
-
 //create player variable 
 var player = 0;
 player.x = 0;
@@ -111,7 +108,6 @@ player.x = 0;
 var playerPositionY = canvasHeight/2;
 //Add Gravity to the environment
 var fallSpeed= 0;
-
 //This flaps per tick is movement in the y direction
 let CROW_FLAPS_PER_TICK = 20;
 
@@ -189,83 +185,87 @@ let CROW_FLAPS_PER_TICK = 20;
 
 // GAme Background
 
-    // function backgroundLayer ( width, height, speedModifier, image) {
-    //      console.log("display background layer 1")
-    //      //assumes that the width and height of all images match.
-    //     // this.game = game;
-    //     // this.width = width;
-    //     // this.height = height;
-    //     // this.speedModifier = speedModifier;
+    function backgroundLayer (gameSpeed, width, height, speedModifier, image) {
+         console.log("display background layer 1")
+         //assumes that the width and height of all images match.
+        // this.game = game;
+        this.width = width;
+        this.height = height;
+        this.speedModifier = speedModifier;
+        this.image = image;
+        this.scrollSpeed = gameSpeed;
+        // this.width = 889;
+        // this.height = 500;
+        // this.speedModifier = 1;
+        // this.image = document.getElementById('layer1');
         
-    //     this.width = 889;
-    //     this.height = 500;
-    //     this.speedModifier = 1;
-    //     this.image = document.getElementById('layer1');
+        this.x = canvasWidth-this.width;
+        this.y = 0;
         
-    //     this.x = canvasWidth-this.width;
-    //     this.y = 0;
-    //     this.speed = -1;
 
-    //      this.layerMovement = function() {
-    //          if(this.x > this.width-canvasWidth-10) {
-    //              this.x = canvasWidth-this.width;
-    //          } else {
-    //             this.x += 5;
-    //          }
-    //      }
+         this.layerMovement = function() {
+             if(this.x > this.width-canvasWidth-10) {
+                 this.x = canvasWidth-this.width;
+             } else {
+                this.x += this.scrollSpeed;
+             }
+         }
 
-    //     this.draw = function() {
-    //         ltx =gameCanvas.context;
-    //         // ltx.fillStyle = "green";
-    //         // ltx.fillRect(this.x, this.y, this.width, this.height);
-    //         ltx.drawImage(this.image, this.x, this.y, this.width, this.height);
-    //     }
-    // }
+        this.draw = function() {
+            ltx =gameCanvas.context;
+            // ltx.fillStyle = "green";
+            // ltx.fillRect(this.x, this.y, this.width, this.height);
+            ltx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+    }
 
-        //     function gameBackground() { 
-        //     // this.game = game;
-        //     console.log("Started moving background.");
-        //     console.log("display background");
-        //     this.width = 889;
-        //     this.height = 500;
-        //     this.layersImage = document.getElementById('layer1');
-        //     this.layer1 = new backgroundLayer(this.width, this.height, 1, this.layersImage);
-        //     this.backgroundLayers = [this.layer1];
+    function gameBackground() { 
+            // this.game = game;
+        console.log("Started moving background.");
+        console.log("display background");
+        this.width = 889;
+        this.height = 500;
+        this.layersImage = document.getElementById(`layer1`);
+        this.layer1 = new backgroundLayer(5, this.width, this.height, 1, this.layersImage);
+        let layer1 = this.layer1;
+        this.backgroundLayers = [layer1];
 
-        //     this.layersMovement= function() {
-        //         this.backgroundLayers.forEach(backgroundLayer => {
-        //             backgroundLayer.layerMovement();
-        //         })
-        //     }
+        this.layersMovement = function() {
+            console.log("background draw function")
+            this.backgroundLayers.forEach(backgroundLayer => {
+                backgroundLayer.layerMovement();
+            })
+        }
+    
+        //  Create a draw function
+        this.draw = function() { 
+            console.log("background draw function")
+            this.backgroundLayers.forEach(backgroundLayer => {
+                backgroundLayer.draw();
+            })
+        }
+        // this.draw = function() {
+        //     console.log("render background")
+        //     btx = gameCanvas.context;
+        //     btx.fillStyle = "grey";
+        //     btx.fillRect(this.x, this.y, this.width, this.height);
         
-        //     //  Create a draw function
-        //     this.draw = function() { 
-        //         this.draw.forEach(backgroundLayer => {
-        //             backgroundLayer.draw();
-        //         })
         // }
-        // // this.draw = function() {
-        // //     console.log("render background")
-        // //     btx = gameCanvas.context;
-        // //     btx.fillStyle = "grey";
-        // //     btx.fillRect(this.x, this.y, this.width, this.height);
-        
-        // // }
 
-        // }
+        }
 
 
 
 
-//*Function to render the obstacles contains the: image, speed,
-//and continue.
+
 
 
     var obstaclePositionY = 250;
     var objectbaseMoveSpeed = 5;  
     var obstacle;
 
-
+// *Function to render the obstacles contains the: image, speed,
+// and continue.
     function renderObstacle(width, height, x, obstacleMoveSpeed) {
 
         this.width = width;
@@ -283,7 +283,6 @@ let CROW_FLAPS_PER_TICK = 20;
         
         return(x);
     }
-
     this.continueAttack = function() {
         if (this.x > canvasWidth-300) {
             
@@ -293,15 +292,26 @@ let CROW_FLAPS_PER_TICK = 20;
             obstacleMoveSpeed = obstacleMoveSpeed
         } 
     }
-
         this.draw = function () {
         otx = gameCanvas.context;
         otx.fillStyle = "grey";
-         otx.fillRect(this.x, this.y, this.width, this.height);
-          
+         otx.fillRect(this.x, this.y, this.width, this.height);       
     }
 
-} //end  of renderObject function
+
+} 
+
+
+
+    this.flyingEnemy = function() {
+        
+
+
+    }
+
+//end  of renderObject function
+
+
 
 //*
 //* Random Number (min-max) function {min,max}
@@ -401,11 +411,11 @@ function endofGame() {
 
          renderObstacle();
 
-        //  background.draw();
+         background.draw();
 
         
-        // background.layerMovement();
-        //  background.layersMovement();
+        //  background.layerMovement();
+         background.layersMovement();
 
         player.makeFall();
         player.draw();
@@ -435,7 +445,7 @@ const overlay = document.querySelector('.overlay');
 const endGameScreen = document.querySelector('.end-game-screen');
 const pop = document.getElementById('reset');
 
-pop.addEventListener('click', openGC);
+// pop.addEventListener('click', openGC);
 
 function openGC() {
     gameOverBox.classList.remove('hidden'); 

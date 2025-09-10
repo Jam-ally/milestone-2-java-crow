@@ -182,7 +182,9 @@ header {
 /* Game Tile Styles - hold the game display */
 
 .game-tile {
-    height: 80vh;
+    height: fit-content;
+    min-height: 50vh;
+    max-height: 100%;
     width: 95%;
     border: 2px solid black;
     background-color: rgb(226, 197, 144);
@@ -255,12 +257,12 @@ canvas {
     /* top: 50%;
     left: 50%; */
     /* margin-left: 50%; */
-    margin-top: 10%;  
-    margin-bottom: auto;
+    margin-top: 2%;  
+    margin-bottom: 2%;
     padding-bottom: 2px;
     
     max-width: 100%;
-    max-height: 100%;
+    max-height: 95%;
     z-index: 1;
     
 }
