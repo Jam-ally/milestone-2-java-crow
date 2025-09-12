@@ -73,12 +73,24 @@ function startGame() {
 
 
 
+
+
 function addEnemies () {
     enemies.push(new renderGroundEnemy);
     console.log("Enemy Created");
 }
 
 // check if the enemy is offscreen
+
+
+
+//intro game page
+
+const introPage = document.getElementById("intro");
+
+    introPage.addEventListener('click',() => {
+        window.location.href="game.html";
+    })
 
 
 
@@ -632,7 +644,7 @@ function openGC() {
 }
 
 function closeGC() {
-    
+
     gameOverBox.classList.add('hidden'); 
     overlay.classList.add('hidden');
     

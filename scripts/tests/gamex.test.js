@@ -2,20 +2,54 @@
  * @jest-environment jsdom
  */
 
-const{ game}  = require("../game1");
+const{ game, newGame, showScore}  = require("../game2");
+
+
+
 
 beforeAll(() => {
     let fs = require("fs");
     let fileContents = fs.readFileSync("index.html", "utf-8");
     document.body.innerHTML = fileContents;
+    
 });
 
 
-// describe("game object contains correct keys", () =>{
-//     test("score key exists", () => {
-//         expect("score" in game).toBe(true);        
-//     });
-// });
+describe("game object contains correct keys", () =>{
+    test("score key exists", () => {
+        expect("score" in game).toBe(true);        
+    });
+        test("currentPage key exists", () => {
+        expect("pageNumber" in game).toBe(true);        
+    });
+        test("Previous button exists", () => {
+        expect(game.storyButtons).toEqual(["previous-button","next-button","skip-button"]) ;     
+    });
+});
+
+describe("game object contains correct keys", () => {
+    beforeAll(() => {
+        game.score = 42;
+        game.storyButtons = ["next-button","previous-button"];
+        
+        document.getElementById("score").textContent = "6";
+        
+
+        newGame();
+        // showScore();
+    });
+    test("should set the game score to zero", () => {
+        expect(game.score).toEqual(0);
+    });
+        test("should clear story board array", () => {
+        expect(game.playerStoryOptions.length).toBe(0);
+    });
+        test("should display 0 for the element with the id of score", () => {
+        expect(document.getElementById("score").textContent).toBe("0");
+    });
+
+    
+});
 
 
 

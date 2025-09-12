@@ -16,54 +16,71 @@
     <!-- CSS style sheet -->
     <link type="text/css" rel="stylesheet" href="assets/css/style.css">
 
-    <!-- JavaScript script sheet -->
-    <link type="text/js" rel="js" href="scripts/game2.js" >
+    <!-- JavaScript script sheet
+    <link type="text/js" rel="js" href="scripts/game2.js" > -->
     <title>Food Bird | Game</title>
     
 </head>
 <body>
     <div class="game-grid">
 
-        <div id="box1" class="box ">
+        <div class="title-screen">
+            <h1 id="title-screen-game-name" class="none" >Food Bird</h1>
+            
+        
+
+        <div id="box1" class="box none ">
             <p>The wind blows through the streets, a distant sound of car engines and the sounds of the city.....</p>
         </div>
-        <div id="box2" class="box ">
+        <div id="box2" class="box none ">
             <p>A glimering black figure cuts through the air. Green and Blue shimmer as the dark majestic figure approaches...</p>
         </div>
-        <div id="box3" class="box ">
+        <div id="box3" class="box none ">
             <p>The dark figure lands with thud.</p>
             <p>Strength, Awe and eire of wimsy.</p>
         </div>
-        <div id="box4" class="box ">
+        <div id="box4" class="box none ">
             <p>Crafty crow, Arrives</p>
         </div>
-        <div id="box5" class="box ">
+        <div id="box5" class="box none ">
             <p>Stone Piercer: "Good night, Lovely"</p>
             <p>A crude yet let loving voice responds: "Hey. am Hugry</p>
         </div>
-        <div id="box6" class="box ">
+        <div id="box6" class="box none ">
             <p>.....</p>
         </div>
-        <div id="box7" class="box ">
+        <div id="box7" class="box none ">
             <p>Looks like Stone Piercer has another mission.</p>
             <p>Visit the City and collect food for Ms Crow. Be Aware! Hunger brings crankiness.</p>
         </div>
         
-        <div id="box8" class="box ">
+        <div id="box8" class="box none ">
             <p>And Let's Go!</p>
         </div>
 
+        <div id="start-panel" class="button-top-panel">
+            <button id="start-story-button">Start Story</button>
+        </div>
+        
+
         <div class="button-panel">
-            <button id="previous">Previous</button>
-            <button id="next">Next</button>
+            <button id="previous-button" class="none">Previous</button>
+            <button id="next-button" class="none">Next</button>
+            <a id="fly-page" class="none" rel="noopener"><button id="start-flygame-button" class="none">Start!!</button></a>
+            <!-- <span id="score">5</span> -->
+        </div>
+
+
         </div>
         
     </div>
     
+
 </body>
 
       <!-- JS -->
-<script type="" src="scripts/game1.js"></script>
+<!-- <script type="" src="scripts/game1.js"></script> -->
 <script type="" src="scripts/game2.js"></script>
+
         
 </html>   
