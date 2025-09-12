@@ -247,6 +247,12 @@ header {
 
 #player1 {
     z-index: 5;
+    display: none;
+}
+
+
+#groundObstacle {
+   display: none; 
 }
 
 canvas {

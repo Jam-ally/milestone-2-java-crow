@@ -20,7 +20,7 @@ let game ={
     // gameBackground = gameBackground(),
     // renderCrow = renderCrow(),
     // moveCrow = moveCrow(),
-    // renderObstacle = renderObstacle(),
+    // renderGroundEnemy = renderGroundEnemy(),
     score: 0,
 
 };
@@ -29,7 +29,7 @@ let game ={
 
 var canvasWidth = 650;
 var canvasHeight = 500;
-var flightMinHeight = canvasHeight-10;
+var flightMinHeight = canvasHeight-80;
 var  gameWindow = document.getElementById("game-window");
 var play;
 var gameRunning;
@@ -49,19 +49,39 @@ function startGame() {
     gameCanvas.start();
     // create our player using function  
     player = new renderCrow();
-    obstacle = new renderObstacle(30, 100, 10, 5);
+    obstacle = new renderGroundEnemy();
+    skyObstacle = new renderFlyingEnemy ();
     background = new gameBackground();
 
     // background = new backgroundLayer();
     var gameRunning = true;
-    var interval = setInterval(updateCanvas, 20);
+    gameDelta = 20;
+    gameDeltaTimer = 1;
+    var interval = setInterval(updateCanvas, gameDelta);
     console.log(gameRunning);
     givePlayerLives();
+    enemies = [];
+    enemyTimer = 0;
+    enemyInterval = 100;
+    console.log(gameDelta);
+
     
     
 }
 
 // Full Screen 
+
+
+
+function addEnemies () {
+    enemies.push(new renderGroundEnemy);
+    console.log("Enemy Created");
+}
+
+// check if the enemy is offscreen
+
+
+
 
 const toggleFullScreen = document.querySelector('#game-start-button');
 const fullGameWindow = document.querySelector('.game-tile');
@@ -186,7 +206,7 @@ let CROW_FLAPS_PER_TICK = 20;
 // GAme Background
 
     function backgroundLayer (gameSpeed, width, height, speedModifier, image) {
-         console.log("display background layer 1")
+        //  console.log("display background layer 1")
          //assumes that the width and height of all images match.
         // this.game = game;
         this.width = width;
@@ -221,8 +241,8 @@ let CROW_FLAPS_PER_TICK = 20;
 
     function gameBackground() { 
             // this.game = game;
-        console.log("Started moving background.");
-        console.log("display background");
+        // console.log("Started moving background.");
+        // console.log("display background");
         this.width = 889;
         this.height = 500;
         this.layersImage = document.getElementById(`layer1`);
@@ -231,7 +251,7 @@ let CROW_FLAPS_PER_TICK = 20;
         this.backgroundLayers = [layer1];
 
         this.layersMovement = function() {
-            console.log("background draw function")
+            // console.log("background draw function")
             this.backgroundLayers.forEach(backgroundLayer => {
                 backgroundLayer.layerMovement();
             })
@@ -239,7 +259,7 @@ let CROW_FLAPS_PER_TICK = 20;
     
         //  Create a draw function
         this.draw = function() { 
-            console.log("background draw function")
+            // console.log("background draw function")
             this.backgroundLayers.forEach(backgroundLayer => {
                 backgroundLayer.draw();
             })
@@ -254,25 +274,112 @@ let CROW_FLAPS_PER_TICK = 20;
 
         }
 
+    var obstaclePositionY = 250;
+    var objectbaseMoveSpeed = 5;  
+    var obstacle;
+    var obstacleMoveSpeed = 5;
+
+// function generateEnemy() {
+
+//         // this.frameX = 0;
+//         // this.frameY = 0;
+//         this.fps = 20;
+//         this.frameinterval = 1000/this.fps;
+//         this.frameTimer = 0;
+        //    this.OffScreenEnemy = false;
+    
+//     this.update = function () {
+//         this.x = this.attackSpeedX;
+//         this.y = this.attackSpeedY;
+//         if (this.frameTimer > this.frameInterval){
+//             this.framTimer = 0;
+//             if (this.frameX < this.maxFrame) {
+//                 this.frameX++;}
+//             else this.frameX = 0;
+//         } else {
+//             this.frameTimer += gameTime;
+//         }
+//     }
+//     this.draw = function () {
+//         console.log("enemys");
+//         gameCanvas.context.drawImage(this.image, this.x, this.y, this.width, this.height,)
+//     }
+
+
+//     }
 
 
 
+
+
+// *Function to render the obstacles contains the: image, speed,
+// and continue.
+    function renderGroundEnemy() {
+        
+        this.width = 67;
+        this.height = 150;
+        this.x = 10
+        this.y = canvasHeight - this.height;
+        objectMoveSpeed = 5;
+        this.image = document.getElementById('groundObstacle');
+
+        // this.width = width;
+        // this.height = height;
+        // this.x = x
+        // this.y = canvasHeight - this.height;
+        // objectMoveSpeed = obstacleMoveSpeed
+
+    this.attackSpeed= function () {
+
+        this.x += obstacleMoveSpeed;
+        // obstacleMoveSpeed -= 0.005;
+        obstacleMoveSpeed.min = 2
+        
+        // this.continueAttack();
+        
+        return(x);
+    }
+    // this.continueAttack = function() {
+    //     if (this.x > canvasWidth-300) {
+            
+    //         obstacleMoveSpeed = randomNumber(2,5);
+    //         this.y = canvasHeight - this.height;
+    //         this.x = 0;
+    //         obstacleMoveSpeed = obstacleMoveSpeed
+    //     } 
+    // }
+        this.draw = function () {
+        otx = gameCanvas.context;
+        // otx.fillStyle = "grey";
+        //  otx.fillRect(this.x, this.y, this.width, this.height); 
+        otx.drawImage(this.image, this.x, this.y, this.width, this.height,)
+    }
+
+
+} 
 
 
 
     var obstaclePositionY = 250;
     var objectbaseMoveSpeed = 5;  
     var obstacle;
+    var obstacleMoveSpeed = 5;
 
-// *Function to render the obstacles contains the: image, speed,
-// and continue.
-    function renderObstacle(width, height, x, obstacleMoveSpeed) {
 
-        this.width = width;
-        this.height = height;
-        this.x = x
-        this.y = canvasHeight - this.height;
-        objectMoveSpeed = obstacleMoveSpeed
+    //* Sky enemy object function 
+    function renderFlyingEnemy() {
+
+        // this.width = width;
+        // this.height = height;
+        // this.x = x
+        // this.y = canvasHeight - this.height;
+        // objectMoveSpeed = obstacleMoveSpeed
+
+        this.width = 70;
+        this.height = 50;
+        this.x = 0;
+        this.y = this.height +10;
+        objectMoveSpeed = 5;
 
     this.attackSpeed= function () {
         this.x += obstacleMoveSpeed;
@@ -287,30 +394,64 @@ let CROW_FLAPS_PER_TICK = 20;
         if (this.x > canvasWidth-300) {
             
             obstacleMoveSpeed = randomNumber(2,5);
-            this.y = canvasHeight - this.height;
+            this.y = this.height +10;
             this.x = 0;
             obstacleMoveSpeed = obstacleMoveSpeed
         } 
     }
         this.draw = function () {
-        otx = gameCanvas.context;
-        otx.fillStyle = "grey";
-         otx.fillRect(this.x, this.y, this.width, this.height);       
+        ostx = gameCanvas.context;
+        ostx.fillStyle = "grey";
+        ostx.fillRect(this.x, this.y, this.width, this.height);       
+    }
+    
     }
 
 
-} 
+    //* Air enemy object function 
+    function renderAirEnemy() {
 
+        // this.width = width;
+        // this.height = height;
+        // this.x = x
+        // this.y = canvasHeight - this.height;
+        // objectMoveSpeed = obstacleMoveSpeed
 
+        this.width = 70;
+        this.height = 50;
+        this.x = 0;
+        this.y = this.height +10;
+        objectMoveSpeed = 5;
 
-    this.flyingEnemy = function() {
+    this.attackSpeed= function () {
+        this.x += obstacleMoveSpeed;
+        // obstacleMoveSpeed -= 0.005;
+        obstacleMoveSpeed.min = 2
         
-
-
+        this.continueAttack();
+        
+        return(x);
+    }
+    this.continueAttack = function() {
+        if (this.x > canvasWidth-300) {
+            
+            obstacleMoveSpeed = randomNumber(2,5);
+            this.y = this.height +10;
+            this.x = 0;
+            obstacleMoveSpeed = obstacleMoveSpeed
+        } 
+    }
+        this.draw = function () {
+        ostx = gameCanvas.context;
+        ostx.fillStyle = "grey";
+        ostx.fillRect(this.x, this.y, this.width, this.height);       
+    }
+    
     }
 
-//end  of renderObject function
 
+    
+//end  of renderObject function
 
 
 //*
@@ -409,7 +550,23 @@ function endofGame() {
          ctx = gameCanvas.context;
          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-         renderObstacle();
+         renderGroundEnemy();
+         renderFlyingEnemy ();
+
+         
+
+         if (enemyTimer >= enemyInterval) {
+            addEnemies();
+            enemyTimer = 0;
+            console.log(enemyTimer);
+        } else {
+            enemyTimer += gameDeltaTimer;
+            console.log(enemyTimer);
+        }
+
+    
+
+
 
          background.draw();
 
@@ -424,7 +581,27 @@ function endofGame() {
         
         obstacle.draw();
         obstacle.attackSpeed();
-        obstacle.continueAttack();
+        // obstacle.continueAttack();
+
+        enemies.forEach(renderGroundEnemy => {
+            renderGroundEnemy.draw();
+            renderGroundEnemy.attackSpeed();
+            renderGroundEnemy.max =10;
+            console.log(enemies);
+                if (renderGroundEnemy.x > canvasWidth) {
+             this.OffScreenEnemy = true;
+        }
+            // if (renderGroundEnemy.OffScreenEnemy = true) {
+            //     console.log("remove form enemies")
+            //     this.enemies.splice(this.enemies.indexOf(renderGroundEnemy), 1)
+            // }
+            // console.log(enemies);
+        })
+
+
+        skyObstacle.draw();
+        skyObstacle.attackSpeed();
+        skyObstacle.continueAttack();
 
         //   detectCollision();
 
