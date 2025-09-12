@@ -164,7 +164,7 @@ let CROW_FLAPS_PER_TICK = 20;
         //create a makeFall function
         this.makeFall = function() {
             this.y += fallSpeed;
-            fallSpeed  += 0.005;
+            fallSpeed  += 0.0005;
             //call the stopPlayer functon
             this.stopPlayer();    
         }
@@ -220,11 +220,12 @@ let CROW_FLAPS_PER_TICK = 20;
         // this.image = document.getElementById('layer1');
         
         this.x = canvasWidth-this.width;
+        // this.x = canvasWidth - 960;
         this.y = 0;
         
 
          this.layerMovement = function() {
-             if(this.x > this.width-canvasWidth-10) {
+             if(this.x > canvasWidth - 960) {
                  this.x = canvasWidth-this.width;
              } else {
                 this.x += this.scrollSpeed;
@@ -243,7 +244,7 @@ let CROW_FLAPS_PER_TICK = 20;
             // this.game = game;
         // console.log("Started moving background.");
         // console.log("display background");
-        this.width = 889;
+        this.width = 2535;
         this.height = 500;
         this.layersImage = document.getElementById(`layer1`);
         this.layer1 = new backgroundLayer(5, this.width, this.height, 1, this.layersImage);
