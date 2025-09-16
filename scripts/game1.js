@@ -218,21 +218,18 @@ let CROW_FLAPS_PER_TICK = 20;
 // GAme Background
 
     function backgroundLayer (gameSpeed, width, height, speedModifier, image) {
-        //  console.log("display background layer 1")
+        
          //assumes that the width and height of all images match.
-        // this.game = game;
+       
         this.width = width;
         this.height = height;
         this.speedModifier = speedModifier;
         this.image = image;
         this.scrollSpeed = gameSpeed;
-        // this.width = 889;
-        // this.height = 500;
-        // this.speedModifier = 1;
-        // this.image = document.getElementById('layer1');
+
         
         this.x = canvasWidth-this.width;
-        // this.x = canvasWidth - 960;
+       
         this.y = 0;
         
 
@@ -246,16 +243,13 @@ let CROW_FLAPS_PER_TICK = 20;
 
         this.draw = function() {
             ltx =gameCanvas.context;
-            // ltx.fillStyle = "green";
-            // ltx.fillRect(this.x, this.y, this.width, this.height);
+    
             ltx.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
     }
 
     function gameBackground() { 
-            // this.game = game;
-        // console.log("Started moving background.");
-        // console.log("display background");
+     
         this.width = 2535;
         this.height = 500;
         this.layersImage = document.getElementById(`layer1`);
@@ -264,7 +258,7 @@ let CROW_FLAPS_PER_TICK = 20;
         this.backgroundLayers = [layer1];
 
         this.layersMovement = function() {
-            // console.log("background draw function")
+            // background layermovement
             this.backgroundLayers.forEach(backgroundLayer => {
                 backgroundLayer.layerMovement();
             })
@@ -272,18 +266,12 @@ let CROW_FLAPS_PER_TICK = 20;
     
         //  Create a draw function
         this.draw = function() { 
-            // console.log("background draw function")
+            // "background draw function"
             this.backgroundLayers.forEach(backgroundLayer => {
                 backgroundLayer.draw();
             })
         }
-        // this.draw = function() {
-        //     console.log("render background")
-        //     btx = gameCanvas.context;
-        //     btx.fillStyle = "grey";
-        //     btx.fillRect(this.x, this.y, this.width, this.height);
-        
-        // }
+
 
         }
 
@@ -616,7 +604,7 @@ function endofGame() {
         skyObstacle.attackSpeed();
         skyObstacle.continueAttack();
 
-        //   detectCollision();
+          detectCollision();
 
            
     // create our player using function  

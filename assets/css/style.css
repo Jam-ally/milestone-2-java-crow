@@ -246,9 +246,9 @@ header {
         display: flex;
         justify-content: center;
         align-content: center;
-        margin-top: 2px;
+        margin-top: auto;
         margin-bottom: 2%;
-        padding: 2px;
+        padding: 1px;
 }
 
     .title-tile {
@@ -645,8 +645,9 @@ h3 {
     
     nav{ 
         background-color: blueviolet;
-        height: 60px;
-        margin-bottom: auto;
+        min-height: 60px;
+        /* margin-bottom: auto; */
+        height: fit-content;
         
     
     }
