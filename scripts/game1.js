@@ -64,8 +64,6 @@ function startGame() {
     enemyTimer = 0;
     enemyInterval = 100;
     console.log(gameDelta);
-
-    
     
 }
 
@@ -77,7 +75,7 @@ function startGame() {
 
 function addEnemies () {
     enemies.push(new renderGroundEnemy);
-    console.log("Enemy Created");
+    // console.log("Enemy Created");
 }
 
 // check if the enemy is offscreen
@@ -123,6 +121,8 @@ function gameReset() {
 
 
 
+
+
     var gameCanvas = {
     canvas: document.createElement("canvas"),
     start: function ctx() {
@@ -132,6 +132,26 @@ function gameReset() {
         gameWindow.insertAdjacentElement("afterbegin", this.canvas);
     }
     }
+
+        gameCanvas.canvas.addEventListener('mousedown', event => {
+        console.log(event.code);
+        console.log(event.offsetX, event.offsetY);
+        screenTouch =  [];
+        screenTouch.push(event.offsetX);
+
+        
+
+            // if (event.offsetY <= (canvasHeight/2)) {
+            //     this.y -= CROW_FLAPS_PER_TICK;
+            //      console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+
+            // }
+    })
+
+
+
+
+
 
 //create player variable 
 var player = 0;
@@ -164,7 +184,8 @@ let CROW_FLAPS_PER_TICK = 20;
         this.windowWall = function() {
             if(this.y >  flightMinHeight) {
                 this.y = flightMinHeight;
-                console.log("sqwaak")
+                console.log("sqwaak");
+                gameCanvas.canvas.style.border = "red solid 5px";
             } 
             if(this.y < -16 ) {
                 this.y = -16;
@@ -193,12 +214,24 @@ let CROW_FLAPS_PER_TICK = 20;
         window.addEventListener('keydown', event => {
             console.log(event.code);
             console.log("button was pressed");
+
               if (event.code == "ArrowUp") {
                 this.y -= CROW_FLAPS_PER_TICK;
                  console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
-
+                
               }
         })
+
+    //     gameCanvas.canvas.addEventListener('mousemove', event => {
+    //     console.log(event.code);
+    //     console.log(event.offsetX, event.offsetY);
+
+    //         if (event.offsetY <= (canvasHeight/2)) {
+    //             this.y -= CROW_FLAPS_PER_TICK;
+    //              console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+
+    //         }
+    // })
       
         window.addEventListener('keydown', event => {
             console.log(event.code);
@@ -210,9 +243,25 @@ let CROW_FLAPS_PER_TICK = 20;
               }
         })        
 
+        gameCanvas.canvas.addEventListener('mouseover', event => {
+        console.log(event.code);
+        console.log(event.offsetX, event.offsetY);
+
+            if (event.offsetY > (canvasHeight/2)) {
+                this.y += CROW_FLAPS_PER_TICK;
+                 console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+
+            }
+    })
        
         
     }
+
+
+    gameCanvas.canvas.addEventListener('mousedown', event => {
+        console.log(event.code);
+        console.log(event.offsetX, event.offsetY);
+    })
 
 
 // GAme Background
@@ -471,6 +520,7 @@ function moveCrow(event) {
   
   if (event.code == "ArrowUp") {
     moveCrowUp();
+    
 
   }
   else if (event.code == "ArrowDown") {
@@ -502,7 +552,7 @@ function detectCollision() {
     
     
     if (playerLives > 1) {
-        console.log("check for collision");
+        // console.log("check for collision");
 
     if (
         obstacleRight > playerLeft &&
@@ -525,14 +575,14 @@ function detectCollision() {
         gameReset();
        
     } else {
-        console.log("safe");
+        // console.log("safe");
     }
 
         } else {
         console.log("no checks");
     }
 
-    console.log(playerLives);
+    // console.log(playerLives);
    
 }
 
@@ -556,14 +606,14 @@ function endofGame() {
 
          
 
-         if (enemyTimer >= enemyInterval) {
-            addEnemies();
-            enemyTimer = 0;
-            console.log(enemyTimer);
-        } else {
-            enemyTimer += gameDeltaTimer;
-            console.log(enemyTimer);
-        }
+        //  if (enemyTimer >= enemyInterval) {
+        //     addEnemies();
+        //     enemyTimer = 0;
+        //     console.log(enemyTimer);
+        // } else {
+        //     enemyTimer += gameDeltaTimer;
+        //     console.log(enemyTimer);
+        // }
 
     
 
@@ -588,7 +638,7 @@ function endofGame() {
             renderGroundEnemy.draw();
             renderGroundEnemy.attackSpeed();
             renderGroundEnemy.max =10;
-            console.log(enemies);
+            // console.log(enemies);
                 if (renderGroundEnemy.x > canvasWidth) {
              this.OffScreenEnemy = true;
         }
