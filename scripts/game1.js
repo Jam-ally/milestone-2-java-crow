@@ -52,6 +52,7 @@ function startGame() {
     obstacle = new renderGroundEnemy();
     skyObstacle = new renderFlyingEnemy ();
     background = new gameBackground();
+    movement = new playerMovement();
 
     // background = new backgroundLayer();
     var gameRunning = true;
@@ -133,6 +134,21 @@ function gameReset() {
     }
     }
 
+    playerUpButton = document.getElementById("player-up-button");
+    playerDownButton = document.getElementById("player-down-button");
+
+        function playerMovement() {
+
+            playerUpButton.addEventListener('click', event => {
+                console.log("upbutton pressed");
+   
+            })
+
+            playerDownButton.addEventListener('click', event => {
+                console.log("downbutton pressed");
+            })
+        }
+
         gameCanvas.canvas.addEventListener('mousedown', event => {
         console.log(event.code);
         console.log(event.offsetX, event.offsetY);
@@ -147,6 +163,10 @@ function gameReset() {
 
             // }
     })
+
+    function playerMovementControls() {
+
+    }      
 
 
 
@@ -222,6 +242,15 @@ let CROW_FLAPS_PER_TICK = 20;
               }
         })
 
+        playerUpButton.addEventListener('click', event => {
+            console.log("upbutton pressed");   
+ 
+            this.y -= CROW_FLAPS_PER_TICK;
+            console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+
+        
+        })
+
     //     gameCanvas.canvas.addEventListener('mousemove', event => {
     //     console.log(event.code);
     //     console.log(event.offsetX, event.offsetY);
@@ -241,7 +270,15 @@ let CROW_FLAPS_PER_TICK = 20;
                  console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
 
               }
-        })        
+        }) 
+        
+        playerDownButton.addEventListener('click', event => {
+        console.log("downbutton pressed");   
+ 
+            this.y += CROW_FLAPS_PER_TICK;
+            console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+
+        })
 
         gameCanvas.canvas.addEventListener('mouseover', event => {
         console.log(event.code);
@@ -601,7 +638,9 @@ function endofGame() {
          ctx = gameCanvas.context;
          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-         renderGroundEnemy();
+         playerMovement();
+
+         renderGroundEnemy();   
          renderFlyingEnemy ();
 
          
