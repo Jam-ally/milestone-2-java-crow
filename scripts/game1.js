@@ -44,15 +44,13 @@ startButton.addEventListener('click',() => {
 })
 
 function startGame() {
-    let gameSpeed = 5;
+    let gameSpeed = 2;
     console.log("Game is running");
     gameCanvas.start();
     // create our player using function  
-    player = new renderCrow();
-    obstacle = new renderGroundEnemy();
-    skyObstacle = new renderFlyingEnemy ();
-    background = new gameBackground();
-    movement = new playerMovement();
+
+
+    // upFlap = new crowUp();
 
     // background = new backgroundLayer();
     var gameRunning = true;
@@ -65,6 +63,15 @@ function startGame() {
     enemyTimer = 0;
     enemyInterval = 100;
     console.log(gameDelta);
+    //array stores the player moves
+    playerMoves = [];
+
+
+    player = new renderCrow();
+    obstacle = new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer);
+    // skyObstacle = new renderFlyingEnemy ();
+    background = new gameBackground();
+    movement = new playerMovement();
     
 }
 
@@ -137,17 +144,6 @@ function gameReset() {
     playerUpButton = document.getElementById("player-up-button");
     playerDownButton = document.getElementById("player-down-button");
 
-        function playerMovement() {
-
-            playerUpButton.addEventListener('click', event => {
-                console.log("upbutton pressed");
-   
-            })
-
-            playerDownButton.addEventListener('click', event => {
-                console.log("downbutton pressed");
-            })
-        }
 
         gameCanvas.canvas.addEventListener('mousedown', event => {
         console.log(event.code);
@@ -182,6 +178,8 @@ var playerPositionY = canvasHeight/2;
 var fallSpeed= 0;
 //This flaps per tick is movement in the y direction
 let CROW_FLAPS_PER_TICK = 20;
+// Factor in the reduced read time of screen button
+let screen_button_factor = 10;
 
 
 //*Function to create the player
@@ -238,18 +236,21 @@ let CROW_FLAPS_PER_TICK = 20;
               if (event.code == "ArrowUp") {
                 this.y -= CROW_FLAPS_PER_TICK;
                  console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+                 playerMoves.push("upArrow")
                 
               }
         })
 
-        playerUpButton.addEventListener('click', event => {
-            console.log("upbutton pressed");   
- 
-            this.y -= CROW_FLAPS_PER_TICK;
-            console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+        // playerUpButton.addEventListener('click', crowUp); 
 
-        
-        })
+        //     console.log(" new upbutton pressed");      
+
+            // this.crowUp() = function() {
+                
+            //     this.y -= CROW_FLAPS_PER_TICK;
+            //     console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+
+            // }
 
     //     gameCanvas.canvas.addEventListener('mousemove', event => {
     //     console.log(event.code);
@@ -268,16 +269,25 @@ let CROW_FLAPS_PER_TICK = 20;
               if (event.code == "ArrowDown") {
                 this.y += CROW_FLAPS_PER_TICK;
                  console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
-
+                playerMoves.push("downArrow")
               }
         }) 
+
+        playerUpButton.addEventListener('click', event => {
+        console.log("upbutton pressed");   
+ 
+            this.y -= CROW_FLAPS_PER_TICK + screen_button_factor;
+            console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+            playerMoves.push("upButton")
+
+        })
         
         playerDownButton.addEventListener('click', event => {
         console.log("downbutton pressed");   
  
-            this.y += CROW_FLAPS_PER_TICK;
+            this.y += CROW_FLAPS_PER_TICK + screen_button_factor;
             console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
-
+            playerMoves.push("downButton")
         })
 
         gameCanvas.canvas.addEventListener('mouseover', event => {
@@ -290,10 +300,8 @@ let CROW_FLAPS_PER_TICK = 20;
 
             }
     })
-       
-        
+          
     }
-
 
     gameCanvas.canvas.addEventListener('mousedown', event => {
         console.log(event.code);
@@ -339,7 +347,7 @@ let CROW_FLAPS_PER_TICK = 20;
         this.width = 2535;
         this.height = 500;
         this.layersImage = document.getElementById(`layer1`);
-        this.layer1 = new backgroundLayer(5, this.width, this.height, 1, this.layersImage);
+        this.layer1 = new backgroundLayer(2, this.width, this.height, 1, this.layersImage);
         let layer1 = this.layer1;
         this.backgroundLayers = [layer1];
 
@@ -366,14 +374,15 @@ let CROW_FLAPS_PER_TICK = 20;
     var obstacle;
     var obstacleMoveSpeed = 5;
 
-// function generateEnemy() {
+// function generateEnemy(gameSpeed) {
 
 //         // this.frameX = 0;
 //         // this.frameY = 0;
+//         this.gameSpeed = gameSpeed;
 //         this.fps = 20;
 //         this.frameinterval = 1000/this.fps;
 //         this.frameTimer = 0;
-        //    this.OffScreenEnemy = false;
+//            this.OffScreenEnemy = false;
     
 //     this.update = function () {
 //         this.x = this.attackSpeedX;
@@ -395,20 +404,37 @@ let CROW_FLAPS_PER_TICK = 20;
 
 //     }
 
+function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
+    this.gameSpeed = gameSpeed;
+    this.enemyInterval = enemyInterval;
+    this.enemyTimer = enemyTimer
+
+    this.x = 0;
+    this.y = canvasHeight - this.height;
+    
+    // obstacle = new renderGroundEnemy(this.gameSpeed)
+    
+}
 
 
 
 
 // *Function to render the obstacles contains the: image, speed,
 // and continue.
-    function renderGroundEnemy() {
-        
+
+//enemyInterval, enemyTimer, obstacleMoveSpeed
+
+    function renderGroundEnemy(obstacleMoveSpeed) {
+        // this.enemyInterval = enemyInterval;
+        // this.enemyTimer = enemyTimer;
+        this.obstacleMoveSpeed = obstacleMoveSpeed
         this.width = 67;
         this.height = 150;
-        this.x = 10
+        this.x = 5
         this.y = canvasHeight - this.height;
-        objectMoveSpeed = 5;
+        // objectMoveSpeed = 5;
         this.image = document.getElementById('groundObstacle');
+        
 
         // this.width = width;
         // this.height = height;
@@ -418,22 +444,36 @@ let CROW_FLAPS_PER_TICK = 20;
 
     this.attackSpeed= function () {
 
+        if (obstacleMoveSpeed > 1 && this.x > (canvasWidth/2)) {
+            //approach slow factor
+            obstacleMoveSpeed -= 0.005;
+        }
         this.x += obstacleMoveSpeed;
-        // obstacleMoveSpeed -= 0.005;
-        obstacleMoveSpeed.min = 2
         
         // this.continueAttack();
         
-        return(x);
+        return(this.x);
     }
     // this.continueAttack = function() {
     //     if (this.x > canvasWidth-300) {
             
-    //         obstacleMoveSpeed = randomNumber(2,5);
+    //         obstacleMoveSpeed = randomNumber(1,2);
     //         this.y = canvasHeight - this.height;
     //         this.x = 0;
     //         obstacleMoveSpeed = obstacleMoveSpeed
     //     } 
+
+
+        // if (enemyTimer => enemyInterval) {
+         
+        //     obstacleMoveSpeed = randomNumber(1,2);
+        //     this.y = canvasHeight - this.height;
+        //     this.x = 0;
+        //     obstacleMoveSpeed = obstacleMoveSpeed
+        //     new renderGroundEnemy(enemyInterval,enemyTimer,obstacleMoveSpeed)
+        //     return(obstacleMoveSpeed)
+            
+        // }
     // }
         this.draw = function () {
         otx = gameCanvas.context;
@@ -444,8 +484,6 @@ let CROW_FLAPS_PER_TICK = 20;
 
 
 } 
-
-
 
     var obstaclePositionY = 250;
     var objectbaseMoveSpeed = 5;  
@@ -511,7 +549,8 @@ let CROW_FLAPS_PER_TICK = 20;
         objectMoveSpeed = 5;
 
     this.attackSpeed= function () {
-        this.x += obstacleMoveSpeed;
+        // this.x += obstacleMoveSpeed;
+        this.x += 10;
         // obstacleMoveSpeed -= 0.005;
         obstacleMoveSpeed.min = 2
         
@@ -522,7 +561,7 @@ let CROW_FLAPS_PER_TICK = 20;
     this.continueAttack = function() {
         if (this.x > canvasWidth-300) {
             
-            obstacleMoveSpeed = randomNumber(2,5);
+            obstacleMoveSpeed = randomNumber(1,10);
             this.y = this.height +10;
             this.x = 0;
             obstacleMoveSpeed = obstacleMoveSpeed
@@ -618,18 +657,17 @@ function detectCollision() {
         } else {
         console.log("no checks");
     }
-
     // console.log(playerLives);
    
 }
+
+
 
 //##########################################
 
 function endofGame() {
     updateCanvas.stop;
-    openGC()
-
-    
+    openGC();
 }
 //########################################
 
@@ -638,12 +676,8 @@ function endofGame() {
          ctx = gameCanvas.context;
          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-         playerMovement();
-
          renderGroundEnemy();   
-         renderFlyingEnemy ();
-
-         
+        //  renderFlyingEnemy ();
 
         //  if (enemyTimer >= enemyInterval) {
         //     addEnemies();
@@ -654,13 +688,7 @@ function endofGame() {
         //     console.log(enemyTimer);
         // }
 
-    
-
-
-
          background.draw();
-
-        
         //  background.layerMovement();
          background.layersMovement();
 
@@ -678,9 +706,9 @@ function endofGame() {
             renderGroundEnemy.attackSpeed();
             renderGroundEnemy.max =10;
             // console.log(enemies);
-                if (renderGroundEnemy.x > canvasWidth) {
-             this.OffScreenEnemy = true;
-        }
+        //         if (renderGroundEnemy.x > canvasWidth) {
+        //      this.OffScreenEnemy = true;
+        // }
             // if (renderGroundEnemy.OffScreenEnemy = true) {
             //     console.log("remove form enemies")
             //     this.enemies.splice(this.enemies.indexOf(renderGroundEnemy), 1)
@@ -689,9 +717,9 @@ function endofGame() {
         })
 
 
-        skyObstacle.draw();
-        skyObstacle.attackSpeed();
-        skyObstacle.continueAttack();
+        // skyObstacle.draw();
+        // skyObstacle.attackSpeed();
+        // skyObstacle.continueAttack();
 
           detectCollision();
 
