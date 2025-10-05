@@ -66,9 +66,10 @@ function startGame() {
     console.log(gameDelta);
     //array stores the player moves
     playerMoves = [];
+    enemyGround= [];
 
     player = new renderCrow();
-    obstacle = new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer);
+    obstacle = new generateEnemy(gameSpeed, enemyInterval, enemyTimer);
     // skyObstacle = new renderFlyingEnemy ();
     background = new gameBackground();
    
@@ -303,10 +304,10 @@ let screen_button_factor = 10;
           
     }
 
-    gameCanvas.canvas.addEventListener('mousedown', event => {
-        console.log(event.code);
-        console.log(event.offsetX, event.offsetY);
-    })
+    // gameCanvas.canvas.addEventListener('mousedown', event => {
+    //     console.log(event.code);
+    //     console.log(event.offsetX, event.offsetY);
+    // })
 
 
 // GAme Background
@@ -374,32 +375,71 @@ let screen_button_factor = 10;
     var obstacle;
     var obstacleMoveSpeed = 5;
 
-function generateEnemy(gameSpeed) {
+function generateEnemy(gameSpeed,  enemyInterval, enemyTimer) {
 
         // this.frameX = 0;
         // this.frameY = 0;
+        canvasHeight = canvasHeight;
+        this.height = 150
         this.gameSpeed = gameSpeed;
+        this.obstacleMoveSpeed = gameSpeed;
+        obstacleMoveSpeed = gameSpeed;
+        this.enemyInterval = enemyInterval;
+        this.enemyTimer = enemyTimer;
+        this.x = 5
         this.fps = 20;
         this.frameinterval = 1000/this.fps;
         this.frameTimer = 0;
-           this.OffScreenEnemy = false;
-    
-    this.update = function () {
-        this.x = this.attackSpeedX;
-        this.y = this.attackSpeedY;
-        if (this.frameTimer > this.frameInterval){
-            this.framTimer = 0;
-            if (this.frameX < this.maxFrame) {
-                this.frameX++;}
-            else this.frameX = 0;
-        } else {
-            this.frameTimer += gameTime;
+
+        this.OffScreenEnemy = false;
+
+        this.enemiesImage = document.getElementById('groundObstacle');
+
+        // otx.drawImage(this.image, 5, (canvasHeight - this.height), 67, 150)
+         let enemyGround = new renderGroundEnemy(this.gameSpeed, this.enemiesImage);
+         this.enemyObstacles = [enemyGround];
+         enemies.push(enemyGround);
+         //renderGroundEnemy.draw();
+
+    this.attackSpeed = function () {
+        // this.x = renderGroundEnemy.attackSpeed()
+        if (obstacleMoveSpeed > 1 && this.x > (canvasWidth/2)) {
+            //approach slow factor
+            obstacleMoveSpeed -= 0.005;
         }
-    }
+        this.x += obstacleMoveSpeed;
+        
+        return this.x;
+    }    
     this.draw = function () {
-        console.log("enemys");
-        gameCanvas.context.drawImage(this.image, this.x, this.y, this.width, this.height,)
+        // console.log("draw enemy");
+        otx = gameCanvas.context;
+        otx.fillStyle = "grey";
+        otx.fillRect((this.x), (canvasHeight - this.height), 67, 150);
+        //  otx.fillRect(enemyGround.x, enemyGround.y, enemyGround.width, enemyGround.height);
     }
+
+
+    
+    // this.update = function () {
+    //     this.x = this.attackSpeedX;
+    //     this.y = this.attackSpeedY;
+    //     if (this.frameTimer > this.frameInterval){
+    //         this.framTimer = 0;
+    //         if (this.frameX < this.maxFrame) {
+    //             this.frameX++;}
+    //         else this.frameX = 0;
+    //     } else {
+    //         this.frameTimer += gameTime;
+    //     }
+    // }
+    // this.draw = function () {
+    //     console.log("enemys");
+    //     this.enemyObsctacles.forEach(renderGroundEnemy => {
+    //         renderGroundEnemy.draw();
+    //     }); 
+    //     // gameCanvas.context.drawImage(this.image, this.x, this.y, this.width, this.height,)
+    // }
 
 
     }
@@ -474,7 +514,7 @@ function generateEnemy(gameSpeed) {
 
 //enemyInterval, enemyTimer, obstacleMoveSpeed
 
-    function renderGroundEnemy(obstacleMoveSpeed) {
+    function renderGroundEnemy(obstacleMoveSpeed, image) {
         // this.enemyInterval = enemyInterval;
         // this.enemyTimer = enemyTimer;
         this.obstacleMoveSpeed = obstacleMoveSpeed
@@ -483,8 +523,9 @@ function generateEnemy(gameSpeed) {
         this.x = 5
         this.y = canvasHeight - this.height;
         // objectMoveSpeed = 5;
-        this.image = document.getElementById('groundObstacle');
-        
+        this.image = image;
+        console.log("draw enemy");
+         
 
         // this.width = width;
         // this.height = height;
@@ -503,10 +544,9 @@ function generateEnemy(gameSpeed) {
         // while (this.x < canvasWidth) {
         this.continueAttack();
         // }
+        return this.x;
         
     }
-
-
         // if (enemyTimer => enemyInterval) {
          
         //     obstacleMoveSpeed = randomNumber(1,2);
@@ -519,24 +559,20 @@ function generateEnemy(gameSpeed) {
         // }
     // }
         this.draw = function () {
+            console.log("draw enemy image");
         otx = gameCanvas.context;
         // otx.fillStyle = "grey";
         //  otx.fillRect(this.x, this.y, this.width, this.height); 
-        otx.drawImage(this.image, this.x, this.y, this.width, this.height,)
+        otx.drawImage(this.image, this.x, this.y, this.width, this.height)
     }
         this.continueAttack = function() {
         if (this.x > canvasWidth) {
+            
 
-           ohp = console.log("obstacle passed");
-           generateEnemy();
-           
-           return
-           
-        //    generateEnemy();
+        //    ohp = console.log("obstacle passed");
+           return;
         } 
     }
- 
-        //    generateEnemy();
          
 } 
 
@@ -743,30 +779,33 @@ function endofGame() {
 
 
           
-         renderGroundEnemy();   
+        //  renderGroundEnemy();   
         //  renderFlyingEnemy ();
         // generateEnemy();  
+        // renderGroundEnemy.draw();
 
         if (enemyTimer >= enemyInterval) {
-             addEnemies();
+            // obstacle();
+            //  addEnemies();
              enemyTimer = 0;
             //  console.log(enemyTimer);
          }
          else {
             enemyTimer += gameDeltaTimer;
-            console.log(enemyTimer);
+            // console.log(enemyTimer);
         }
+         //  background.layerMovement();
+        obstacle.draw();
 
-         background.draw();
-        //  background.layerMovement();
-         background.layersMovement();
+        //  background.draw();
+        //  background.layersMovement();
 
         player.makeFall();
         player.draw();
         player.stopPlayer();
         player.windowWall();
         
-        obstacle.draw();
+        
         obstacle.attackSpeed();
         // obstacle.continueAttack();
 
@@ -778,10 +817,10 @@ function endofGame() {
                 if (renderGroundEnemy.x > canvasWidth) {
              this.OffScreenEnemy = true;
         }
-            if (renderGroundEnemy.OffScreenEnemy = true) {
-                console.log("remove form enemies")
-                this.enemies.splice(this.enemies.indexOf(renderGroundEnemy), 1)
-            }
+            // if (renderGroundEnemy.OffScreenEnemy = true) {
+            //     console.log("remove form enemies")
+            //     this.enemies.splice(this.enemies.indexOf(renderGroundEnemy), 1)
+            // }
             console.log(enemies);
         })
 
