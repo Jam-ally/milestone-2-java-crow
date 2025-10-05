@@ -82,7 +82,7 @@ body{
 	animation-name: fadeInOpacity;
 	animation-iteration-count: 1;
 	animation-timing-function: ease-in;
-	animation-duration: 2s;
+	animation-duration: 5s;
 }
 
 @keyframes fadeInOpacity {
@@ -364,7 +364,7 @@ header {
 }
 
 
-#groundObstacle {
+#groundObstacle, #flyingObstacle, #airObstacle {
    display: none; 
 }
 
@@ -412,6 +412,7 @@ canvas {
     z-index: 10;
     width: fit-content;
     
+    
 }
 
 #start-button {
@@ -419,20 +420,40 @@ canvas {
     width: 70px;
     height: 40px;
     background-color: red;
-    color: white;
+    color: white; 
     font-size: x-small;
     top: 5px;
     left: 50px;
     border-radius: 15%;
     
 }
-
-#start-button:hover {
-    background-color: olive;
-    border: solid 4px midnightblue;
+.menu-buttons {
+    margin-left: 1px;
+    border: solid 4px cyan;
+    border: solid 2px ;
+    margin: 3px;
+    
 }
 
 
+.menu-buttons:hover {
+    background-color: olive;
+    border: solid 4px midnightblue;
+    /* margin: 1%; */
+    
+}
+
+#up-button, #down-button {
+    background-color: #3E454B;
+    border: rgb(28, 46, 35) solid 10px;
+    margin-bottom: 10%;
+    font-size: 1.314159265358 rem;
+    
+}
+
+.player-move-buttons:hover {
+    background-color: rgb(76, 5, 38);
+}
 
 /* Background  */
 
