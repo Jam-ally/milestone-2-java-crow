@@ -47,6 +47,7 @@ function startGame() {
     let gameSpeed = 2;
     console.log("Game is running");
     gameCanvas.start();
+    gameControlButtons();
     playerLives = 0;
     // create our player using function  
 
@@ -142,9 +143,21 @@ function gameReset() {
     }
     }
 
+
+
     playerUpButton = document.getElementById("player-up-button");
     playerDownButton = document.getElementById("player-down-button");
 
+    function gameControlButtons() {
+        //playerUpButton.classList.remove("none");
+       // playerUpButton.classList.remove("none");
+       document.getElementById("up-button").classList.remove("none");
+       document.getElementById("down-button").classList.remove("none");
+    //     let controlButtons = document.getElementsByClassName("player-movement-buttons");
+    //     for (let i=0; i < controlButtons.length; i++) {
+    //         controlButton[i].classList.remove("none");
+    //    }
+    }
 
         gameCanvas.canvas.addEventListener('mousedown', event => {
         console.log(event.code);
