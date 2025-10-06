@@ -35,6 +35,8 @@ var play;
 var gameRunning;
 var interval;
 let playerLives = 0;
+var gameSpeed;
+
 
 
 // let game = [
@@ -77,7 +79,7 @@ function startGame() {
     givePlayerLives();
     enemies = [];
     enemyTimer = 0;
-    enemyInterval = 100;
+    enemyInterval = 200;
     console.log(gameDelta);
     //array stores the player moves
     playerMoves = [];
@@ -100,9 +102,10 @@ function startGame() {
         //  renderFlyingEnemy ();
         // generateEnemy();  
         // renderGroundEnemy.draw();
+        gameSpeed = 5;
 
         if (enemyTimer >= enemyInterval) {
-            addEnemies();
+            addEnemies(gameSpeed, enemyInterval, enemyTimer);
             // enemies += [renderGroundEnemy];
             // obstacle();
             //  addEnemies();
@@ -134,7 +137,13 @@ function startGame() {
 
         this.enemies.forEach(generateEnemy => {
             generateEnemy.attackSpeed(deltaTime);
-          })    
+          })  
+          
+          this.enemies.forEach (generateEnemy => {
+            if (this.x > canvasWidth) {
+                enemies.splice()
+            }
+          })
         //   detectCollision(); 
     // create our player using function  s        
         
@@ -144,8 +153,16 @@ function startGame() {
 
 
 function addEnemies (gameSpeed, enemyInterval, enemyTimer) {
+
+    randEnemy = randomNumber(0,3);
+    if (randEnemy < 1) {
     enemies.push(new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer));
-    enemies.push(new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer));
+    } else if ( 1 < randEnemy < 2) {
+     enemies.push(new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer));
+    } else {
+        enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
+    }
+
     // console.log("Enemy Created");
 }
 
@@ -485,10 +502,10 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
 
 //enemyInterval, enemyTimer, obstacleMoveSpeed
 
-    function renderGroundEnemy(obstacleMoveSpeed, image) {
+    function renderGroundEnemy(gameSpeed, image) {
         // this.enemyInterval = enemyInterval;
         // this.enemyTimer = enemyTimer;
-        this.obstacleMoveSpeed = 2
+        this.obstacleMoveSpeed = gameSpeed;
         this.width = 67;
         this.height = 150;
         this.x = -this.width +10;
@@ -558,13 +575,13 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
 
 
     //* Sky enemy object function 
-    function renderFlyingEnemy() {
+    function renderFlyingEnemy(gameSpeed) {
 
         this.width = 111;
         this.height = 100;
         this.x = -this.width+50;
         this.y = 30;
-        this.obstacleMoveSpeed = 2;
+        this.obstacleMoveSpeed = gameSpeed;
         /// spite
         this.maxFrame = 5;
         this.image = document.getElementById('flyingObstacle');
@@ -607,32 +624,35 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
     //* Air enemy object function 
     function renderAirEnemy() {
 
-        // this.width = width;
-        // this.height = height;
-        // this.x = x
-        // this.y = canvasHeight - this.height;
-        // objectMoveSpeed = obstacleMoveSpeed
-
-        this.width = 70;
-        this.height = 50;
-        this.x = 10;
-        this.y = this.height +10;
-        objectMoveSpeed = 5;
+      
+        this.width = 245;
+        this.height = 150;
+        this.x = -this.width+50;
+        this.y = 150;
+        this.obstacleMoveSpeed = gameSpeed;
+        /// spite
+        this.maxFrame = 5;
+        this.image = document.getElementById('airObstacle');
+        i = 0;
 
     this.attackSpeed= function () {
-        // this.x += obstacleMoveSpeed;
-        this.x += 10;
-        // obstacleMoveSpeed -= 0.005;
-        obstacleMoveSpeed.min = 2
+    //   generateEnemy.attackSpeed(deltaTime);
+        this.x += this.obstacleMoveSpeed;
         
-        // this.continueAttack();
-        
-        return(x);
+        // if( i <= 2) {
+        //     this.y += 3;
+        //     i = 1;
+        // } else if ( 2 < i <= 3 ) {
+        //      this.y -= 3;
+        //     i += 1;
+        // } else {
+        //     i = 0;
+        //     this.y = this.y
+        // }    
+
+
     }
-    // this.continueAttack = function() {
-    //     if (this.x > canvasWidth-300) {
-            
-    //         obstacleMoveSpeed = randomNumber(1,10);
+    //         obstacleMoveSpeed = randomNumber(2,5);
     //         this.y = this.height +10;
     //         this.x = 0;
     //         obstacleMoveSpeed = obstacleMoveSpeed
@@ -640,8 +660,10 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
     // }
         this.draw = function () {
         ostx = gameCanvas.context;
-        ostx.fillStyle = "grey";
-        ostx.fillRect(this.x, this.y, this.width, this.height);       
+        // ostx.fillStyle = "grey"; 
+        // ostx.fillRect(this.x, this.y, this.width, this.height); 
+
+        ostx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
     
     }
