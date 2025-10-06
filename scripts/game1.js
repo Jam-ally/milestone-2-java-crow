@@ -135,34 +135,16 @@ function startGame() {
         this.enemies.forEach(generateEnemy => {
             generateEnemy.attackSpeed(deltaTime);
           })    
-            // renderGroundEnemy.draw();
-            // renderGroundEnemy.attackSpeed();
-
-            // renderGroundEnemy.max = 10;
-            // console.log(enemies);
-        // if (renderGroundEnemy.x > canvasWidth) {
-        //      this.OffScreenEnemy = true;
-        // } 
-            // if (renderGroundEnemy.OffScreenEnemy = true) {
-            //     console.log("remove form enemies")
-            //     this.enemies.splice(this.enemies.indexOf(renderGroundEnemy), 1)
-            // }
-            // console.log(enemies);
-
-      
-      
-
-        //   detectCollision();
-           
-    // create our player using function  s
-               
+        //   detectCollision(); 
+    // create our player using function  s        
         
     }
+
 // Full Screen 
 
 
 function addEnemies (gameSpeed, enemyInterval, enemyTimer) {
-   // enemies.push(new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer));
+    enemies.push(new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer));
     enemies.push(new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer));
     // console.log("Enemy Created");
 }
@@ -300,12 +282,12 @@ let screen_button_factor = 10;
         }
 
         window.addEventListener('keydown', event => {
-            console.log(event.code);
-            console.log("button was pressed");
+            // console.log(event.code);
+            // console.log("button was pressed");
 
               if (event.code == "ArrowUp") {
                 this.y -= CROW_FLAPS_PER_TICK;
-                 console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+                 //console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
                  playerMoves.push("upArrow")
                 
               }
@@ -334,39 +316,39 @@ let screen_button_factor = 10;
     // })
       
         window.addEventListener('keydown', event => {
-            console.log(event.code);
-            console.log("button was pressed");
+          //  console.log(event.code);
+          //  console.log("button was pressed");
               if (event.code == "ArrowDown") {
                 this.y += CROW_FLAPS_PER_TICK;
-                 console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+                // console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
                 playerMoves.push("downArrow")
               }
         }) 
 
         playerUpButton.addEventListener('click', event => {
-        console.log("upbutton pressed");   
+        //console.log("upbutton pressed");   
  
             this.y -= CROW_FLAPS_PER_TICK + screen_button_factor;
-            console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
-            playerMoves.push("upButton")
+        //    console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+        //    playerMoves.push("upButton")
 
         })
         
         playerDownButton.addEventListener('click', event => {
-        console.log("downbutton pressed");   
+        //console.log("downbutton pressed");   
  
             this.y += CROW_FLAPS_PER_TICK + screen_button_factor;
-            console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+           // console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
             playerMoves.push("downButton")
         })
 
         gameCanvas.canvas.addEventListener('mouseover', event => {
-        console.log(event.code);
-        console.log(event.offsetX, event.offsetY);
+        //console.log(event.code);
+        //console.log(event.offsetX, event.offsetY);
 
             if (event.offsetY > (canvasHeight/2)) {
                 this.y += CROW_FLAPS_PER_TICK;
-                 console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+                // console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
 
             }
     })
@@ -445,7 +427,7 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
         // this.frameX = 0;
         // this.frameY = 0;
         canvasHeight = canvasHeight;
-        this.height = 150
+        this.height = this.height;
         this.gameSpeed = gameSpeed;
         this.obstacleMoveSpeed = gameSpeed;
         //obstacleMoveSpeed = gameSpeed;
@@ -464,8 +446,8 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
 
         let enemyGround = new renderGroundEnemy(this.gameSpeed);
         let enemyFlying = new renderFlyingEnemy(this.gameSpeed);
-         this.enemyObstacles = [enemyGround];
-         enemies.push(enemyGround);
+         this.enemyObstacles = [enemyGround, enemyFlying];
+         enemies.push(enemyGround, enemyFlying);
 
          //renderGroundEnemy.draw();
 
@@ -506,15 +488,17 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
     function renderGroundEnemy(obstacleMoveSpeed, image) {
         // this.enemyInterval = enemyInterval;
         // this.enemyTimer = enemyTimer;
-        this.obstacleMoveSpeed = obstacleMoveSpeed
+        this.obstacleMoveSpeed = 2
         this.width = 67;
         this.height = 150;
-        this.x = 5
+        this.x = -this.width +10;
         this.y = canvasHeight - this.height;
+        this.maxFrame = 5;
         // objectMoveSpeed = 5;
         this.image = document.getElementById('groundObstacle');;
         console.log("draw enemy");
          
+
 
         // this.width = width;
         // this.height = height;
@@ -585,14 +569,11 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
         this.maxFrame = 5;
         this.image = document.getElementById('flyingObstacle');
         i = 0;
-        
-        
 
     this.attackSpeed= function () {
     //   generateEnemy.attackSpeed(deltaTime);
         this.x += this.obstacleMoveSpeed;
         
-       
         // if( i <= 2) {
         //     this.y += 3;
         //     i = 1;
@@ -602,13 +583,10 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
         // } else {
         //     i = 0;
         //     this.y = this.y
-        // }
-
-       
+        // }    
 
 
     }
-    
     //         obstacleMoveSpeed = randomNumber(2,5);
     //         this.y = this.height +10;
     //         this.x = 0;
