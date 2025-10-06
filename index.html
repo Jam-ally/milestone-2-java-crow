@@ -62,13 +62,28 @@
           <div id="down-button" class="player-movement-buttons none">
             <button id="player-down-button" class="player-move-buttons">v</button>
           </div> 
+
+     
         
 
         </section>
       
       <!-- Game Window -->
       <div id="game-window" >
+          <div id="game-status-bar">
+
+            <div id="player-lives">
+              0 0
+            </div>
+            <div id="game-time"> 
+              00:00
+            </div>
+            <div id="game-score" class="none">
+              0
+            </div>
+          </div>
       <br>
+
             <div class="game-y-axis none"></div>
       <br>
         <div class="end-game-screen hidden none">
@@ -86,13 +101,13 @@
         <br>    
         <!-- Background -->
          
-        <div id="background-imagery" class="none">
-            <div class="forest-trees"></div>
+        <div id="background-imagery" >
+            <div class="forest-trees none"></div>
             <div id="game-score">
               0
             </div>
             <!-- Game Axes -->
-            <div class="game-x-axis"></div>
+            <div class="game-x-axis none"></div>
         </div>
         <!-- Game Canvas -->
 
