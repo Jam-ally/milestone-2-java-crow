@@ -99,8 +99,19 @@ function startGame() {
         
          ctx = gameCanvas.context;
          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-            
+
+
         gameSpeed = 3;
+
+        //  if (enemiesPast < 5) {
+        //     gameSpeed = 3;
+        //  } else if (enemiesPast < 10 ) {
+        //     gameSpeed = 5;
+        //     enemyInterval = 200;
+        //  } else if (enemiesPast < 20 ) {
+        //     gameSpeed = 7;
+        //     enemyInterval = 150;
+        //  } 
 
         if (enemyTimer >= enemyInterval) {
             addEnemies(gameSpeed, enemyInterval, enemyTimer);
@@ -139,7 +150,7 @@ function startGame() {
           
         score();
 
-        score.draw()
+        // score.draw()
         //   this.enemies.forEach (generateEnemy => {
         //     if (generateEnemy.x > canvasWidth) {
         //         score();
@@ -148,7 +159,8 @@ function startGame() {
         //         // enemies.splice()
         //     }
         //   })
-        //   detectCollision(); 
+
+          detectCollision(); 
     // create our player using function  s        
         
     }
@@ -173,17 +185,6 @@ function addEnemies (gameSpeed, enemyInterval, enemyTimer) {
         enemies.push(new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer));
     }
 
-
-
-    // if (randEnemy <= 1) {
-    // enemies.push(new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer));
-    // } else if ( 1 < randEnemy <= 2) {
-    //  enemies.push(new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer));
-    // } else if (randEnemy > 2 ) {
-    //     enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
-    // }
-
-    // console.log("Enemy Created");
 }
 
 // check if the enemy is offscreen
@@ -213,42 +214,48 @@ const introPage = document.getElementById("intro");
 function score() {
 
     enemiesPastS = []; 
-
     this.enemies.forEach (generateEnemy => {
             if (generateEnemy.x > canvasWidth) {
-                
                 enemiesPastS.push(generateEnemy);
-                
-                
-
-                // enemies.splice() 
+        
             }
-          })
-
-          
+          })     
           enemiesPast = enemiesPastS.length;
           document.getElementById("game-score").textContent = parseInt(enemiesPast);
 
-
         this.draw = function() {
-
         // scoreBoxImage = document.getElementById("game-score");
         // scoreBoxImage.classList.remove("none")
-
         // ctx.drawRect(sceBoxImage, 70, 70 , 300, 10);
-
-        }
-        
+        }   
 }
 
-scoreBoxImage = document.getElementById("game-score");
+        scoreBoxImage = document.getElementById("game-score");
         scoreBoxImage.classList.remove("none")
-
 
 
 function givePlayerLives() {
     playerLives += 2;
     console.log("player lives:", playerLives);
+}
+
+function crowPlayerHealth(playerLives) {
+    playerLives = playerLives;
+    healthBar = document.getElementById("player-lives");
+    
+    if (playerLives = 2) {
+        playerHealth = 2;
+        healthBar.textContent = "<3 <3";
+        
+    } else if ( playerLives = 1){
+        playerHealth = 1;
+        healthBar.textContent = "<3 0";
+    }
+    else if ( playerLives = 0 ){
+        playerHealth = 0;
+        healthBar.textContent = "0 0";
+    }
+
 }
 
 function gameReset() {
@@ -792,6 +799,8 @@ function detectCollision() {
     }
 
     console.log(playerLives);
+
+    crowPlayerHealth(playerLives);
     
     if (playerLives <= 0 ) {
         console.log("end of game");

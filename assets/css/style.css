@@ -233,7 +233,7 @@ header {
 }
 
 .page-main-body { 
-    min-height: 50vh;
+    min-height: 70vh;
         
     height: fit-content;
    
@@ -255,7 +255,7 @@ header {
 
     .title-tile {
         height: 50px;
-        width: 70vw;
+        width: 90vw;
           
         display: flex;
         justify-content: center;
@@ -408,7 +408,7 @@ canvas {
 .game-menu {
     display: flex;
     position: relative;
-    top: -50px;
+    /* top: -50px; */
     z-index: 10;
     width: fit-content;
     
