@@ -31,6 +31,7 @@ var canvasWidth = 650;
 var canvasHeight = 500;
 var flightMinHeight = canvasHeight-80;
 var  gameWindow = document.getElementById("game-window");
+var gameStatusBar = document.getElementById("game-status-bar");
 var play;
 var gameRunning;
 var interval;
@@ -302,9 +303,13 @@ function gameReset() {
         this.canvas.width = canvasWidth;
         this.canvas.height = canvasHeight;
         this.context =this.canvas.getContext("2d");
-        gameWindow.insertAdjacentElement("afterbegin", this.canvas);
+        gameStatusBar.insertAdjacentElement("afterend", this.canvas);
+        gameStatusBar.classList.remove("none");
+        gameStatusBar.classList.remove("hidden");
+        gameStatusBar.style.width = canvasWidth;
     }
     }
+    
 
 
     playerUpButton = document.getElementById("player-up-button");

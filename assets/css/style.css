@@ -372,11 +372,11 @@ canvas {
     /* background-color: orange; */
     background-color: white;
     border: black 5px solid;
-    display: absolute;
+    display: flex;
     /* top: 50%;
     left: 50%; */
     /* margin-left: 50%; */
-    margin-top: 2%;  
+     
     margin-bottom: 2%;
     padding-bottom: 2px;
     
@@ -411,6 +411,7 @@ canvas {
     /* top: -50px; */
     z-index: 10;
     width: fit-content;
+    margin-left: 2%;
     
     
 }
@@ -469,7 +470,7 @@ canvas {
 
 }
 #game-status-bar {
-    width: 70vw;
+    /* min-width: 50vw; */
     min-height: 2em;
     max-height: fit-content;
     background-color: maroon;
@@ -478,6 +479,8 @@ canvas {
     flex-direction: row;
     justify-content: space-evenly;
     border: ridge black 5px;
+    margin-top: 2%;
+    
     
     
 
