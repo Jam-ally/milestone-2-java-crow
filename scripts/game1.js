@@ -36,6 +36,7 @@ var gameRunning;
 var interval;
 let playerLives = 0;
 var gameSpeed;
+let startDateTime = new Date();
 
 
 
@@ -65,6 +66,7 @@ function startGame() {
     gameControlButtons();
     playerLives = 0;
     enemiesPast = 0;
+    startDateTime = new Date();
     // create our player using function  
 
 
@@ -85,6 +87,7 @@ function startGame() {
     //array stores the player moves
     playerMoves = [];
     enemyGround= [];
+    playTime = gameTime();
 
     player = new renderCrow();
     obstacle = new generateEnemy;
@@ -101,7 +104,10 @@ function startGame() {
          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
 
-        gameSpeed = 3;
+        gameSpeed = 3;                              
+        // startDateTime = startDateTime;
+        
+        // playTime.clock();
 
         //  if (enemiesPast < 5) {
         //     gameSpeed = 3;
@@ -257,6 +263,31 @@ function crowPlayerHealth(playerLives) {
     }
 
 }
+
+function gameTime(startDateTime) {
+
+   
+    startDateTime = startDateTime;
+
+    let gameTimeDif = 0;
+
+    this.clock = function() {
+
+        let dateTime = new Date();
+
+        // mins  = dateTime.getMinutes();
+        // secs  = dateTime.getSeconds();
+        
+        gameTimeDif = (dateTime - startDateTime)/1000;
+
+        const gameTimeMins = dameTimeDif / 60;
+        const gameTimeSecs = dateTimeDif % 60;
+
+        console.log(`${gameTimeMins}:${gameTimeSecs}`)
+    }
+
+}
+
 
 function gameReset() {
 
@@ -553,14 +584,10 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
         // ctx.fillRect((this.x), (canvasHeight - this.height), 67, 150);
         //  otx.fillRect(enemyGround.x, enemyGround.y, enemyGround.width, enemyGround.height);
     }
-
-
-
-
-
     }
 
-
+    
+    
 // *Function to render the obstacles contains the: image, speed,
 // and continue.
 
@@ -578,14 +605,6 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
         // objectMoveSpeed = 5;
         this.image = document.getElementById('groundObstacle');;
         console.log("draw enemy");
-         
-
-
-        // this.width = width;
-        // this.height = height;
-        // this.x = x
-        // this.y = canvasHeight - this.height;
-        // objectMoveSpeed = obstacleMoveSpeed
 
     this.attackSpeed= function () {
 
@@ -596,23 +615,10 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
 
         this.x += this.obstacleMoveSpeed;
         
-        // while (this.x < canvasWidth) {
-        // this.continueAttack();
-        // }
         return this.x;
         
     }
-        // if (enemyTimer => enemyInterval) {
-         
-        //     obstacleMoveSpeed = randomNumber(1,2);
-        //     this.y = canvasHeight - this.height;
-        //     this.x = 0;
-        //     obstacleMoveSpeed = obstacleMoveSpeed
-        //     new renderGroundEnemy(enemyInterval,enemyTimer,obstacleMoveSpeed)
-        //     return(obstacleMoveSpeed)
-            
-        // }
-    // }
+
         this.draw = function () {
             // console.log("draw enemy image");
         otx = gameCanvas.context;
@@ -621,14 +627,7 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
         otx.drawImage(this.image, this.x, this.y, this.width, this.height)
     }
 
-    //     this.continueAttack = function() {
-    //     // if (this.x > canvasWidth) {
-            
 
-    //     // //    ohp = console.log("obstacle passed");
-    //     // //    return;
-    //     // } 
-    // }
          
 } 
 
