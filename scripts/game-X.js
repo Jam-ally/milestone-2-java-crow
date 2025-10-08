@@ -15,31 +15,6 @@ storybuttonArray = [startStorybtn, previous , next, startFlyGamebtn, skipStorybt
 
 
 
-startStorybtn.addEventListener('click', () => {
-    console.log("start story button pressed");
-    startStory();
-})
-
-previous.addEventListener('click', () => {
-    console.log("previous button pressed");
-    previousPage()
-})
-
-next.addEventListener('click', () => {
-    console.log("next button pressed");
-    nextPage();
-})
-
-startFlyGamebtn.addEventListener('click',() => {
-    console.log("Start Fly Game Button Pressed. Begin!");
-    startFlyGame();
-    
-})
-
-skipStorybtn.addEventListener('click',() => {
-    console.log("Skip Story button pressed");
-     skipStory();
-})
 
 
 let game = {
@@ -152,7 +127,7 @@ function displayStartPlay() {
 
     next.classList.add("none");
     startFlyGamebtn.classList.remove("none");
-    document.getElementById("fly-page").classList.remove("none");
+    startFlyGameATag = document.getElementById("fly-page").classList.remove("none");
 }
    
 
@@ -169,6 +144,7 @@ function startFlyGame() {
     });
 
     document.querySelector('.game-grid').classList.add("none");
+    // document.getElementsByTagName('nav').classList.add("none");
     
 }
 
@@ -178,5 +154,30 @@ function skipStory() {
 } 
 
 
+startStorybtn.addEventListener('click', () => {
+    console.log("start story button pressed");
+    startStory();
+})
+
+previous.addEventListener('click', () => {
+    console.log("previous button pressed");
+    previousPage()
+})
+
+next.addEventListener('click', () => {
+    console.log("next button pressed");
+    nextPage();
+})
+
+startFlyGamebtn.addEventListener('click',() => {
+    console.log("Start Fly Game Button Pressed. Begin!");
+    startFlyGame();
+    
+})
+
+skipStorybtn.addEventListener('click',() => {
+    console.log("Skip Story button pressed");
+     skipStory();
+})
 
 

@@ -23,12 +23,12 @@
 </head>
 <body>
 
-    <nav class="site-navigation-bar none " >
+    <nav class="site-navigation-bar" >
        <h1 id="site-header-text">Gammers Nature Paradise - A Home of Food Crow </h1>
     </nav>
   
 
-      <header class="none">
+      <header class="">
         <section class="page-header">
           <div class="title-tile">
               <h2 id="game-header-text">Food Bird</h2>
@@ -37,12 +37,54 @@
         </section>
          </header>
 
-    <main id="page-main-body" class="none">
-hello
+    <main class="page-main-body" class="">
+
+        <div class="game-menu">
+          <!-- <button onclick="startGame()" type="submit" id="start-button" name="Start-button" value="Start Game">Start Game</button> -->
+          <button id="game-start-button" class="menu-buttons">Start Game</button>
+          <br>  
+          <button id="intro" class="menu-buttons">Intro Game</button>
+          <br>
+          <button id="end" class="menu-buttons">End</button>
+          <span id="start-game-feedback">0</span>
+        </div>
+
+        <section class="game-tile">
+            <div id="game-window" >
+                    <section class="none">
+                        <div id="game-status-bar" class="none" >
+                            <div id="player-lives">
+                            0 0
+                            </div>
+                            <div id="game-time"> 
+                            00:00
+                            </div>
+                            <div id="game-score">
+                            0
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                         <div class="end-game-screen ">
+                            <div class="game-over ">
+                                <button class="close-game-over-btn">&times</button>
+                                <h3>Game Over</h3>
+                                <p>Better Luck Next Time!</p>      
+                            </div>
+                        </div>
+                        <!-- Overlay  -->
+                        <div class="overlay hidden none"></div> 
+                    </section>
+
+            </div>
+
+        </section>
+
     </main>
 
-
-        <div class="game-grid">
+<!-- Story Board Game *** complete and ready with Skip button *** -->
+        <div class="game-grid none">
 
         <div class="title-screen">
             <h1 id="title-screen-game-name" class="none" >Food Bird</h1>
@@ -98,13 +140,16 @@ hello
         </div>
         
         </div>
+<!-- Story Board Game *** complete and ready with Skip button *** -->
 
-            <!-- Footer -->
-         <footer class="none">
-         <div id="footer-home-page" class="site-footer">
-          &copy Copyright Jam_Ally Productions. 2025
-          </div>
-          </footer>
+
+
+<!----- Footer----- -->
+    <footer class="">
+        <div id="footer-home-page" class="site-footer">
+            &copy Copyright Jam_Ally Productions. 2025
+        </div>
+    </footer>
       <!-- JS -->
 
 
