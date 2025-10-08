@@ -1,3 +1,4 @@
+
 window.addEventListener('DOMContentLoaded', e => {
     console.log("DOM Content fully Loaded and parsed");
 
@@ -5,6 +6,9 @@ window.addEventListener('DOMContentLoaded', e => {
    
     
 })
+// const {startPlay} = require("../game1");
+
+// import {startPlay} from "./game1.js";
 
 
 
@@ -148,7 +152,13 @@ function startFlyGame() {
     }
     
 
+    
+
     window.location.href="index.html";
+    startPlay();
+    // startGameFeedback();
+
+    // document.querySelector('#start-game-feedback').textContent = "1";
     
 
   
@@ -200,4 +210,4 @@ startFlyGamebtn.addEventListener('click',() => {
 })
 
 
-module.exports = { game, newGame, showScore };
+module.exports = { game, newGame, showScore, startFlyGame };

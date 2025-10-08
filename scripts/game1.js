@@ -2,12 +2,15 @@
  * @jest-environment jsdom
  */
 
+// import { startFlyGame } from "./game2";
+
 // event listener - for when the user presses the button /interacts 
 window.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM is fully loaded and parsed");
 
 
 // import { player1 } from "./player";
+
 
 //window outside the document 
 
@@ -53,12 +56,32 @@ var gameSpeed;
 // ]
 
 
+
 const startButton = document.querySelector('#game-start-button');
+const startGameFeedback = document.querySelector('#start-game-feedback');
+
 
 startButton.addEventListener('click',() => {
+
+
+    // startPlay();
+    // window.location.href="game.html";
+    
+    // console.log(startGameFeedback.textContent)
     startGame();
     
 })
+function startPlay() {
+        let sbp = startGameFeedback.textContent;
+
+    if (startGameFeedback.textContent = "0" ) {
+    startGameFeedback.textContent = 1;
+
+    } else if(startGameFeedback.textContent != "0") {
+     console.log(startGameFeedback.textContent);  
+    }
+
+}
 
 function startGame() {
     let gameSpeed = 2;
@@ -137,8 +160,8 @@ function startGame() {
         
         obstacle.draw();
 
-        //  background.draw();
-        //  background.layersMovement();
+         background.draw();
+         background.layersMovement();
 
         
 
@@ -191,14 +214,13 @@ function startGame() {
 function addEnemies (gameSpeed, enemyInterval, enemyTimer) {
     // enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
 
-    randEnemy = parseInt(randomNumber(0,4));
+    let randEnemy = parseInt(randomNumber(0,4));
 
     // randEnemy = 3;  
     console.log(randEnemy);
 
   if (randEnemy <= 1) {
     enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
-    
     } else if ( 1 < randEnemy <= 2) {
         enemies.push(new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer));
     } else if (randEnemy > 2 ) {
@@ -932,6 +954,8 @@ butto.addEventListener('click',closeGC);
 
 
 
-module.exports ={ game };
+
 
 });
+
+exports = [ startPlay ];
