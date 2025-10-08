@@ -22,6 +22,14 @@ var flightMinHeight = canvasHeight-80;
 var gameWindow = document.getElementById("game-window");
 var gameStatusBar = document.getElementById("game-status-bar");
 
+var playerUpButton = document.getElementById("player-up-button");
+var playerDownButton = document.getElementById("player-down-button");
+var playerControlPad = document.querySelector('.player-control-pad');
+// var playerMovementControls = document.getElementById("player-movement-control")
+var playerMovementControls = document.getElementById("player-controls-left");
+
+
+
 
 let game = {
     canvasHeight,
@@ -53,6 +61,7 @@ function startGame() {
  console.log("game running");
  gameWindow.classList.remove("none");
  gameCanvas.start();
+ gameControlButtons();
 
 }
 
@@ -65,11 +74,27 @@ function startGame() {
         gameStatusBar.insertAdjacentElement("afterend", this.canvas);
         gameStatusBar.classList.remove("none");
         gameStatusBar.classList.remove("hidden");
-        gameStatusBar.style.width = canvasWidth;
+        gameStatusBar.style.width = canvasWidth; 
+     
         console.log("game canvas function")
     }
     }
 
+
+
+
+        function gameControlButtons() {
+
+       document.getElementById("up-button").classList.remove("none");
+       document.getElementById("down-button").classList.remove("none");
+          playerControlPad.classList.remove("hidden");
+        playerMovementControls.style.height = 650;
+
+       
+    //     let controlButtons = document.getElementsByClassName("player-movement-buttons");
+
+    //    }
+    }
 
 
 

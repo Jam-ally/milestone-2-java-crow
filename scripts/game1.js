@@ -87,14 +87,14 @@ function startGame() {
     let gameSpeed = 2;
     console.log("Game is running");
     gameCanvas.start();
+
+    
     gameControlButtons();
     playerLives = 0;
     enemiesPast = 0;
     
     // create our player using function  
     
-
-
     var gameRunning = true;
     gameDelta = 20;
     gameDeltaTimer = 1;
@@ -921,6 +921,8 @@ endGame.addEventListener('click', (e) => {
     console.log("end");
     endOfGame();
 })
+
+
 
 const butto = document.querySelector('.close-game-over-btn');
 
