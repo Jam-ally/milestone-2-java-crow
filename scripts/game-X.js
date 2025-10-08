@@ -14,11 +14,19 @@ const skipStorybtn = document.querySelector('#skip-story-button');
 storybuttonArray = [startStorybtn, previous , next, startFlyGamebtn, skipStorybtn ];
 
 
+var canvasWidth = 650;
+var canvasHeight = 500;
+var flightMinHeight = canvasHeight-80;
 
+
+var gameWindow = document.getElementById("game-window");
+var gameStatusBar = document.getElementById("game-status-bar");
 
 
 let game = {
-    score:0,
+    canvasHeight,
+    canvasWidth,
+    score: 0,
     pageNumber: 0 ,
     storyButtons: ["previous-button","next-button","skip-button"],
     playerStoryOptions: [],
@@ -30,34 +38,55 @@ let game = {
 
 
 {
-
 const startButton = document.querySelector('#game-start-button');
 
-
-
 startButton.addEventListener('click',() => {
-    console.log("start game")
+    console.log("start game");
     startGame();
 })
 
+
+//Start game function********
+
 function startGame() {
     
- console.log("game running")
+ console.log("game running");
+ gameWindow.classList.remove("none");
+ gameCanvas.start();
 
 }
 
+    var gameCanvas = {
+    canvas: document.createElement("canvas"),
+    start: function ctx() {
+        this.canvas.width = canvasWidth;
+        this.canvas.height = canvasHeight;
+        this.context =this.canvas.getContext("2d");
+        gameStatusBar.insertAdjacentElement("afterend", this.canvas);
+        gameStatusBar.classList.remove("none");
+        gameStatusBar.classList.remove("hidden");
+        gameStatusBar.style.width = canvasWidth;
+        console.log("game canvas function")
+    }
+    }
+
+
+
+
+
 }
+
+
+
+
 
 
 const gameTile = document.querySelector('.game-tile');
-
-
 const gameGrid = document.querySelector('.game-grid');
-
-
 
 // Story game 
 
+{
 const introPage = document.getElementById("intro");
 
     introPage.addEventListener('click',() => {
@@ -66,7 +95,7 @@ const introPage = document.getElementById("intro");
         gameGrid.classList.remove("none");
     })
 
-{
+
 
 const storyPages = document.getElementsByClassName("box");
 
@@ -222,6 +251,9 @@ skipStorybtn.addEventListener('click',() => {
 
 
 
+// End Game
+
+
 function endOfGame() {
     // updateCanvas.stop;
     openGC();
@@ -264,4 +296,5 @@ function closeGC() {
 
 
 butto.addEventListener('click',closeGC);
+
 
