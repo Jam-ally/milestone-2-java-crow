@@ -279,7 +279,6 @@ header {
     .title-tile {
         height: 50px;
         width: 90vw;
-          
         display: flex;
         justify-content: center;
         align-items: center;
@@ -302,19 +301,14 @@ header {
 #player-movement-controls {
     z-index: 10;
     display: flex;
-    /* position: relative; */
-    /* right: 5%; */
+
     flex-direction: column;
     justify-content: space-around;
     padding: 0 1rem;
     width: fit-content;
-    /* height: fit-content; */
     position: absolute;
-    /* min-height: 50vh;
-    max-height: 80%; */
     width: 95%;
-    border: 2px solid red;
-    /* background-color: rgb(226, 197, 144); */
+ 
     margin-top: 20.5%;
     margin-left: 2.5%;
     margin-right: 2.5%;
@@ -323,8 +317,6 @@ header {
     margin-bottom: 2.5%;
     
     align-content: center;
-   
-    /* z-index: 6; */
 
 }
 

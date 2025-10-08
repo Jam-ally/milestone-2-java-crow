@@ -39,8 +39,6 @@ let game = {
     storyButtons: ["previous-button","next-button","skip-button"],
     playerStoryOptions: [],
     storyPages: [],
-    // nextPage: nextPage(),
-    // previousPage: previousPage(),
 
 };
 
@@ -58,12 +56,46 @@ startButton.addEventListener('click',() => {
 
 function startGame() {
     
- console.log("game running");
- gameWindow.classList.remove("none");
- gameCanvas.start();
- gameControlButtons();
+console.log("game running");
+gameWindow.classList.remove("none");
+gameWindow.classList.remove("hidden");
+gameCanvas.start();
+gameControlButtons();
+
+gameDelta = 50;
+gameDeltaTimer = 1;
+deltaTime = gameDeltaTimer;
+var interval = setInterval(updateCanvas, gameDelta);
+
+ player = new renderCrow();
+ playerCrow = [];
+ playerCrow.push(player);
+ playerMoves = [];
+
+ background = new gameBackground();
+
 
 }
+
+
+
+    function updateCanvas() {
+
+         ctx = gameCanvas.context;
+         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        background.layersMovement();
+        background.draw();
+
+        player.draw();
+        player.makeFall();
+        player.stopPlayer();
+        player.windowWall();
+       
+
+    }
+
+
 
     var gameCanvas = {
     canvas: document.createElement("canvas"),
@@ -72,30 +104,179 @@ function startGame() {
         this.canvas.height = canvasHeight;
         this.context =this.canvas.getContext("2d");
         gameStatusBar.insertAdjacentElement("afterend", this.canvas);
-        gameStatusBar.classList.remove("none");
-        gameStatusBar.classList.remove("hidden");
-        gameStatusBar.style.width = canvasWidth; 
+ 
      
         console.log("game canvas function")
     }
     }
 
+function gameControlButtons() {
 
 
+        gameStatusBar.classList.remove("none");
+        gameStatusBar.classList.remove("hidden");
+        gameStatusBar.style.width = canvasWidth; 
 
-        function gameControlButtons() {
+
 
        document.getElementById("up-button").classList.remove("none");
        document.getElementById("down-button").classList.remove("none");
-          playerControlPad.classList.remove("hidden");
-        playerMovementControls.style.height = 650;
-
-       
-    //     let controlButtons = document.getElementsByClassName("player-movement-buttons");
-
-    //    }
+       playerControlPad.classList.remove("hidden");
+       playerMovementControls.style.height = 650;
     }
 
+
+
+    //create player variable 
+// var player = 0;
+// player.x = 0;
+//create initial Y-position of the player
+var playerPositionY = canvasHeight/2;
+//Add Gravity to the environment
+var fallSpeed= 0;
+//This flaps per tick is movement in the y direction
+let CROW_FLAPS_PER_TICK = 20;
+// Factor in the reduced read time of screen button
+let screen_button_factor = 10;
+
+
+//*Function to create the player
+    function renderCrow () {
+
+        this.width = 70;
+        this.height = 70;
+        this.x = canvasWidth- this.width - 10;
+        this.y = playerPositionY;
+        this.image = document.getElementById('player1')
+        
+        //  Create a draw function
+        this.draw = function() { 
+            ctx = gameCanvas.context; 
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+
+        this.windowWall = function() {
+            if(this.y >  flightMinHeight) {
+                this.y = flightMinHeight;
+                console.log("sqwaak");
+                gameCanvas.canvas.style.border = "red solid 5px";
+            } else if(this.y < -16 ) {
+                this.y = -16;
+                console.log("aaahhcacaca")
+            } 
+        }
+
+        // //create a makeFall function
+        this.makeFall = function() {
+            this.y += fallSpeed;
+            fallSpeed  += 0.0005;
+            //call the stopPlayer functon
+            this.stopPlayer();    
+        }
+
+        // //create a stop player function
+        this.stopPlayer = function() {
+            var ground = canvasHeight - this.height - 10;
+            if (this.y >= ground -10) {
+                fallSpeed = 0.0;
+                playerPositionY = ground;
+            }
+        }
+
+        // this.crowUp() = function() {
+                
+        //     this.y -= CROW_FLAPS_PER_TICK;
+        //         console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+
+        // }
+
+
+        window.addEventListener('keydown', event => {
+              if (event.code == "ArrowUp") {
+                this.y -= CROW_FLAPS_PER_TICK;
+                 //console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+                 playerMoves.push("upArrow")
+                
+              }
+        })
+
+                window.addEventListener('keydown', event => {
+              if (event.code == "ArrowDown") {
+                this.y += CROW_FLAPS_PER_TICK;
+                // console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+                playerMoves.push("downArrow")
+              }
+        }) 
+
+        playerUpButton.addEventListener('click', event => {
+            this.y -= CROW_FLAPS_PER_TICK + screen_button_factor;
+            playerMoves.push("upButton")
+        })
+        
+        playerDownButton.addEventListener('click', event => {
+            this.y += CROW_FLAPS_PER_TICK + screen_button_factor;
+            playerMoves.push("downButton")
+        })
+          
+    }
+
+
+        function backgroundLayer (gameSpeed, width, height, speedModifier, image) {
+        
+         //assumes that the width and height of all images match.
+        this.width = width;
+        this.height = height;
+        this.speedModifier = speedModifier;
+        this.image = image;
+        this.scrollSpeed = gameSpeed;
+   
+        this.x = canvasWidth-this.width;
+        this.y = 0;
+        
+
+         this.layerMovement = function() {
+             if(this.x > canvasWidth - 960) {
+                 this.x = canvasWidth-this.width;
+             } else {
+                this.x += this.scrollSpeed;
+             }
+         }
+
+        this.draw = function() {
+            ltx = gameCanvas.context;
+    
+            ltx.drawImage(this.image, this.x, this.y, this.width, this.height);
+            // ltx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+    }
+
+    function gameBackground() { 
+        //renders the Background in the game canvas context, from an array made of layers of background Layer
+     
+        this.width = 2535;
+        this.height = 500;
+        this.layersImage = document.getElementById(`layer1`);
+        this.layer1 = new backgroundLayer(2, this.width, this.height, 1, this.layersImage);
+        let layer1 = this.layer1;
+        this.backgroundLayers = [layer1];
+
+        this.layersMovement = function() {
+            // background layermovement
+            this.backgroundLayers.forEach(backgroundLayer => {
+                backgroundLayer.layerMovement();
+            })
+        }
+    
+        //  Create a draw function
+        this.draw = function() { 
+            // "background draw function"
+            this.backgroundLayers.forEach(backgroundLayer => {
+                backgroundLayer.draw();
+            })
+        }
+
+
+        }
 
 
 
