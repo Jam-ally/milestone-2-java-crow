@@ -37,7 +37,7 @@ var gameRunning;
 var interval;
 let playerLives = 0;
 var gameSpeed;
-let startDateTime = new Date();
+// let startDateTime = new Date();
 
 
 
@@ -67,23 +67,21 @@ function startGame() {
     gameControlButtons();
     playerLives = 0;
     enemiesPast = 0;
-    startDateTime = new Date();
+    
     // create our player using function  
+    
 
 
-    // upFlap = new crowUp();
-
-    // background = new backgroundLayer();
     var gameRunning = true;
     gameDelta = 20;
     gameDeltaTimer = 1;
     deltaTime = gameDeltaTimer;
     var interval = setInterval(updateCanvas, gameDelta);
     console.log(gameRunning);
-    givePlayerLives();
+    
     enemies = [];
     enemyTimer = 0;
-    enemyInterval = 250;
+    enemyInterval = 700;
     console.log(gameDelta);
     //array stores the player moves
     playerMoves = [];
@@ -94,8 +92,12 @@ function startGame() {
     obstacle = new generateEnemy;
     // skyObstacle = new renderFlyingEnemy ();
     background = new gameBackground();
-   
+    givePlayerLives();
+    playerCrow = [];
+    playerCrow.push(player);
+
     enemiesPastS = [];
+    activeObstacles = [];
 }
 
 
@@ -105,10 +107,10 @@ function startGame() {
          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
 
-        gameSpeed = 3;                              
+        gameSpeed = 1;                              
         // startDateTime = startDateTime;
         
-        // playTime.clock();
+        gameTime();
 
         //  if (enemiesPast < 5) {
         //     gameSpeed = 3;
@@ -129,7 +131,7 @@ function startGame() {
            
          }
          else {
-            enemyTimer += gameDeltaTimer*2;
+            enemyTimer += gameDeltaTimer;
             // console.log(enemyTimer);
         }
         
@@ -138,8 +140,11 @@ function startGame() {
         //  background.draw();
         //  background.layersMovement();
 
-        player.makeFall();
+        
+
+        
         player.draw();
+        player.makeFall();
         player.stopPlayer();
         player.windowWall();
         
@@ -155,7 +160,7 @@ function startGame() {
             generateEnemy.attackSpeed(deltaTime);
           })  
           
-        score();
+   
 
         // score.draw()
         //   this.enemies.forEach (generateEnemy => {
@@ -166,8 +171,16 @@ function startGame() {
         //         // enemies.splice()
         //     }
         //   })
+        if (playerLives > 0 ) {
+        detectCollision(); 
+        score();
+        } else {
+            console.log("yah dead")
+        }
+        endGame;
 
-          detectCollision(); 
+
+
     // create our player using function  s        
         
     }
@@ -244,6 +257,8 @@ function score() {
 function givePlayerLives() {
     playerLives += 2;
     console.log("player lives:", playerLives);
+    
+
 }
 
 function crowPlayerHealth(playerLives) {
@@ -265,26 +280,27 @@ function crowPlayerHealth(playerLives) {
 
 }
 
-function gameTime(startDateTime) {
+function gameTime() {
 
-   
-    startDateTime = startDateTime;
+    
+    startDateTime = new Date();
 
     let gameTimeDif = 0;
 
     this.clock = function() {
+        console.log("time ticking")
 
-        let dateTime = new Date();
+        // let dateTime = new Date();
 
-        // mins  = dateTime.getMinutes();
-        // secs  = dateTime.getSeconds();
+        // // mins  = dateTime.getMinutes();
+        // // secs  = dateTime.getSeconds();
         
-        gameTimeDif = (dateTime - startDateTime)/1000;
+        // gameTimeDif = (dateTime - startDateTime)/1000;
 
-        const gameTimeMins = dameTimeDif / 60;
-        const gameTimeSecs = dateTimeDif % 60;
+        // const gameTimeMins = dameTimeDif / 60;
+        // const gameTimeSecs = dateTimeDif % 60;
 
-        console.log(`${gameTimeMins}:${gameTimeSecs}`)
+        // console.log(`${gameTimeMins}:${gameTimeSecs}`)
     }
 
 }
@@ -359,12 +375,13 @@ let screen_button_factor = 10;
         this.x = canvasWidth- this.width - 10;
         this.y = playerPositionY;
         this.image = document.getElementById('player1')
+        
 
         //  Create a draw function
         this.draw = function() { 
             ctx = gameCanvas.context; 
-            ctx.fillStyle = "rgb(#ffffff)";
-            ctx.fillRect(this.x, this.y, this.width, this.height);
+            // ctx.fillStyle = "rgb(#ffffff)";
+            // ctx.fillRect(this.x, this.y, this.width, this.height);
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
 
@@ -609,7 +626,7 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
         this.maxFrame = 5;
         // objectMoveSpeed = 5;
         this.image = document.getElementById('groundObstacle');;
-        console.log("draw enemy");
+        // console.log("draw enemy");
 
     this.attackSpeed= function () {
 
@@ -726,7 +743,7 @@ function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
 //*
 //* Random Number (min-max) function {min,max}
     function randomNumber(min,max) {
-       return Math.random()*(max-min)+ min;
+       return Math.floor(Math.random()*(max-min)+ min) ;
     }
 
 //function to move the background ######
@@ -760,36 +777,86 @@ function moveCrow(event) {
 
 function detectCollision() {
 
-    var playerLeft = player.x;
+    var playerLeft = player.x - 10;
+    // console.log(player.x);
     var playerRight = player.x + player.width;
-    
-    var obstacleRight = obstacle.x + obstacle.width;
-    var obstacleLeft = obstacle.x;
-
-    var obstableTop = obstacle.y;
+    var playerTop = player.y;
     var playerBottom = player.y + player.height;
     
+    console.log(playerBottom);
+      console.log(playerTop);
+    activeObstacles = []
     
-    if (playerLives > 1) {
+    // enemies.forEach(enemy => {
+    //     obstacleRight = enemy.x + enemy.width;
+    //     obstacleLeft = enemy.x;
+
+    //     obstacleTop = obstacle.y;
+    // })
+        // this.enemies.forEach (generateEnemy => {
+        //     if (generateEnemy.x > canvasWidth) {
+        //         enemiesPastS.push(generateEnemy);
+        //     }
+        //   })     
+
+    enemies.forEach(generateEnemy => {
+
+        if((generateEnemy.x > 0) && (generateEnemy.x < canvasWidth) ) {
+             activeObstacles.push(generateEnemy);
+
+        }    
+
+        activeObstacles.forEach(enemy => {
+        obstacleRight = enemy.x + enemy.width;
+        obstacleLeft = enemy.x;
+        obstacleTop = enemy.y;
+        obstacleBottom = enemy.y + enemy.height;
+
+        })
+       
+    });
+
+    // console.log(obstacleLeft);
+    // var obstacleRight = obstacle.x + obstacle.width;
+    // var obstacleLeft = obstacle.x;
+    // var obstableTop = obstacle.y;
+
+    var playerBottom = player.y + player.height;
+    
+    if (playerLives > 0 ) {
         // console.log("check for collision");
 
-    if (
+    if ( 
+        // x, y 0,0 is the top left corner
         obstacleRight > playerLeft &&
         obstacleLeft < playerRight &&
-        obstableTop < playerBottom      
+         
+        obstacleTop < playerBottom &&
+        obstacleBottom > playerTop
+
 
     ) {
-        console.log(obstacleRight);
-        console.log(obstacle.x);
-        console.log(obstacle.width);
+        // console.log(obstacleRight);
+        // console.log(obstacle.x);
+        // console.log(obstacle.width);
 
         console.log(playerLeft);
         console.log("collision");
         console.log(playerLives);
         playerLives -= 1;
-
+        
         
         alert("Oh bags! [you hit an obstacle]");
+        activeObstacles = [];
+
+        //** remove it from the array */
+        
+        setTimeout(function() {
+            activeObstacles.splice();
+            // alert("Test]");
+        },2000)
+        
+
         // clearInterval(interval);
         // gameReset();
         
@@ -808,6 +875,7 @@ function detectCollision() {
     
     if (playerLives <= 0 ) {
         console.log("end of game");
+        endOfGame();
         // break;
 
     }
@@ -820,13 +888,17 @@ function detectCollision() {
 
 //##########################################
 
-function endofGame() {
+function endOfGame() {
     updateCanvas.stop;
     openGC();
 }
 //########################################
 
-
+const endGame = document.querySelector('#end');
+endGame.addEventListener('click', (e) => {
+    console.log("end");
+    endOfGame();
+})
 
 const butto = document.querySelector('.close-game-over-btn');
 
@@ -841,12 +913,17 @@ function openGC() {
     gameOverBox.classList.remove('hidden'); 
     overlay.classList.remove('hidden');
     endGameScreen.classList.remove('hidden');
+
+       gameOverBox.classList.remove('none'); 
+    overlay.classList.remove('none');
+    endGameScreen.classList.remove('none');
 }
 
 function closeGC() {
 
     gameOverBox.classList.add('hidden'); 
     overlay.classList.add('hidden');
+    endGameScreen.classList.add('hidden');
     
 }
 

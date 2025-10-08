@@ -83,7 +83,7 @@ setTimeout(function() {
     
     }
 
-    },15000);
+    },9000);
 }
 
 
