@@ -29,7 +29,44 @@ let game = {
 };
 
 
+{
 
+const startButton = document.querySelector('#game-start-button');
+
+
+
+startButton.addEventListener('click',() => {
+    console.log("start game")
+    startGame();
+})
+
+function startGame() {
+    
+ console.log("game running")
+
+}
+
+}
+
+
+const gameTile = document.querySelector('.game-tile');
+
+
+const gameGrid = document.querySelector('.game-grid');
+
+
+
+// Story game 
+
+const introPage = document.getElementById("intro");
+
+    introPage.addEventListener('click',() => {
+        console.log("Intro button Pressed")
+        gameTile.classList.add("none");
+        gameGrid.classList.remove("none");
+    })
+
+{
 
 const storyPages = document.getElementsByClassName("box");
 
@@ -143,7 +180,8 @@ function startFlyGame() {
     button.classList.add("none");
     });
 
-    document.querySelector('.game-grid').classList.add("none");
+    gameGrid.classList.add("none");
+    gameTile.classList.remove("none");
     // document.getElementsByTagName('nav').classList.add("none");
     
 }
@@ -180,4 +218,50 @@ skipStorybtn.addEventListener('click',() => {
      skipStory();
 })
 
+}
+
+
+
+function endOfGame() {
+    // updateCanvas.stop;
+    openGC();
+}
+//########################################
+
+const endGame = document.querySelector('#end');
+endGame.addEventListener('click', (e) => {
+    console.log("end");
+    endOfGame();
+})
+
+
+const butto = document.querySelector('.close-game-over-btn');
+
+const gameOverBox = document.querySelector('.game-over');
+const overlay = document.querySelector('.overlay');
+const endGameScreen = document.querySelector('.end-game-screen');
+const pop = document.getElementById('reset');
+
+// pop.addEventListener('click', openGC);
+
+function openGC() {
+    gameOverBox.classList.remove('hidden'); 
+    overlay.classList.remove('hidden');
+    endGameScreen.classList.remove('hidden');
+
+       gameOverBox.classList.remove('none'); 
+    overlay.classList.remove('none');
+    endGameScreen.classList.remove('none');
+}
+
+function closeGC() {
+
+    gameOverBox.classList.add('hidden'); 
+    overlay.classList.add('hidden');
+    endGameScreen.classList.add('hidden');
+    
+}
+
+
+butto.addEventListener('click',closeGC);
 

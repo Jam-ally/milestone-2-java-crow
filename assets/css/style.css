@@ -689,12 +689,15 @@ canvas {
     left: 50%;
     transform: translate(-50%,-50%); */
     /* text-align: center; */
+    display: flex;
     position: relative;
      border: 2px solid black;
-    z-index: 10;
+    z-index: 5;
     /* background: #0a2414; */
     background: radial-gradient(circle,rgba(10, 36, 20, 1) 90%, rgba(40, 92, 61, 1) 100%);
     margin: 2%;
+    justify-content: center;
+    align-items: center;
 }
 
 h3 {
@@ -705,14 +708,14 @@ h3 {
     padding: 1rem;
     color: whitesmoke;
     border: 2px solid white;
-    width: 35rem;
-    height: 35rem;
+    width: 30rem;
+    height: 30rem;
     position: relative;
     /* top:60%;
     left: 50%; */
     /* transform: translate(-50%,-50%); */
     text-align: center;
-    z-index: 5;
+    z-index: 4;
     margin: 2%;
 
 }
@@ -731,12 +734,13 @@ h3 {
 
 .overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(3px);
-    z-index: 9;
+    /* top: 0;
+    left: 0; */
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+    z-index: 2;
+
 }
 
 
