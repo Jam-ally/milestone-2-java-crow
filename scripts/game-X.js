@@ -27,6 +27,7 @@ var playerDownButton = document.getElementById("player-down-button");
 var playerControlPad = document.querySelector('.player-control-pad');
 // var playerMovementControls = document.getElementById("player-movement-control")
 var playerMovementControls = document.getElementById("player-controls-left");
+var portrait = document.getElementById("portrait");
 
 playerLives = 0;
 
@@ -52,6 +53,20 @@ startButton.addEventListener('click',() => {
     startGame();
 })
 
+// full screen fucntionality
+
+const toggleFullScreen = document.querySelector('#game-start-button');
+const fullGameWindow = document.querySelector('.game-tile');
+
+
+    // toggleFullScreen.addEventListener('click', () => {
+    //     if (!document.fullscreenElement) {
+    //     gameWindow.requestFullscreen();
+    //     } else if (document.exitFullscreen) {
+    //         document.exitFullscreen();
+    //     }
+    // })
+
 
 //Start game function********
 
@@ -60,8 +75,15 @@ function startGame() {
 console.log("game running");
 gameWindow.classList.remove("none");
 gameWindow.classList.remove("hidden");
+portrait.classList.add("none");
 gameCanvas.start();
 gameControlButtons();
+
+
+gameWindow.style.background = "black";
+fullGameWindow.style.background = "black"
+
+
 
 
 gameSpeed = 2;
@@ -134,9 +156,7 @@ function score() {
           document.getElementById("game-score").textContent = parseInt(enemiesPast);
 
         this.draw = function() {
-        // scoreBoxImage = document.getElementById("game-score");
-        // scoreBoxImage.classList.remove("none")
-        // ctx.drawRect(sceBoxImage, 70, 70 , 300, 10);
+
         }   
 }
 
@@ -536,8 +556,8 @@ function detectCollision() {
     var playerBottom = player.y + player.height;
     
     console.log(playerBottom);
-      console.log(playerTop);
-    activeObstacles = []
+    console.log(playerTop);
+    activeObstacles = [];
     
     // enemies.forEach(enemy => {
     //     obstacleRight = enemy.x + enemy.width;
