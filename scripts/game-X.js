@@ -81,7 +81,7 @@ gameControlButtons();
 
 
 gameWindow.style.background = "black";
-fullGameWindow.style.background = "black"
+fullGameWindow.style.background = "black";
 
 
 
@@ -108,7 +108,7 @@ givePlayerLives();
 enemies = [];
 enemyTimer = 0;
 enemyInterval = 100;
-obstacle = new generateEnemy(gameSpeed)
+obstacle = new generateEnemy(gameSpeed);
 
 
 enemiesPastS = [];
@@ -161,7 +161,7 @@ function score() {
 }
 
         scoreBoxImage = document.getElementById("game-score");
-        scoreBoxImage.classList.remove("none")
+        scoreBoxImage.classList.remove("none");
 
 
 function givePlayerLives() {
@@ -232,7 +232,7 @@ function crowPlayerHealth(playerLives) {
         detectCollision(); 
         score();
         } else {
-            console.log("yah dead")
+            console.log("yah dead");
         }
 
 
@@ -556,8 +556,8 @@ function detectCollision() {
     var playerBottom = player.y + player.height;
     
     console.log(playerBottom);
-    console.log(playerTop);
-    activeObstacles = [];
+      console.log(playerTop);
+    activeObstacles = []
     
     // enemies.forEach(enemy => {
     //     obstacleRight = enemy.x + enemy.width;
@@ -623,10 +623,12 @@ function detectCollision() {
 
         //** remove it from the array */
         
-        // setTimeout(function() {
-       // activeObstacles.splice();
-          
-        // },2000
+        setTimeout(function() {
+            activeObstacles.splice();
+            // alert("Test]");
+        },2000)
+        
+
         // clearInterval(interval);
         // gameReset();
         
@@ -638,14 +640,19 @@ function detectCollision() {
         } else {
         // console.log("no checks");
     }
+
     console.log(playerLives);
+
     crowPlayerHealth(playerLives);
     
     if (playerLives <= 0 ) {
         console.log("end of game");
         endOfGame();
+        // break;
+
     }
- 
+
+    
    
 }
 
