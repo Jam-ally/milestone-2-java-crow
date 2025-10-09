@@ -28,6 +28,7 @@ var playerControlPad = document.querySelector('.player-control-pad');
 // var playerMovementControls = document.getElementById("player-movement-control")
 var playerMovementControls = document.getElementById("player-controls-left");
 
+playerLives = 0;
 
 
 
@@ -62,27 +63,132 @@ gameWindow.classList.remove("hidden");
 gameCanvas.start();
 gameControlButtons();
 
+
+gameSpeed = 2;
 gameDelta = 50;
 gameDeltaTimer = 1;
 deltaTime = gameDeltaTimer;
 var interval = setInterval(updateCanvas, gameDelta);
+
+background = new gameBackground();
+
+
+var playerLives = 0;
+givePlayerLives();
 
  player = new renderCrow();
  playerCrow = [];
  playerCrow.push(player);
  playerMoves = [];
 
- background = new gameBackground();
+ 
 
+enemies = [];
+enemyTimer = 0;
+enemyInterval = 100;
+obstacle = new generateEnemy(gameSpeed)
+
+
+enemiesPastS = [];
+activeObstacles = [];
 
 }
 
+
+function addEnemies (gameSpeed, enemyInterval, enemyTimer) {
+
+    console.log(Math.random());
+
+    var enums = Math.random();
+    // if (enums > 0.5) {
+    //     enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
+    // } 
+
+    // if (enums > 0.6) {
+    //     enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
+    // } else {
+    //     enemies.push(new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer));
+    // }
+
+        if (enums > 0.5) {
+        enemies.push(new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer));
+    } else if (enums < 0.3 ) {
+        enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
+    } else {
+        enemies.push(new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer));
+    }
+
+}
+
+
+function score() {
+
+    enemiesPastS = []; 
+    this.enemies.forEach (generateEnemy => {
+            if (generateEnemy.x > canvasWidth) {
+                enemiesPastS.push(generateEnemy);
+        
+            }
+          })     
+          enemiesPast = enemiesPastS.length;
+          document.getElementById("game-score").textContent = parseInt(enemiesPast);
+
+        this.draw = function() {
+        // scoreBoxImage = document.getElementById("game-score");
+        // scoreBoxImage.classList.remove("none")
+        // ctx.drawRect(sceBoxImage, 70, 70 , 300, 10);
+        }   
+}
+
+        scoreBoxImage = document.getElementById("game-score");
+        scoreBoxImage.classList.remove("none")
+
+
+function givePlayerLives() {
+    playerLives += 2;
+    console.log("player lives:", playerLives);
+    
+
+}
+
+function crowPlayerHealth(playerLives) {
+    playerLives = playerLives;
+    healthBar = document.getElementById("player-lives");
+    
+    if (playerLives = 2) {
+        playerHealth = 2;
+        healthBar.textContent = "<3 <3";
+        
+    } else if ( playerLives = 1){
+        playerHealth = 1;
+        healthBar.textContent = "<3 0";
+    }
+    else if ( playerLives = 0 ){
+        playerHealth = 0;
+        healthBar.textContent = "0 0";
+    }
+
+}
 
 
     function updateCanvas() {
 
          ctx = gameCanvas.context;
          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        gameSpeed = 2;
+
+        if (enemyTimer >= enemyInterval) {
+            addEnemies(gameSpeed, enemyInterval, enemyTimer);
+            enemyTimer = 0;
+           
+         }
+         else {
+            enemyTimer += gameDeltaTimer;
+            // console.log(enemyTimer);
+        }
+        
+        obstacle.draw();
 
         background.layersMovement();
         background.draw();
@@ -91,7 +197,24 @@ var interval = setInterval(updateCanvas, gameDelta);
         player.makeFall();
         player.stopPlayer();
         player.windowWall();
+
+        this.enemies.forEach(generateEnemy => {
+                generateEnemy.draw(ctx);
+            })
+
+        this.enemies.forEach(generateEnemy => {
+            generateEnemy.attackSpeed(deltaTime);
+          })  
        
+        crowPlayerHealth(playerLives);
+
+        if (playerLives > 0 ) {
+        detectCollision(); 
+        score();
+        } else {
+            console.log("yah dead")
+        }
+
 
     }
 
@@ -278,6 +401,233 @@ let screen_button_factor = 10;
 
         }
 
+
+
+
+    var obstaclePositionY = 250;
+    var objectbaseMoveSpeed = 5;  
+    var obstacle;
+    var obstacleMoveSpeed = 5;
+
+    function generateEnemy(gameSpeed, enemyInterval, enemyTimer) {
+
+        // this.frameX = 0;
+        // this.frameY = 0;
+        canvasHeight = canvasHeight;
+        this.height = this.height;
+        this.gameSpeed = gameSpeed;
+        this.obstacleMoveSpeed = gameSpeed;
+        //obstacleMoveSpeed = gameSpeed;
+        this.enemyInterval = enemyInterval;
+        this.enemyTimer = enemyTimer;
+        this.x = 5
+        this.fps = 20;
+        this.frameinterval = 1000/this.fps;
+        this.frameTimer = 0;
+        this.OffScreenEnemy = false;
+
+        let enemyGround = new renderGroundEnemy(this.gameSpeed);
+        let enemyFlying = new renderFlyingEnemy(this.gameSpeed);
+        let enemyAir = new renderAirEnemy(this.gameSpeed);
+
+
+    this.attackSpeed = function (deltaTime) {
+        // this.x = renderGroundEnemy.attackSpeed()
+        // if (this.obstacleMoveSpeed > 1 && this.x > (this.canvasWidth/2)) {
+        //     //approach slow factor
+        //     this.obstacleMoveSpeed -= 0.005;
+        // }
+        this.x += this.obstacleMoveSpeed;
+    
+    }    
+    this.draw = function () {
+        // console.log("draw enemy");
+        ctx = gameCanvas.context;
+        // ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+    }
+
+    
+    // *Function to render the obstacles contains the: image, speed,
+    // and continue.
+    function renderGroundEnemy(gameSpeed, image) {
+        this.obstacleMoveSpeed = gameSpeed;
+        this.width = 67;
+        this.height = 150;
+        this.x = -this.width +10;
+        this.y = canvasHeight - this.height;
+        this.maxFrame = 5;
+        this.image = document.getElementById('groundObstacle');;
+
+    this.attackSpeed= function () {
+        // if (this.obstacleMoveSpeed > 1 && this.x > (canvasWidth/2)) {
+        //     //approach slow factor
+        //     this.obstacleMoveSpeed -= 0.005;
+        // }
+        this.x += this.obstacleMoveSpeed;  
+        return this.x;
+    }
+
+        this.draw = function () {
+        otx = gameCanvas.context;
+        otx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }        
+    } 
+
+    function renderFlyingEnemy(gameSpeed) {
+
+        this.width = 111;
+        this.height = 100;
+        this.x = -this.width+50;
+        this.y = 30;
+        this.obstacleMoveSpeed = gameSpeed;
+        /// spite
+        this.maxFrame = 5;
+        this.image = document.getElementById('flyingObstacle');
+        i = 0;
+
+    this.attackSpeed= function () {
+        this.x += this.obstacleMoveSpeed;
+    }
+    this.draw = function () {
+        ostx = gameCanvas.context;
+        ostx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    } 
+    }
+
+
+    //* Air enemy object function 
+    function renderAirEnemy(gameSpeed) {
+
+        this.width = 245;
+        this.height = 150;
+        this.x = -this.width+50;
+        this.y = 150;
+        this.obstacleMoveSpeed = gameSpeed;
+        this.image = document.getElementById('airObstacle');
+
+    this.attackSpeed= function () {
+        this.x += this.obstacleMoveSpeed;
+    }
+
+    this.draw = function () {
+        ostx = gameCanvas.context;
+        ostx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }  
+    }
+    
+//end  of renderObject function
+
+
+
+
+
+//detect collision functions and effects
+
+//detect collision when the obstacle and the player interact
+//in the same virtual space
+
+function detectCollision() {
+
+    var playerLeft = player.x - 10;
+    // console.log(player.x);
+    var playerRight = player.x + player.width;
+    var playerTop = player.y;
+    var playerBottom = player.y + player.height;
+    
+    console.log(playerBottom);
+      console.log(playerTop);
+    activeObstacles = []
+    
+    // enemies.forEach(enemy => {
+    //     obstacleRight = enemy.x + enemy.width;
+    //     obstacleLeft = enemy.x;
+
+    //     obstacleTop = obstacle.y;
+    // })
+        // this.enemies.forEach (generateEnemy => {
+        //     if (generateEnemy.x > canvasWidth) {
+        //         enemiesPastS.push(generateEnemy);
+        //     }
+        //   })     
+
+    enemies.forEach(generateEnemy => {
+
+        if((generateEnemy.x > 0) && (generateEnemy.x < canvasWidth) ) {
+             activeObstacles.push(generateEnemy);
+
+        }    
+
+        activeObstacles.forEach(enemy => {
+        obstacleRight = enemy.x + enemy.width;
+        obstacleLeft = enemy.x;
+        obstacleTop = enemy.y;
+        obstacleBottom = enemy.y + enemy.height;
+
+        })
+       
+    });
+
+    // console.log(obstacleLeft);
+    // var obstacleRight = obstacle.x + obstacle.width;
+    // var obstacleLeft = obstacle.x;
+    // var obstableTop = obstacle.y;
+
+    var playerBottom = player.y + player.height;
+    
+    if (playerLives > 0 ) {
+        // console.log("check for collision");
+
+    if ( 
+        // x, y 0,0 is the top left corner
+        obstacleRight > playerLeft &&
+        obstacleLeft < playerRight &&
+         
+        obstacleTop < playerBottom &&
+        obstacleBottom > playerTop
+
+
+    ) {
+        // console.log(obstacleRight);
+        // console.log(obstacle.x);
+        // console.log(obstacle.width);
+
+        console.log(playerLeft);
+        console.log("collision");
+        console.log(playerLives);
+        playerLives -= 1;
+        
+        
+        alert("Oh bags! [you hit an obstacle]");
+        activeObstacles = [];
+
+        //** remove it from the array */
+        
+        // setTimeout(function() {
+       // activeObstacles.splice();
+          
+        // },2000
+        // clearInterval(interval);
+        // gameReset();
+        
+       
+    } else {
+        // console.log("safe");
+    }
+
+        } else {
+        // console.log("no checks");
+    }
+    console.log(playerLives);
+    crowPlayerHealth(playerLives);
+    
+    if (playerLives <= 0 ) {
+        console.log("end of game");
+        endOfGame();
+    }
+ 
+   
+}
 
 
 }

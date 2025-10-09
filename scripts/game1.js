@@ -86,20 +86,25 @@ function startPlay() {
 function startGame() {
     let gameSpeed = 2;
     console.log("Game is running");
-    gameCanvas.start();
-
-    
+    gameCanvas.start(); 
     gameControlButtons();
+
+
     playerLives = 0;
     enemiesPast = 0;
     
     // create our player using function  
     
     var gameRunning = true;
+
     gameDelta = 20;
     gameDeltaTimer = 1;
     deltaTime = gameDeltaTimer;
+
+
     var interval = setInterval(updateCanvas, gameDelta);
+
+    
     console.log(gameRunning);
     
     enemies = [];
