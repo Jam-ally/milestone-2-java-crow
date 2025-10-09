@@ -436,7 +436,7 @@ canvas {
 
 .menu-buttons:hover {
     background-color: olive;
-    border: solid 4px midnightblue;
+    outline: solid 4px midnightblue;
    
 }
 
