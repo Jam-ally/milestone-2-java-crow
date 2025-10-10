@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', e => {
     console.log("DOM Content fully Loaded and parsed");
     
       
-})
+
 
 const startStorybtn = document.querySelector('#start-story-button');
 const previous = document.querySelector('#previous-button');
@@ -29,7 +29,7 @@ var playerControlPad = document.querySelector('.player-control-pad');
 var playerMovementControls = document.getElementById("player-controls-left");
 var portrait = document.getElementById("portrait");
 
-playerLives = 0;
+let playerLives = 0;
 
 
 
@@ -45,7 +45,7 @@ let game = {
 };
 
 
-{
+
 const startButton = document.querySelector('#game-start-button');
 
 startButton.addEventListener('click',() => {
@@ -59,13 +59,13 @@ const toggleFullScreen = document.querySelector('#game-start-button');
 const fullGameWindow = document.querySelector('.game-tile');
 
 
-    // toggleFullScreen.addEventListener('click', () => {
-    //     if (!document.fullscreenElement) {
-    //     gameWindow.requestFullscreen();
-    //     } else if (document.exitFullscreen) {
-    //         document.exitFullscreen();
-    //     }
-    // })
+    toggleFullScreen.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+        gameWindow.requestFullscreen();
+        } else if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    })
 
 
 //Start game function********
@@ -92,22 +92,22 @@ gameDeltaTimer = 1;
 deltaTime = gameDeltaTimer;
 var interval = setInterval(updateCanvas, gameDelta);
 
-background = new gameBackground();
+// background = new gameBackground();
 
 
-var playerLives = 0;
+playerLives = 0;
 givePlayerLives();
 
  player = new renderCrow();
  playerCrow = [];
  playerCrow.push(player);
  playerMoves = [];
-
+ 
  
 
 enemies = [];
 enemyTimer = 0;
-enemyInterval = 100;
+enemyInterval = 500;
 obstacle = new generateEnemy(gameSpeed);
 
 
@@ -155,9 +155,12 @@ function score() {
           enemiesPast = enemiesPastS.length;
           document.getElementById("game-score").textContent = parseInt(enemiesPast);
 
+          
+
         this.draw = function() {
 
         }   
+            return enemiesPast;
 }
 
         scoreBoxImage = document.getElementById("game-score");
@@ -196,7 +199,32 @@ function crowPlayerHealth(playerLives) {
          ctx = gameCanvas.context;
          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-        gameSpeed = 2;
+        // let playerScore = 0;
+
+        //  gameSp = (Math.floor(playerScore/10) * 0.5) + 3;
+
+
+
+        gameSpeed = 3;
+        // console.log(gameSp);
+
+
+
+        // while (playerScore < 10 ){
+        //     gameSpeed = 5;
+        // }
+        // while(playerScore > 10) {
+        //     gameSpeed = 
+            
+        //     Math.floor(playerScore/10) * 0.5
+        // }
+        // while (score() >= 10 ){
+        //     gameSpeed += 0.5;
+        // }
+
+        
+
+        // gameTime();
 
         if (enemyTimer >= enemyInterval) {
             addEnemies(gameSpeed, enemyInterval, enemyTimer);
@@ -210,8 +238,8 @@ function crowPlayerHealth(playerLives) {
         
         obstacle.draw();
 
-        background.layersMovement();
-        background.draw();
+        // background.layersMovement();
+        // background.draw();
 
         player.draw();
         player.makeFall();
@@ -226,14 +254,16 @@ function crowPlayerHealth(playerLives) {
             generateEnemy.attackSpeed(deltaTime);
           })  
        
-        crowPlayerHealth(playerLives);
+        // crowPlayerHealth(playerLives);
 
         if (playerLives > 0 ) {
         detectCollision(); 
-        score();
+        playerScore = score();
+        console.log(playerScore);
         } else {
             console.log("yah dead");
         }
+        endGame;
 
 
     }
@@ -549,14 +579,14 @@ let screen_button_factor = 10;
 
 function detectCollision() {
 
-    var playerLeft = player.x - 10;
+    var playerLeft = player.x + 10;
     // console.log(player.x);
     var playerRight = player.x + player.width;
     var playerTop = player.y;
     var playerBottom = player.y + player.height;
     
-    console.log(playerBottom);
-      console.log(playerTop);
+    // console.log(playerBottom);
+    //   console.log(playerTop);
     activeObstacles = []
     
     // enemies.forEach(enemy => {
@@ -612,9 +642,9 @@ function detectCollision() {
         // console.log(obstacle.x);
         // console.log(obstacle.width);
 
-        console.log(playerLeft);
-        console.log("collision");
-        console.log(playerLives);
+        // console.log(playerLeft);
+        // console.log("collision");
+        // console.log(playerLives);
         playerLives -= 1;
         
         
@@ -641,7 +671,7 @@ function detectCollision() {
         // console.log("no checks");
     }
 
-    console.log(playerLives);
+    // console.log(playerLives);
 
     crowPlayerHealth(playerLives);
     
@@ -657,7 +687,7 @@ function detectCollision() {
 }
 
 
-}
+
 
 
 
@@ -844,6 +874,7 @@ function endOfGame() {
 //########################################
 
 const endGame = document.querySelector('#end');
+
 endGame.addEventListener('click', (e) => {
     console.log("end");
     endOfGame();
@@ -880,4 +911,4 @@ function closeGC() {
 
 butto.addEventListener('click',closeGC);
 
-
+});
