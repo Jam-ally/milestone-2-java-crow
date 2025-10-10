@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+       <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
+      crossorigin="anonymous"
+    >
+
+    <!-- CSS style sheet -->
+    <link type="text/css" rel="stylesheet" href="assets/css/style.css">
+
+    <!-- JavaScript script sheet -->
+   
+    <title>Food Bird | Game</title>
+    
+</head>
+<body>
+
+    <!-- Navigation  -->
+
+    <nav class="site-navigation-bar">
+       <h1 id="site-header-text">Gammers Nature Paradise - A Home of Food Crow </h1>
+    </nav>
+  
+
+      <header>
+        <section class="page-header">
+          <div class="title-tile">
+              <h2 id="game-header-text">Food Bird</h2>
+          </div>
+
+        </section>
+
+        
+
+      </header>
+
+    <!-- Main -->
+    <main class="page-main-body">
+      
+      <!-- Title Tile -->
+                                        <!-- Game Menu -->
+        <div class="game-menu">
+          <!-- <button onclick="startGame()" type="submit" id="start-button" name="Start-button" value="Start Game">Start Game</button> -->
+          <button id="game-start-button" class="menu-buttons">Start Game</button>
+          <br>  
+          <button id="intro" class="menu-buttons">Intro Game</button>
+          <br>
+          <button id="end" class="menu-buttons">End</button>
+          <span id="start-game-feedback">0</span>
+        </div>
+
+
+    <!-- Game Tile -->
+    <section class="game-tile">
+    
+          <section id="player-movement-controls" class="player-control-pad">
+          <div id="up-button" class="player-movement-buttons none">
+            <button  id="player-up-button" class="player-move-buttons">^</button>
+          </div> 
+          <div id="down-button" class="player-movement-buttons none">
+            <button id="player-down-button" class="player-move-buttons">v</button>
+          </div> 
+
+     
+        
+
+        </section>
+      
+      <!-- Game Window -->
+      <div id="game-window" >
+          <div id="game-status-bar" class="hidden" >
+
+            <div id="player-lives">
+              0 0
+            </div>
+            <div id="game-time"> 
+              00:00
+            </div>
+            <div id="game-score">
+              0
+            </div>
+          </div>
+      <br>
+
+            
+      <br>
+        <div class="end-game-screen hidden none">
+        
+          <div class="game-over hidden none">
+            <button class="close-game-over-btn">&times</button>
+            <h3>Game Over</h3>
+            <p>Better Luck Next Time!</p>      
+          </div>
+
+        </div>
+        <div class="overlay hidden none"></div>  
+        <!-- <div id="canvas" class="game-canvas"></div> -->
+          <!-- <body onload="startGame()"> -->
+    
+        <br>    
+        <!-- Background -->
+         
+
+        
+        <!-- Game Canvas -->
+
+
+        <!-- <section id="player-movement-controls">
+          <div id="up-button" class="player-movement-buttons">
+            <button id="player-up-button"></button>
+          </div> 
+          <div id="down-button" class="player-movement-buttons">
+            <button id="player-down-button"></button>
+          </div> 
+        
+
+        </section> -->
+       
+        
+        <!-- Obstacles -->
+        <section id="obstacles" class="none">
+
+
+
+          <!-- Crow Bird -->
+           
+
+          <!-- <div id="stone-piercer"> 
+           <div id="bird-main-body">
+             Food Bird
+            </div>
+          </div>
+          <div id="bird-space"></div> -->
+
+        </section>    
+      
+      
+      <br>
+<!--  
+      <div id="game-function-buttons">
+      <button onclick="openGC()" id="reset">Reset</button> 
+      <button id="reset">Reset</button>
+      </div>
+-->
+      </div>
+        <section id="player-movement-controls">
+          <div id="up-button" class="player-movement-buttons none">
+            <button id="player-up-button" class="player-move-buttons "></button>
+          </div> 
+          <div id="down-button" class="player-movement-buttons none">
+            <button id="player-down-button" class="player-move-buttons"></button>
+          </div> 
+        
+
+        </section>
+      <!-- <div id="canvas1"></div> -->
+       
+      <img id="player1" src="assets/images/crow-player.png">
+      <img id="layer1" src="assets/images/game-background.png">
+      <img id="groundObstacle" src="assets/images/obstacle-ground.png">
+      <img id="airObstacle" src="assets/images/obstacle-air.png">
+      <img id="flyingObstacle" src="assets/images/obstacle-flying.png">
+      
+    </Section>
+    </main>
+
+        <!-- Footer -->
+         <footer >
+         <div id="footer-home-page" class="site-footer">
+          &copy Copyright Jam_Ally Productions. 2025
+          </div>
+          </footer>
+      <!-- JS -->
+
+<script type="" src="scripts/game1.js"></script>
+  </body>
+
+
+      <!-- JS -->
+
+</html>       
