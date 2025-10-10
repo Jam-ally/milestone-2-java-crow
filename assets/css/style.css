@@ -25,6 +25,7 @@ body{
 
     display: flex;
     flex-direction: column;
+    height: 100%;
  
     
 }
@@ -237,12 +238,14 @@ footer{
     height: 6rem;
     background-color: brown;
     width: 100%;
-    margin-top: 0px;
+    /* margin-top: auto; */
    
     
     display: flex;
     justify-content: center;  
     align-items: center;
+    margin-bottom: 0;
+    bottom: 0;
     
 }
 
@@ -257,8 +260,9 @@ header {
 
 .page-main-body { 
     min-height: 70vh;
+    max-height: max-content;
         
-    height: fit-content;
+    /* height: fit-content; */
    
     min-width: 80vw;
     margin-bottom: 0;
@@ -307,7 +311,7 @@ header {
     width: fit-content;
     position: absolute;
     width: 95%;
-    height: 80%;
+    height: 60%;
  
     /* margin-top: 20.5%; */
     margin-left: 2.5%;
@@ -323,12 +327,21 @@ header {
 
 #player-controls-left {
     display: flex;
+    position: absolute;
     justify-content: space-around;
-    height: 70%;
-    margin: 1%;
+    margin-left: 5%;   
     flex-direction: column;
-    transform: translate(-15rem,0);
+  
     margin-top: 20%;
+    z-index: 10;
+    height: inherit;
+
+    min-height: 50vh;
+    max-height: max-content;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    
 
 }
 
@@ -364,7 +377,7 @@ header {
     min-height: 50vh;
     max-height: 100%;
     width: 95%;
-    border: 2px solid black;
+    border: 2px solid red;
     background-color: rgb(226, 197, 144);
     margin-top: 2.5%;
     margin-left: 2.5%;
@@ -378,6 +391,10 @@ header {
     z-index: 6;
     align-items: center;
     
+}
+
+.game-frame {
+    display: flexbox;
 }
 
 #game-nottifications {
@@ -432,6 +449,8 @@ canvas {
     padding-bottom: 2px;  
     max-width: 100%;
     max-height: 95%;
+    min-height: 300px;
+    min-width: 300px;
     z-index: 1;
     
 }
@@ -442,7 +461,7 @@ canvas {
 .game-menu {
     display: flex;
     position: relative;
-    z-index: 10;
+    z-index: 5;
     width: fit-content;
     margin-left: 2%; 
     
@@ -561,6 +580,7 @@ canvas {
 
 
 
+
 /* Obstacles */
 
 #obstacles {
@@ -621,7 +641,8 @@ canvas {
 
 .end-game-screen {
     padding: 1rem;
-    width: 35rem;
+    max-width: 90%;
+    min-width: 80%;
     height: 35rem;
     /* top:50%;
     left: 50%;
@@ -647,8 +668,8 @@ h3 {
     padding: 1rem;
     color: whitesmoke;
     border: 2px solid white;
-    width: 30rem;
-    height: 30rem;
+    width: 80%;
+    height: 80%;
     position: relative;
     /* top:60%;
     left: 50%; */
@@ -726,7 +747,8 @@ h3 {
     main {
     visibility: visible;
     margin-bottom: auto;
-    height: 85%;
+    min-height: 80%;
+    /* height: 85%; */
     min-width: none; 
     }
 
@@ -751,6 +773,26 @@ h3 {
         #portrait {
         display: none;
         
+    }
+
+    #player-controls-left {
+        height: 70vh;
+
+            display: flex;
+            position: absolute;
+            justify-content: space-around;
+            flex-direction: column;
+            margin-left: 5%;   
+            margin-top: 20%;
+            z-index: 10;
+            display: flex
+        ;
+            height: inherit;
+            min-height: 35vh;
+            max-height: 100%;
+            margin-top: 3rem;
+            height: 500px;
+
     }
 }
 

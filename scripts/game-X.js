@@ -15,6 +15,7 @@ storybuttonArray = [startStorybtn, previous , next, startFlyGamebtn, skipStorybt
 
 
 var canvasWidth = 650;
+// var canvasHeight = 360;
 var canvasHeight = 500;
 var flightMinHeight = canvasHeight-80;
 
@@ -24,13 +25,18 @@ var gameStatusBar = document.getElementById("game-status-bar");
 
 var playerUpButton = document.getElementById("player-up-button");
 var playerDownButton = document.getElementById("player-down-button");
-var playerControlPad = document.querySelector('.player-control-pad');
+var playerControlPadLeft = document.querySelector('#player-controls-left');
+// playerControlPadLeft.height = canvasHeight;
 // var playerMovementControls = document.getElementById("player-movement-control")
 var playerMovementControls = document.getElementById("player-controls-left");
 var portrait = document.getElementById("portrait");
 
 let playerLives = 0;
 
+
+const portraitView = window.matchMedia("(orientation:portrait)").matches;
+
+console.log(portraitView);
 
 
 let game = {
@@ -294,7 +300,7 @@ function gameControlButtons() {
 
        document.getElementById("up-button").classList.remove("none");
        document.getElementById("down-button").classList.remove("none");
-       playerControlPad.classList.remove("hidden");
+       playerControlPadLeft.classList.remove("hidden");
        playerMovementControls.style.height = 650;
     }
 
