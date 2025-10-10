@@ -63,6 +63,7 @@ startButton.addEventListener('click',() => {
 
 const toggleFullScreen = document.querySelector('#game-start-button');
 const fullGameWindow = document.querySelector('.game-tile');
+const gameView = document.querySelector('#game-frame');
 
 
     toggleFullScreen.addEventListener('click', () => {
@@ -81,6 +82,7 @@ function startGame() {
 console.log("game running");
 gameWindow.classList.remove("none");
 gameWindow.classList.remove("hidden");
+gameView.classList.remove("none");
 portrait.classList.add("none");
 gameCanvas.start();
 gameControlButtons();
