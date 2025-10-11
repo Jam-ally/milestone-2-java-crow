@@ -80,6 +80,23 @@ window.addEventListener("DOMContentLoaded", (e) => {
     }
   });
 
+  audioSoundBar = document.getElementById("kbc");
+
+
+  window.addEventListener("load", () => {    
+
+      audioSoundBar = document.getElementById("kbc");
+      
+      if (audioSoundBar.paused) {
+        let play = audioSoundBar.play();
+        play.classList.remove("show");
+      };
+
+      play.classList.add("show");
+
+     });
+
+
   //Start game function********
 
   function startGame() {
@@ -543,31 +560,46 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
   {
     const introPage = document.getElementById("intro");
+    const storyPages = document.getElementsByClassName("box");
 
     introPage.addEventListener("click", () => {
       console.log("Intro button Pressed");
       gameTile.classList.add("none");
       gameGrid.classList.remove("none");
 
-      if (!document.fullscreenElement) {
-        gameGrid.requestFullscreen();
-      } else if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
+        window.addEventListener("load", () => {    
+            let audioSoundBar = document.getElementById("kbc");
+            if (audioSoundBar.paused) {
+                // let play = audioSoundBar.play();
+                // play.classList.remove("show");
+                console.log("play song");
+            } else {
+                console.log("playing");
+            };
+            play.classList.add("show");
+            });
+
+    //   if (!document.fullscreenElement) {
+    //     gameGrid.requestFullscreen();
+    //   } else if (document.exitFullscreen) {
+    //     document.exitFullscreen();
+    //   }
     });
 
-    const storyPages = document.getElementsByClassName("box");
+    
 
     function pgs() {
-      const storyPages = document.getElementsByClassName("box");
-
+      
       for (let i = 0; i < storyPages.length; i++) {
         storyPages[i].classList.add("none");
       }
     }
 
-    // opennig sequence for the story board
+    // openning sequence for the story board
     function startStory() {
+
+
+
       document
         .getElementById("title-screen-game-name")
         .classList.remove("none");
