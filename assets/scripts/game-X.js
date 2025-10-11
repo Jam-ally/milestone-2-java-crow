@@ -106,7 +106,7 @@ gameRunning = true;
 gameLevel = 1;
 
 gameSpeed = 3;
-gameDelta = 20;
+gameDelta = 40;
 gameDeltaTimer = 1;
 deltaTime = gameDeltaTimer;
 var interval = setInterval(updateCanvas, gameDelta);
@@ -129,7 +129,7 @@ enemyTimer = 300;
 enemyInterval = 400;
 obstacle = new generateEnemy(gameSpeed);
 
-
+enemiesPast = 0;
 enemiesPastS = [];
 activeObstacles = [];
 
@@ -230,11 +230,19 @@ function crowPlayerHealth(playerLives) {
 
         gameSpeed = 3;
 
+        if (enemiesPast >= 10) {
+               gameLevel = 2;
+        } else if (enemiesPast >= 20) {
+               gameLevel = 3;
+        }
+     
+
         
 
  
 
         if (enemyTimer >= enemyInterval) {
+            console.log(`game level = ${gameLevel}`);
             addEnemies(gameSpeed, enemyInterval, enemyTimer);
             enemyTimer = 300;
            
@@ -271,7 +279,7 @@ function crowPlayerHealth(playerLives) {
         } else {
             console.log("yah dead");
         }
-        endGame;
+        // endGame;
 
 
     }
@@ -756,7 +764,7 @@ setTimeout(function() {
     
     }
 
-    },10);
+    },9000);
 }
 
 
@@ -877,31 +885,25 @@ function endOfGame() {
 }
 //########################################
 
-const endGame = document.querySelector('#end');
-
-endGame.addEventListener('click', (e) => {
-    console.log("end");
-    endOfGame();
-})
-
-
 const butto = document.querySelector('.close-game-over-btn');
 
 const gameOverBox = document.querySelector('.game-over');
 const overlay = document.querySelector('.overlay');
 const endGameScreen = document.querySelector('.end-game-screen');
-const pop = document.getElementById('reset');
+
 
 
 
 function openGC() {
+
+
+    gameOverBox.classList.remove('none'); 
+    overlay.classList.remove('none');
+    endGameScreen.classList.remove('none');
+
     gameOverBox.classList.remove('hidden'); 
     overlay.classList.remove('hidden');
     endGameScreen.classList.remove('hidden');
-
-       gameOverBox.classList.remove('none'); 
-    overlay.classList.remove('none');
-    endGameScreen.classList.remove('none');
 }
 
 function closeGC() {
