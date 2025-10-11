@@ -636,9 +636,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     function displayStartPlay() {
       next.classList.add("none");
       startFlyGamebtn.classList.remove("none");
-      startFlyGameATag = document
-        .getElementById("fly-page")
-        .classList.remove("none");
+      startFlyGameATag = document.getElementById("fly-page").classList.remove("none");
     }
 
     function startFlyGame() {
