@@ -65,8 +65,8 @@ window.addEventListener("DOMContentLoaded", (e) => {
     setTimeout(function () {
       console.log("start game");
       playerLives = 2;
-
-      startGame();
+      playSound();
+      // startGame();
     }, 2000);
   });
 
@@ -84,21 +84,25 @@ window.addEventListener("DOMContentLoaded", (e) => {
     }
   });
 
-  audioSoundBar = document.getElementById("kbc");
+  audioSoundBar = document.getElementById("kbd");
 
 
-  window.addEventListener("load", () => {    
+  window.addEventListener("load", playSound());
 
-      audioSoundBar = document.getElementById("kbc");
-      
+    
+     function playSound() {
+      audioSoundBar = document.getElementById("kbd");
+      console.log("play music");
       if (audioSoundBar.paused) {
-        let play = audioSoundBar.play();
-        play.classList.remove("show");
+      audioSoundBar.play();
+        // play.classList.remove("show");
       };
+      }
 
-      play.classList.add("show");
+      startButton.addEventListener('click',playSound());
 
-     });
+      // play.classList.add("show");
+
 
 
   //Start game function********
@@ -686,17 +690,9 @@ window.addEventListener("DOMContentLoaded", (e) => {
       gameTile.classList.add("none");
       gameGrid.classList.remove("none");
 
-        window.addEventListener("load", () => {    
-            let audioSoundBar = document.getElementById("kbc");
-            if (audioSoundBar.paused) {
-                // let play = audioSoundBar.play();
-                // play.classList.remove("show");
-                console.log("play song");
-            } else {
-                console.log("playing");
-            };
-            play.classList.add("show");
-            });
+      playSound();
+
+
 
     //   if (!document.fullscreenElement) {
     //     gameGrid.requestFullscreen();
