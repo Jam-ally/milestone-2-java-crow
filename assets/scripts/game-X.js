@@ -3,6 +3,9 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
   let gameRunning = false;
 
+
+ 
+
   // Storyboard
   const startStorybtn = document.querySelector("#start-story-button");
   const previous = document.querySelector("#previous-button");
@@ -46,11 +49,12 @@ window.addEventListener("DOMContentLoaded", (e) => {
   var flightMinHeight = canvasHeight - 80;
   let playerLives = 0;
   let gameLevel = 0;
+  let lastTime = 0;
 
   let game = {
     canvasHeight,
     canvasWidth,
-    score: 0,
+    playerScore: 0,
     pageNumber: 0,
     storyButtons: ["previous-button", "next-button", "skip-button"],
     playerStoryOptions: [],
@@ -144,11 +148,16 @@ window.addEventListener("DOMContentLoaded", (e) => {
     var enums = Math.random();
     let lvlEnemy = gameLevel;
 
+    gameSpeed = 5;
+    
+
     if (lvlEnemy == 1) {
+         gameSpeed = 5;
       if (enums > 0.5) {
         enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
       }
     } else if (lvlEnemy == 2) {
+         gameSpeed = 7;
       if (enums > 0.6) {
         enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
       } else {
@@ -156,7 +165,8 @@ window.addEventListener("DOMContentLoaded", (e) => {
           new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer)
         );
       }
-    } else {
+    } else if (lvlEnemy == 3) {
+         gameSpeed = 20;
       if (enums > 0.5) {
         enemies.push(
           new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer)
@@ -173,13 +183,12 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
   function score() {
     enemiesPastS = [];
-    this.enemies.forEach((generateEnemy) => {
-      if (generateEnemy.x > canvasWidth) {
-        enemiesPastS.push(generateEnemy);
-      }
-    });
-    enemiesPast = enemiesPastS.length;
-    document.getElementById("game-score").textContent = parseInt(enemiesPast);
+    enemiesPastS.push(generateEnemy);
+    enemiesPast += enemiesPastS.length;
+   
+    playerScore = enemiesPast;
+
+    document.getElementById("game-score").textContent = parseInt(playerScore);
 
     this.draw = function () {};
     return enemiesPast;
@@ -206,15 +215,42 @@ window.addEventListener("DOMContentLoaded", (e) => {
     }
   }
 
-  function updateCanvas() {
+  if (gameLevel == 1) {
+    console.log("Level 1");
+  }
+
+    if (gameLevel == 2) {
+    console.log("Level 2");
+  }
+    if (gameLevel == 3) {
+    console.log("Level 3");
+  }
+
+
+    window.addEventListener('keydown', (e) => {
+    // console.log(event.key);
+    if (e.key === "d"){
+      
+      startGame.debug = !startGame.debug; 
+      console.log("debugmode switch");
+    }
+  });
+
+
+  function updateCanvas(timestamp) {
+    // const dTime = timestamp - lastTime;
+    // console.log(dTime);
+    // lastTime = lastTime;  
     ctx = gameCanvas.context;
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     gameSpeed = 3;
-
-    if (enemiesPast >= 10) {
+    
+    if (enemiesPast >= 2) {
+      
       gameLevel = 2;
-    } else if (enemiesPast >= 20) {
+    } else if (enemiesPast >= 5) {
+     
       gameLevel = 3;
     }
 
@@ -235,24 +271,39 @@ window.addEventListener("DOMContentLoaded", (e) => {
     player.stopPlayer();
     player.windowWall();
 
+
+   if (playerLives > 0 && gameRunning == true) {
+      player;
+      let collision = detectCollision(gameRunning);
+      if (collision = true) {
+        setTimeout(() => {
+          //collision wait period
+        }, 2000);
+      }     
+   } else {
+      
+      // endGame;
+  }
+
+      crowPlayerHealth(playerLives);
+
     this.enemies.forEach((generateEnemy) => {
+      // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       generateEnemy.draw(ctx);
     });
 
-    this.enemies.forEach((generateEnemy) => {
-      generateEnemy.attackSpeed(deltaTime);
+    this.enemies.forEach((enemy) => {
+      enemy.attackSpeed(deltaTime);
+      if (enemy.offScreenEnemy == true) {
+        playerScore = score();
+        console.log("remove 1 enemy")
+        enemies.splice(enemies.indexOf(enemy), 1);
+      }
     });
 
-    crowPlayerHealth(playerLives);
 
-    if (playerLives > 0 && gameRunning == true) {
-      detectCollision(gameRunning);
 
-      playerScore = score();
-    } else {
-      console.log("yah dead");
-      // endGame;
-    }
+ 
   }
 
   var gameCanvas = {
@@ -287,8 +338,14 @@ window.addEventListener("DOMContentLoaded", (e) => {
     //  Create a draw function
     this.draw = function () {
       ctx = gameCanvas.context;
-      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-    };
+      ctx.beginPath();
+      // ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+      if (startGame.debug == true) {
+        ctx.ellipse(this.x+(this.width/2), this.y+this.height/2, this.width/2,this.height/2,0,0,(2*Math.PI));
+        ctx.stroke();
+      }
+
+    }
 
     this.windowWall = function () {
       if (this.y > flightMinHeight) {
@@ -343,7 +400,11 @@ window.addEventListener("DOMContentLoaded", (e) => {
       this.y += CROW_FLAPS_PER_TICK + screen_button_factor;
       playerMoves.push("downButton");
     });
+
   }
+
+
+
   function backgroundLayer(gameSpeed, width, height, speedModifier, image) {
     //assumes that the width and height of all images match.
     this.width = width;
@@ -413,14 +474,18 @@ window.addEventListener("DOMContentLoaded", (e) => {
     this.fps = 20;
     this.frameinterval = 1000 / this.fps;
     this.frameTimer = 0;
-    this.OffScreenEnemy = false;
+    this.offScreenEnemy = false;
 
-    let enemyGround = new renderGroundEnemy(0);
-    let enemyFlying = new renderFlyingEnemy(0);
-    let enemyAir = new renderAirEnemy(0);
+    // let enemyGround = new renderGroundEnemy(0);
+    // let enemyFlying = new renderFlyingEnemy(0);
+    // let enemyAir = new renderAirEnemy(0);
 
     this.attackSpeed = function (deltaTime) {
-      this.x += this.obstacleMoveSpeed;
+      this.x += this.obstacleMoveSpeed + 4;
+
+      if (this.x > canvasWidth + 50) {
+        this.offScreenEnemy = true;
+      }
     };
     this.draw = function () {
       ctx = gameCanvas.context;
@@ -437,15 +502,25 @@ window.addEventListener("DOMContentLoaded", (e) => {
     this.y = canvasHeight - this.height;
     this.maxFrame = 5;
     this.image = document.getElementById("groundObstacle");
+     this.offScreenEnemy = false;
 
     this.attackSpeed = function () {
       this.x += this.obstacleMoveSpeed;
+         if (this.x > canvasWidth + 50) {
+        this.offScreenEnemy = true;
+      }
       return this.x;
     };
 
     this.draw = function () {
-      otx = gameCanvas.context;
-      otx.drawImage(this.image, this.x, this.y, this.width, this.height);
+      ctx = gameCanvas.context;
+      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+     if (startGame.debug == true) {
+      ctx.beginPath();
+      ctx.ellipse(this.x+(this.width/2), this.y+this.height/2, this.width/2,this.height/2,0,0,(2*Math.PI));
+      ctx.stroke();
+    }
+      // otx.arc(this.x, this.y, (this.height-this.width),0, (2*Math.PI));
     };
   }
 
@@ -458,14 +533,23 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
     this.maxFrame = 5;
     this.image = document.getElementById("flyingObstacle");
-    i = 0;
+  
+     this.offScreenEnemy = false;
 
     this.attackSpeed = function () {
       this.x += this.obstacleMoveSpeed;
+         if (this.x > canvasWidth + 50) {
+        this.offScreenEnemy = true;
+      }
     };
     this.draw = function () {
-      ostx = gameCanvas.context;
-      ostx.drawImage(this.image, this.x, this.y, this.width, this.height);
+      ctx = gameCanvas.context;
+      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+       if (startGame.debug == true) {
+      let shape = ctx.ellipse(this.x+(this.width/2), this.y+this.height/2, this.width/2,this.height/2,0,0,(2*Math.PI));
+      // otx.arc(this.x, this.y, (this.height-this.width),0, (2*Math.PI));
+      console.log(shape);
+       }
     };
   }
 
@@ -473,19 +557,34 @@ window.addEventListener("DOMContentLoaded", (e) => {
   function renderAirEnemy(gameSpeed) {
     this.width = 245;
     this.height = 150;
-    this.x = -this.width + 50;
+    // this.x = -this.width + 50;
+    this.x = 100;
     this.y = 150;
     this.obstacleMoveSpeed = gameSpeed;
     this.image = document.getElementById("airObstacle");
+     this.offScreenEnemy = false;
 
     this.attackSpeed = function () {
       this.x += this.obstacleMoveSpeed;
+         if (this.x > canvasWidth + 50) {
+        this.offScreenEnemy = true;
+      }
     };
 
     this.draw = function () {
-      ostx = gameCanvas.context;
-      ostx.drawImage(this.image, this.x, this.y, this.width, this.height);
-    };
+      ctx = gameCanvas.context;
+      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+       if (startGame.debug == true) {
+      ctx.beginPath();
+      // ctx.arc(this.x+(this.width/2), this.y+this.height/2, -1*(this.height-this.width),0, (2*Math.PI));
+      ctx.ellipse(this.x+(this.width/2), this.y+this.height/2, this.width/2,this.height/2,0,0,(2*Math.PI));
+  
+      // ctx.fill(); 
+      ctx.stroke();
+
+       }
+    }
   }
 
   //end  of renderObject function
@@ -497,32 +596,34 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
   function detectCollision(gameRunning) {
     let collisionDetect = gameRunning;
+    let contact = false;
 
     if ((collisionDetect = false)) {
       return false;
     } else {
+
+      activeObstacles = [];
+
+      enemies.forEach((enemy) => {
+
+
       var playerLeft = player.x + 10;
       // console.log(player.x);
       var playerRight = player.x + player.width;
       var playerTop = player.y;
       var playerBottom = player.y + player.height;
 
-      activeObstacles = [];
+        // if (generateEnemy.x > 0 && generateEnemy.x < canvasWidth) {
+        //   activeObstacles.push(generateEnemy);
+       
+      let obstacleRight = enemy.x + enemy.width;
+      let obstacleLeft = enemy.x;
+      let obstacleTop = enemy.y;
+      let obstacleBottom = enemy.y + enemy.height;
+      
+      
 
-      enemies.forEach((generateEnemy) => {
-        if (generateEnemy.x > 0 && generateEnemy.x < canvasWidth) {
-          activeObstacles.push(generateEnemy);
-        }
-
-        activeObstacles.forEach((enemy) => {
-          obstacleRight = enemy.x + enemy.width;
-          obstacleLeft = enemy.x;
-          obstacleTop = enemy.y;
-          obstacleBottom = enemy.y + enemy.height;
-        });
-      });
-
-      var playerBottom = player.y + player.height;
+      
 
       if (playerLives > 0) {
         if (
@@ -532,23 +633,38 @@ window.addEventListener("DOMContentLoaded", (e) => {
           obstacleTop < playerBottom &&
           obstacleBottom > playerTop
         ) {
+          contact = true;
           playerLives -= 1;
-          alert("Oh bags! [you hit an obstacle]");
-          activeObstacles = [];
+          // alert("Oh sharks! [you hit an obstacle]");
 
+
+          activeObstacles = [];
+          enemies.splice(enemies.indexOf(enemy), 1);
+
+                    if (!document.fullscreenElement) {
+            gameWindow.requestFullscreen();
+          } else if (document.exitFullscreen) {
+            document.exitFullscreen();
+            }
+          return contact;
           //** remove it from the array */
-          setTimeout(function () {
-            activeObstacles.splice();
-          }, 2000);
-        } else {
+        //   setTimeout(function () {
+        //     activeObstacles.splice();
+        //   }, 2000);
+        // } else {
           // console.log("safe");
         }
       } else {
       }
 
+      //  }
+
+      });
+      
       crowPlayerHealth(playerLives);
 
       if (playerLives <= 0) {
+        alert("Oh sharks! [you hit an obstacle]");
         console.log("end of game");
         gameRunning = false;
         endOfGame();
@@ -559,6 +675,9 @@ window.addEventListener("DOMContentLoaded", (e) => {
   // Story game
 
   {
+
+
+
     const introPage = document.getElementById("intro");
     const storyPages = document.getElementsByClassName("box");
 
@@ -729,6 +848,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
   // End Game
   function endOfGame() {
     updateCanvas.stop;
+    console.log("yah dead");
 
     openGC();
   }
