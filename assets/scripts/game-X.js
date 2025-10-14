@@ -34,6 +34,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
   const startButton = document.querySelector("#game-start-button");
 
   var gameStatusBar = document.getElementById("game-status-bar");
+  const gameClock = document.getElementById("game-time");
   const playerUpButton = document.getElementById("player-up-button");
   const playerDownButton = document.getElementById("player-down-button");
   const playerControlPadLeft = document.querySelector("#player-controls-left");
@@ -66,7 +67,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
       console.log("start game");
       playerLives = 2;
       playSound();
-      // startGame();
+      startGame();
     }, 2000);
   });
 
@@ -109,16 +110,19 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
   function startGame() {
     console.log("game running");
+    gameGrid.classList.add("none");
     gameWindow.classList.remove("none");
     gameWindow.classList.remove("hidden");
     gameView.classList.remove("none");
     portrait.classList.add("none");
-    gameCanvas.start();
-    gameControlButtons();
+
 
     gameWindow.style.background = "black";
     fullGameWindow.style.background = "black";
-
+    gameCanvas.start();
+    gameControlButtons();
+    startTime = new Date;
+      
     gameRunning = true;
     gameLevel = 1;
 
@@ -241,12 +245,35 @@ window.addEventListener("DOMContentLoaded", (e) => {
   });
 
 
+  function gameTime() {
+    startTime = startTime;
+    let dateTime = new Date();
+    let secs = dateTime.getTime() - startTime.getTime();
+    
+   
+    gameMilliSecs = secs/1000
+    // console.log(gameClock);
+
+    let gameMins = Math.floor(gameMilliSecs/60);
+    let gameSecs = Math.floor(gameMilliSecs % 60);
+
+    if(gameMins < 10) {
+      gameMins = `0${gameMins}`;
+    } 
+       if(gameSecs < 10) {
+      gameSecs = `0${gameSecs}`;
+    } 
+    gameClock.textContent = `${gameMins}:${gameSecs}`;
+  }
+
+
   function updateCanvas(timestamp) {
     // const dTime = timestamp - lastTime;
     // console.log(dTime);
     // lastTime = lastTime;  
     ctx = gameCanvas.context;
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    gameTime();  
 
     gameSpeed = 3;
     
@@ -552,7 +579,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
        if (startGame.debug == true) {
       let shape = ctx.ellipse(this.x+(this.width/2), this.y+this.height/2, this.width/2,this.height/2,0,0,(2*Math.PI));
       // otx.arc(this.x, this.y, (this.height-this.width),0, (2*Math.PI));
-      console.log(shape);
+      
        }
     };
   }
@@ -610,24 +637,15 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
       enemies.forEach((enemy) => {
 
-
       var playerLeft = player.x + 10;
-      // console.log(player.x);
       var playerRight = player.x + player.width;
       var playerTop = player.y;
       var playerBottom = player.y + player.height;
-
-        // if (generateEnemy.x > 0 && generateEnemy.x < canvasWidth) {
-        //   activeObstacles.push(generateEnemy);
        
       let obstacleRight = enemy.x + enemy.width;
       let obstacleLeft = enemy.x;
       let obstacleTop = enemy.y;
       let obstacleBottom = enemy.y + enemy.height;
-      
-      
-
-      
 
       if (playerLives > 0) {
         if (
@@ -640,8 +658,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
           contact = true;
           playerLives -= 1;
           // alert("Oh sharks! [you hit an obstacle]");
-
-
           activeObstacles = [];
           enemies.splice(enemies.indexOf(enemy), 1);
 
@@ -651,20 +667,12 @@ window.addEventListener("DOMContentLoaded", (e) => {
             document.exitFullscreen();
             }
           return contact;
-          //** remove it from the array */
-        //   setTimeout(function () {
-        //     activeObstacles.splice();
-        //   }, 2000);
-        // } else {
-          // console.log("safe");
         }
       } else {
       }
-
       //  }
-
       });
-      
+
       crowPlayerHealth(playerLives);
 
       if (playerLives <= 0) {
@@ -680,8 +688,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
   {
 
-
-
     const introPage = document.getElementById("intro");
     const storyPages = document.getElementsByClassName("box");
 
@@ -692,13 +698,11 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
       playSound();
 
-
-
-    //   if (!document.fullscreenElement) {
-    //     gameGrid.requestFullscreen();
-    //   } else if (document.exitFullscreen) {
-    //     document.exitFullscreen();
-    //   }
+      if (!document.fullscreenElement) {
+        gameGrid.requestFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
     });
 
     
