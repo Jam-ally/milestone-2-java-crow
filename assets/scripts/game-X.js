@@ -49,7 +49,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
   var canvasHeight = 500;
   var flightMinHeight = canvasHeight - 80;
   let playerLives = 0;
-  let gameLevel = 0;
+  var gameLevel = 0;
   let lastTime = 0;
 
   let game = {
@@ -88,7 +88,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
   audioSoundBar = document.getElementById("kbd");
 
 
-  window.addEventListener("load", playSound());
+  // window.addEventListener("load", playSound());
 
     
      function playSound() {
@@ -97,10 +97,12 @@ window.addEventListener("DOMContentLoaded", (e) => {
       if (audioSoundBar.paused) {
       audioSoundBar.play();
         // play.classList.remove("show");
+      } else {
+
       };
       }
 
-      startButton.addEventListener('click',playSound());
+      // startButton.addEventListener('click',playSound());
 
       // play.classList.add("show");
 
@@ -143,8 +145,8 @@ window.addEventListener("DOMContentLoaded", (e) => {
     playerMoves = [];
 
     enemies = [];
-    enemyTimer = 300;
-    enemyInterval = 400;
+    enemyTimer = 320;
+    enemyInterval = 370;
     obstacle = new generateEnemy(gameSpeed);
 
     enemiesPast = 0;
@@ -152,41 +154,46 @@ window.addEventListener("DOMContentLoaded", (e) => {
     activeObstacles = [];
   }
 
-  function addEnemies(gameSpeed, enemyInterval, enemyTimer) {
+  function addEnemies(gameSpeed, enemyInterval, enemyTimer, gameLevel) {
     var enums = Math.random();
-    let lvlEnemy = gameLevel;
-
+      console.log(gameLevel)
+      
+    var lvlEnemy = gameLevel;
+   
     gameSpeed = 5;
     
 
     if (lvlEnemy == 1) {
+      
          gameSpeed = 5;
-      if (enums > 0.5) {
-        enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
+      if (enums > 0.6) {
+        enemies.push(new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer));
       }
     } else if (lvlEnemy == 2) {
-         gameSpeed = 7;
-      if (enums > 0.6) {
-        enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
-      } else {
-        enemies.push(
-          new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer)
-        );
-      }
+
+        gameSpeed = 7;
+        if (enums > 0.7) {
+          enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
+        } else if (enums < 0.5) {
+          enemies.push(new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer));
+        } else {
+          enemies.push(
+            new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer));
+        }
     } else if (lvlEnemy == 3) {
-         gameSpeed = 20;
-      if (enums > 0.5) {
-        enemies.push(
-          new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer)
-        );
-      } else if (enums < 0.3) {
-        enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
-      } else {
-        enemies.push(
-          new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer)
-        );
-      }
+        
+        gameSpeed = 10;
+        if (enums > 0.7) {
+          enemies.push(new renderAirEnemy(gameSpeed, enemyInterval, enemyTimer));
+        } else if (enums < 0.4) {
+          enemies.push(new renderGroundEnemy(gameSpeed, enemyInterval, enemyTimer));
+        } else {
+          enemies.push(
+            new renderFlyingEnemy(gameSpeed, enemyInterval, enemyTimer));
+        }
     }
+
+    return gameSpeed
   }
 
   function score() {
@@ -204,7 +211,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
   function givePlayerLives() {
     playerLives += 2;
-    console.log("player lives:", playerLives);
+   
   }
 
   function crowPlayerHealth(playerLives) {
@@ -224,14 +231,14 @@ window.addEventListener("DOMContentLoaded", (e) => {
   }
 
   if (gameLevel == 1) {
-    console.log("Level 1");
+
   }
 
     if (gameLevel == 2) {
-    console.log("Level 2");
+    
   }
     if (gameLevel == 3) {
-    console.log("Level 3");
+    
   }
 
 
@@ -272,18 +279,15 @@ window.addEventListener("DOMContentLoaded", (e) => {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     gameTime();  
 
-    gameSpeed = 3;
-    
-    if (enemiesPast >= 2) {
-      
-      gameLevel = 2;
-    } else if (enemiesPast >= 5) {
-     
-      gameLevel = 3;
-    }
 
     if (enemyTimer >= enemyInterval) {
-      addEnemies(gameSpeed, enemyInterval, enemyTimer);
+        
+      if (enemiesPast >= 4) {
+        gameLevel = 3;
+      } else if (enemiesPast > 2) {
+        gameLevel = 2;
+      } 
+      addEnemies(gameSpeed, enemyInterval, enemyTimer, gameLevel);
       enemyTimer = 300;
     } else {
       enemyTimer += gameDeltaTimer;
@@ -325,8 +329,10 @@ window.addEventListener("DOMContentLoaded", (e) => {
     this.enemies.forEach((enemy) => {
       enemy.attackSpeed(deltaTime);
       if (enemy.offScreenEnemy == true) {
+
+        if (playerLives > 0) {
         playerScore = score();
-        console.log("remove 1 enemy")
+        }
         enemies.splice(enemies.indexOf(enemy), 1);
       }
     });
@@ -408,7 +414,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     window.addEventListener("keydown", (event) => {
       if (event.code == "ArrowUp") {
         this.y -= CROW_FLAPS_PER_TICK;
-        //console.log(`Crow conceptually moved up ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+      
         playerMoves.push("upArrow");
       }
     });
@@ -416,7 +422,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     window.addEventListener("keydown", (event) => {
       if (event.code == "ArrowDown") {
         this.y += CROW_FLAPS_PER_TICK;
-        // console.log(`Crow conceptually moved down ${CROW_FLAPS_PER_TICK} px. Now at ${this.y}.`);
+      
         playerMoves.push("downArrow");
       }
     });
@@ -550,7 +556,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
       ctx.ellipse(this.x+(this.width/2), this.y+this.height/2, this.width/2,this.height/2,0,0,(2*Math.PI));
       ctx.stroke();
     }
-      // otx.arc(this.x, this.y, (this.height-this.width),0, (2*Math.PI));
+      
     };
   }
 
@@ -691,7 +697,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     const storyPages = document.getElementsByClassName("box");
 
     introPage.addEventListener("click", () => {
-      console.log("Intro button Pressed");
+      
       gameTile.classList.add("none");
       gameGrid.classList.remove("none");
 
