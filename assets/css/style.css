@@ -686,6 +686,7 @@ h3 {
 
 #portrait {
         position: absolute;
+        padding: 3%;
         top: 30%;
         left: 20%;
         margin-top: 20%;
