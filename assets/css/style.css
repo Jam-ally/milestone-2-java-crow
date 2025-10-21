@@ -329,7 +329,7 @@ header {
     z-index: 10;
     height: inherit;
 
-    min-height: 50vh;
+    min-height: 40vh;
     max-height: max-content;
     margin-top: 3rem;
     margin-bottom: 3rem;
@@ -339,8 +339,8 @@ header {
 }
 
 .player-move-buttons {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
@@ -737,7 +737,8 @@ h3 {
 
 
 @media screen and (orientation: landscape){
-        #portrait {
+
+    #portrait {
         display: none;
         
     }
@@ -775,6 +776,39 @@ h3 {
         font-size: 5.5rem;
         font-family: var(--secondary-font);
     }
+
+#player-controls-left {
+    /* display: flex;
+    position: absolute;
+    justify-content: space-around;
+    margin-left: 5%;   
+    flex-direction: column;
+  
+    margin-top: 20%;
+    z-index: 10;
+    height: inherit; */
+
+    min-height: 50vh;
+    /* max-height: max-content;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    padding-bottom: 3rem; */
+    
+
+}
+
+/* .player-move-buttons {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+} */
+
+@media screen and (min-width: 768px) and (orientation: landscape){
+    
+    #player-controls-left {
+    min-height: 90vh;
+    }
+}
 
 }
 

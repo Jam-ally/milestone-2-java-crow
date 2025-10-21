@@ -252,7 +252,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     
    
     gameMilliSecs = secs/1000
-    // console.log(gameClock);
+    
 
     let gameMins = Math.floor(gameMilliSecs/60);
     let gameSecs = Math.floor(gameMilliSecs % 60);
@@ -268,9 +268,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
 
   function updateCanvas(timestamp) {
-    // const dTime = timestamp - lastTime;
-    // console.log(dTime);
-    // lastTime = lastTime;  
     ctx = gameCanvas.context;
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     gameTime();  
@@ -294,13 +291,15 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
     obstacle.draw();
 
-    background.layersMovement();
-    background.draw();
-
-    player.draw();
+        player.draw();
     player.makeFall();
     player.stopPlayer();
     player.windowWall();
+
+
+    // background.layersMovement();
+    // background.draw();
+
 
 
    if (playerLives > 0 && gameRunning == true) {
@@ -370,7 +369,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     this.draw = function () {
       ctx = gameCanvas.context;
       ctx.beginPath();
-      // ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
       if (startGame.debug == true) {
         ctx.ellipse(this.x+(this.width/2), this.y+this.height/2, this.width/2,this.height/2,0,0,(2*Math.PI));
         ctx.stroke();
@@ -661,11 +660,11 @@ window.addEventListener("DOMContentLoaded", (e) => {
           activeObstacles = [];
           enemies.splice(enemies.indexOf(enemy), 1);
 
-                    if (!document.fullscreenElement) {
-            gameWindow.requestFullscreen();
-          } else if (document.exitFullscreen) {
-            document.exitFullscreen();
-            }
+          //           if (!document.fullscreenElement) {
+          //   gameWindow.requestFullscreen();
+          // } else if (document.exitFullscreen) {
+          //   document.exitFullscreen();
+          //   }
           return contact;
         }
       } else {
