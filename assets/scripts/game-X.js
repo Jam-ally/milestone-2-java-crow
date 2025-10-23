@@ -77,13 +77,17 @@ window.addEventListener("DOMContentLoaded", (e) => {
   const fullGameWindow = document.querySelector(".game-tile");
   const gameView = document.querySelector("#game-frame");
 
-  toggleFullScreen.addEventListener("click", () => {
-    if (!document.fullscreenElement) {
+//   toggleFullScreen.addEventListener("click", () => {
+// fullScreenCrowGame()
+//   });
+
+  function fullScreenCrowGame() {
+        if (!document.fullscreenElement) {
       gameWindow.requestFullscreen();
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
     }
-  });
+  }
 
   audioSoundBar = document.getElementById("kbd");
 
@@ -121,6 +125,8 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
     gameWindow.style.background = "black";
     fullGameWindow.style.background = "black";
+    
+    fullScreenCrowGame()
     gameCanvas.start();
     gameControlButtons();
     startTime = new Date;
@@ -293,6 +299,9 @@ window.addEventListener("DOMContentLoaded", (e) => {
       enemyTimer += gameDeltaTimer;
     }
 
+    background.layersMovement();
+    background.draw();
+
     obstacle.draw();
 
         player.draw();
@@ -301,8 +310,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     player.windowWall();
 
 
-    // background.layersMovement();
-    // background.draw();
+
 
 
 
@@ -666,11 +674,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
           activeObstacles = [];
           enemies.splice(enemies.indexOf(enemy), 1);
 
-          //           if (!document.fullscreenElement) {
-          //   gameWindow.requestFullscreen();
-          // } else if (document.exitFullscreen) {
-          //   document.exitFullscreen();
-          //   }
+
           return contact;
         }
       } else {
@@ -755,7 +759,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
             this.pageIndex = pageIndex;
           }
         }
-      }, 9000);
+      }, 9);
     }
 
     //* Next Page Function
@@ -808,12 +812,22 @@ window.addEventListener("DOMContentLoaded", (e) => {
       gameGrid.classList.add("none");
       gameTile.classList.remove("none");
 
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+
+
+
       if (!document.fullscreenElement) {
         gameWindow.requestFullscreen();
       } else if (document.exitFullscreen) {
         document.exitFullscreen();
       }
-      startGame();
+      
+      setTimeout(() => {
+        startGame();
+      }, 1000);
+      
     }
 
     function skipStory() {
