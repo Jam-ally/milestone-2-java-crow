@@ -759,7 +759,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
             this.pageIndex = pageIndex;
           }
         }
-      }, 9);
+      }, 9000);
     }
 
     //* Next Page Function
